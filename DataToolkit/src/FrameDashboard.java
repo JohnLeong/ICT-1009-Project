@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 
 public class FrameDashboard extends JFrame {
 
+
 	private JPanel contentPane;
 
 	private Image img_logo = new ImageIcon(FrameDashboard.class.getResource("resource/sit.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
@@ -27,7 +28,7 @@ public class FrameDashboard extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void launchGui(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -46,7 +47,7 @@ public class FrameDashboard extends JFrame {
 	public FrameDashboard() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1040, 703);
-//		setUndecorated(true);
+		setUndecorated(true);
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -183,8 +184,6 @@ public class FrameDashboard extends JFrame {
 		lblIconVisualisation.setBackground(Color.WHITE);
 		lblIconVisualisation.setBounds(18, 7, 39, 41);
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
-		pnlVisualisation.add(lblIconVisualisation);
-		
-		
+		pnlVisualisation.add(lblIconVisualisation);		
 	}
 }

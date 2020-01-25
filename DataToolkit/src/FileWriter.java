@@ -16,16 +16,7 @@ public class FileWriter{
 			out = new PrintWriter(fullPath);
 			out.println(output);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-//		Path filePath = Paths.get(fullPath);
-//		try
-//		{
-//			Files.writeString()
-//			
-//		}
 	}
 }

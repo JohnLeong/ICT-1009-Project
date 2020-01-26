@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,33 +24,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScrapeUtility {
-	
+
 	protected WebDriver driver;
 	protected String defaultUrl;	
 	final private static String GECKO_DRIVER_PATH = System.getProperty("user.dir") + "\\geckodriver.exe";
-	protected List<SocialMediaPost> postList = new ArrayList<SocialMediaPost>();
-	
+	private JavascriptExecutor js;
+	protected List<SocialMediaPost> postList = new ArrayList<SocialMediaPost>();	
+
 	public ScrapeUtility(String url) {
 		System.setProperty("webdriver.gecko.driver",GECKO_DRIVER_PATH);
 		this.defaultUrl = url; 	
 		this.driver= new FirefoxDriver();
 	}
-		
 	
-	protected WebElement waitUntilElementLoads(String cssQuery) {
-//		 FluentWait<WebDriver> fluentWait = 
-//				 new FluentWait<WebDriver>(this.driver)
-//			        .withTimeout(Duration.ofSeconds(20))
-//			        .pollingEvery(Duration.ofMillis(200))
-//			        .ignoring(NoSuchElementException.class);
-		 
-		 
-		 WebElement element = (new WebDriverWait(driver, 10))
-				 .until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssQuery)));
-		 //"._9nyy2"
-		 return element;
+	protected WebElement waitUntilSelectorLoads(String cssQuery) {
+		WebElement element = 
+				(new WebDriverWait(driver, 10))
+				.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssQuery)));
+		return element;
 	}
-	
+
 	public void browseToUrl(String url) {
 		this.driver.get(url);
 	}
@@ -70,12 +64,42 @@ public class ScrapeUtility {
 			System.out.println(post.getText());
 		}
 	}
+
+	public void scrollDownByPixels(int pixels) {
+		this.js = (JavascriptExecutor)driver;
+		this.js.executeScript("window.scrollBy(0, "+ pixels +")");	
+	}
+
+	public void scrollToVisibleElement(WebElement element) {
+		this.js = (JavascriptExecutor)driver;
+		this.js.executeScript("arguments[0].scrollIntoView();", element);
+	}
+
+	public void scrollToPageBottom() {
+		this.js = (JavascriptExecutor)driver;
+		this.js.executeScript("window.scrollTo(0, document.body.scrollHeight)");	
+	}
+
+	public boolean forceWaitInMiliseconds(int ms) {
+		try {
+			Thread.sleep(ms);
+			return true;
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public void waitInSeconds(int seconds) {
+
+		this.driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
+	}
 }
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 

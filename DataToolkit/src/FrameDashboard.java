@@ -15,6 +15,8 @@ import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
+import java.awt.SystemColor;
+import java.awt.CardLayout;
 
 public class FrameDashboard extends JFrame {
 
@@ -189,35 +191,88 @@ public class FrameDashboard extends JFrame {
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
 		pnlVisualisation.add(lblIconVisualisation);		
 		
+		JPanel pnlInfo = new JPanel();
+		pnlInfo.setBackground(SystemColor.controlHighlight);
+		pnlInfo.setBounds(236, 0, 780, 639);
+		pnlInfo.setLayout(new CardLayout(0, 0));
+		contentPane.add(pnlInfo);
+		//CardLayout cardInfo = (CardLayout)pnlInfo.getLayout();
+		
+		JPanel pnlInstagramInfo = new JPanel();
+		pnlInstagramInfo.setLayout(null);
+		pnlInstagramInfo.setBackground(SystemColor.controlHighlight);
+		pnlInfo.add(pnlInstagramInfo, "pnlInstagramInfo");
+
+		JButton btnInstagramScrape = new JButton("Launch instagram scraper");
+		btnInstagramScrape.setBounds(37, 100, 252, 31);
+		pnlInstagramInfo.add(btnInstagramScrape);
+		
+		JLabel headerInstagramPanel = new JLabel("Instagram Panel");
+		headerInstagramPanel.setBounds(360, 9, 145, 23);
+		pnlInstagramInfo.add(headerInstagramPanel);
+		
 		JPanel pnlTwitterInfo = new JPanel();
-		pnlTwitterInfo.setVisible(false);
-		pnlTwitterInfo.setBounds(254, 19, 730, 601);
-		contentPane.add(pnlTwitterInfo);
 		pnlTwitterInfo.setLayout(null);
+		pnlTwitterInfo.setBackground(SystemColor.controlHighlight);
+		pnlInfo.add(pnlTwitterInfo, "pnlTwitterInfo");
 		
-		JButton btnNewButton = new JButton("Launch twitter scraper");
-		btnNewButton.setBounds(37, 100, 131, 31);
-		pnlTwitterInfo.add(btnNewButton);
+		JButton btnTwitterScrape = new JButton("Launch twitter scraper");
+		btnTwitterScrape.setBounds(37, 100, 252, 31);
+		pnlTwitterInfo.add(btnTwitterScrape);
 		
-		JLabel lblNewLabel = new JLabel("Twitter Panel test");
-		lblNewLabel.setBounds(360, 9, 145, 23);
-		pnlTwitterInfo.add(lblNewLabel);
+		JLabel headerTwitterPanel = new JLabel("Twitter Panel test");
+		headerTwitterPanel.setBounds(360, 9, 145, 23);
+		pnlTwitterInfo.add(headerTwitterPanel);
 		
 		//Side panel button click
 		pnlTwitter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				pnlTwitterInfo.setVisible(true);
+				CardLayout card = (CardLayout)pnlInfo.getLayout();
+				card.show(pnlInfo, "pnlTwitterInfo");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				pnlTwitter.setBackground(new Color(0.3f, 0.3f, 0.3f));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				pnlTwitter.setBackground(new Color(0.2f, 0.2f, 0.2f));
+			}
+		});
+		pnlInstagram.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				CardLayout card = (CardLayout)pnlInfo.getLayout();
+				card.show(pnlInfo, "pnlInstagramInfo");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				pnlInstagram.setBackground(new Color(0.3f, 0.3f, 0.3f));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				pnlInstagram.setBackground(new Color(0.2f, 0.2f, 0.2f));
 			}
 		});
 		
-		//Twitter info panel button clicks
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		//Twitter info panel
+		btnTwitterScrape.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				TwitterScraper twitterScrapper = new TwitterScraper("temp");
-				twitterScrapper.launchScrapeProcedure("temp");
+				TwitterScraper twitterScraper = new TwitterScraper("test");
+				twitterScraper.launchScrapeProcedure("test");
 			}
 		});
+		
+		btnInstagramScrape.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				InstagramScraper scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
+				scrapper.launchScrapeProcedure("hehebongesh", "Password12345");
+				System.out.println("Done");
+			}
+		});
+
 	}
 }

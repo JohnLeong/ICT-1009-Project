@@ -6,12 +6,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		FrameDashboard.launchGui(args);
-		
-		InstagramScraper scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
-
-		scrapper.launchScrapeProcedure("hehebongesh", "Password12345");
-		System.out.println("Done");
-		
+				
 	}
 
 }

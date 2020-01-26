@@ -16,7 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List; 
 import java.util.LinkedHashSet;
 
-import org.json.*;
+//import org.json.*;
 
 public class InstagramScraper extends ScrapeUtility{
 	private final String  	CSS_SLT_HASHTAG_NO_OF_POSTS 	= "span[class='g47SY ']";

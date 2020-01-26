@@ -19,7 +19,7 @@ public class TwitterScraper extends ScrapeUtility {
 		//Wait for the page to load the main content
 		//Test for page style 1
 		try {
-			if(waitUntilElementLoads(".content-main") == null) {
+			if(waitUntilSelectorLoads(".content-main") == null) {
 				
 			}
 		}
@@ -30,7 +30,7 @@ public class TwitterScraper extends ScrapeUtility {
 		//Test for page style 2
 		try {
 			selectorQuery = "div[data-testid='tweet'] .r-hkyrab";
-			if(waitUntilElementLoads("div[data-testid='primaryColumn']") != null) {
+			if(waitUntilSelectorLoads("div[data-testid='primaryColumn']") != null) {
 				System.out.print("here");
 			}
 		}
@@ -52,8 +52,8 @@ public class TwitterScraper extends ScrapeUtility {
 		//Don't remove the code below! We might use it in the future
 		/*ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true)
-		  .setOAuthConsumerKey("TgHNMa7WZE7Cxi1JbkAMQ")
-		  .setOAuthConsumerSecret("SHy9mBMBPNj3Y17et9BF4g5XeqS4y3vkeW24PttDcY")
+		  .setOAuthConsumerKey("")
+		  .setOAuthConsumerSecret("")
 		  .setOAuthAccessToken("your access token")
 		  .setOAuthAccessTokenSecret("your access token secret");
 

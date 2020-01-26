@@ -37,9 +37,9 @@ public class ScrapeUtility {
 		this.driver= new FirefoxDriver();
 	}
 	
-	protected WebElement waitUntilSelectorLoads(String cssQuery) {
+	protected WebElement waitUntilSelectorLoads(String cssQuery, int seconds) {
 		WebElement element = 
-				(new WebDriverWait(driver, 10))
+				(new WebDriverWait(driver, seconds))
 				.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssQuery)));
 		return element;
 	}

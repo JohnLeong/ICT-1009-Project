@@ -267,9 +267,19 @@ public class FrameDashboard extends JFrame {
 		
 		btnInstagramScrape.addMouseListener(new MouseAdapter() {
 			@Override
+			
 			public void mouseClicked(MouseEvent arg0) {
+				/**
+				 * Final Gui shld have the following:
+				 * -Label to explain scraping process
+				 * [Login] id(txtBox), pwd(txtBox) 	<Check if fields are empty before executing>
+				 * [Hashtag] keyword(txtBox) 		<Check if fields are empty before executing>
+				 * [JSON]	ExportPath(txtBox with placeholder)	<check if empty and valid path>
+				 * -Label for precautions (such as need FireFox, and valid instagram acc)   
+				 */
 				InstagramScraper scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
-				scrapper.launchScrapeProcedure("hehebongesh", "Password12345");
+				scrapper.launchScrapeProcedure("hehebongesh", "Password12345", "sit"
+						, 10L, "C:\\Users\\User\\Desktop\\Export.JSON");
 				System.out.println("Done");
 			}
 		});

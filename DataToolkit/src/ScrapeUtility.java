@@ -20,13 +20,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScrapeUtility {
 	
 	protected WebDriver driver;
 	protected String defaultUrl;	
 	final private static String GECKO_DRIVER_PATH = System.getProperty("user.dir") + "\\geckodriver.exe";
-	
+	protected List<SocialMediaPost> postList = new ArrayList<SocialMediaPost>();
 	
 	public ScrapeUtility(String url) {
 		System.setProperty("webdriver.gecko.driver",GECKO_DRIVER_PATH);
@@ -56,8 +57,19 @@ public class ScrapeUtility {
 		this.driver.get(this.defaultUrl);
 	}
 
-
+	public void launchScrapeProcedure(String loginUrl) {
 		
+	}
+	
+	/**
+	* Prints out all the posts that have been scraped
+	*/
+	public void printAllPosts() {
+		for(SocialMediaPost post : postList) {
+			System.out.println("********************************");
+			System.out.println(post.getText());
+		}
+	}
 }
 	
 	

@@ -12,6 +12,9 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JButton;
 
 public class FrameDashboard extends JFrame {
 
@@ -47,7 +50,7 @@ public class FrameDashboard extends JFrame {
 	public FrameDashboard() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1040, 703);
-		setUndecorated(true);
+		//setUndecorated(true);
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -61,7 +64,7 @@ public class FrameDashboard extends JFrame {
 		pnlSideMenu.setLayout(null);
 		
 		JLabel lblIconSit = new JLabel("");
-		lblIconSit.setBounds(15, 33, 205, 72);
+		lblIconSit.setBounds(15, 19, 205, 86);
 		lblIconSit.setIcon(new ImageIcon(img_logo));
 		pnlSideMenu.add(lblIconSit);
 		
@@ -185,5 +188,36 @@ public class FrameDashboard extends JFrame {
 		lblIconVisualisation.setBounds(18, 7, 39, 41);
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
 		pnlVisualisation.add(lblIconVisualisation);		
+		
+		JPanel pnlTwitterInfo = new JPanel();
+		pnlTwitterInfo.setVisible(false);
+		pnlTwitterInfo.setBounds(254, 19, 730, 601);
+		contentPane.add(pnlTwitterInfo);
+		pnlTwitterInfo.setLayout(null);
+		
+		JButton btnNewButton = new JButton("Launch twitter scraper");
+		btnNewButton.setBounds(37, 100, 131, 31);
+		pnlTwitterInfo.add(btnNewButton);
+		
+		JLabel lblNewLabel = new JLabel("Twitter Panel test");
+		lblNewLabel.setBounds(360, 9, 145, 23);
+		pnlTwitterInfo.add(lblNewLabel);
+		
+		//Side panel button click
+		pnlTwitter.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				pnlTwitterInfo.setVisible(true);
+			}
+		});
+		
+		//Twitter info panel button clicks
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				TwitterScraper twitterScrapper = new TwitterScraper("temp");
+				twitterScrapper.launchScrapeProcedure("temp");
+			}
+		});
 	}
 }

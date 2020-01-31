@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.file.Paths;
+
 import javax.swing.JButton;
 import java.awt.SystemColor;
 import java.awt.CardLayout;
@@ -260,14 +262,14 @@ public class FrameDashboard extends JFrame {
 		btnTwitterScrape.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				TwitterScraper twitterScraper = new TwitterScraper("test");
-				twitterScraper.launchScrapeProcedure("test");
+				ScrapeUtility twitterScraper = new TwitterScraper("test");
+				twitterScraper.launchScrapeProcedure("hehebongesh", "Password12345", "#hearthstone"
+						, 50L, Paths.get("").toAbsolutePath().toString() + "/twitter_data.txt");
 			}
 		});
 		
 		btnInstagramScrape.addMouseListener(new MouseAdapter() {
-			@Override
-			
+			@Override		
 			public void mouseClicked(MouseEvent arg0) {
 				/**
 				 * Final Gui shld have the following:
@@ -277,7 +279,7 @@ public class FrameDashboard extends JFrame {
 				 * [JSON]	ExportPath(txtBox with placeholder)	<check if empty and valid path>
 				 * -Label for precautions (such as need FireFox, and valid instagram acc)   
 				 */
-				InstagramScraper scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
+				ScrapeUtility scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
 				scrapper.launchScrapeProcedure("hehebongesh", "Password12345", "sit"
 						, 10L, "C:\\Users\\User\\Desktop\\Export.JSON");
 				System.out.println("Done");

@@ -1,80 +1,84 @@
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import twitter4j.*;
+import twitter4j.conf.ConfigurationBuilder;
 
-public class TwitterScraper extends ScrapeUtility {
+public class TwitterScraper extends ScrapeUtility{
 
 	public TwitterScraper(String url) {
 		super(url);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
-	public void launchScrapeProcedure(String loginUrl) {
-		super.browseToUrl("https://twitter.com/search?q=%23WuhanCoronavirus&src=typed_query");
-				
-		String selectorQuery = "li[data-item-type='tweet'] .content .tweet-text";
-		
-		//Wait for the page to load the main content
-		//Test for page style 1
-		try {
-			if(waitUntilSelectorLoads(".content-main") == null) {
-				
-			}
-		}
-		catch(Exception e) {
-			
-		}
-		
-		//Test for page style 2
-		try {
-			selectorQuery = "div[data-testid='tweet'] .r-hkyrab";
-			if(waitUntilSelectorLoads("div[data-testid='primaryColumn']") != null) {
-				System.out.print("here");
-			}
-		}
-		catch(Exception e) {
-			
-		}
-		
-		
-		List<WebElement> elementList = super.driver.findElements(By.cssSelector(selectorQuery));
-		for(WebElement element : elementList) {
-			TwitterPost post = new TwitterPost(element.getText());
-			postList.add(post);
-		}
-		
-		printAllPosts();
-		
-		//System.out.print(this.driver.getPageSource());
-		
-		//Don't remove the code below! We might use it in the future
-		/*ConfigurationBuilder cb = new ConfigurationBuilder();
+	public int launchScrapeProcedure(final String loginId, final String loginPassword,
+			final String hashTag, final long numberOfPosts, final String savePath) {
+		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true)
-		  .setOAuthConsumerKey("")
-		  .setOAuthConsumerSecret("")
-		  .setOAuthAccessToken("your access token")
-		  .setOAuthAccessTokenSecret("your access token secret");
+		  .setOAuthConsumerKey("6boiTZNAxirQtcA78pxyBSeFz")
+		  .setOAuthConsumerSecret("ZjULCLPP2J00zcGU0eu9HDItzfVQvT07G3WD5jDyT1ociJ52ZL")
+		  .setOAuthAccessToken("1220269199634780161-oebkqUnf3szbGozkjm8h11pbYbj63Y")
+		  .setOAuthAccessTokenSecret("t9jScqV381nsZMUMckNcFCoMzFSLWJ6KwVJ6M3cKXBesv");
 
 		Twitter twitter = new TwitterFactory(cb.build()).getInstance();
-		//Twitter twitter = new TwitterFactory().getInstance();
-		//twitter.setOAuthConsumer("7YBPrscvh0RIThrWYVeGg", "sMO1vDyJ9A0xfOE6RyWNjhTUS1sNqsa7Ae14gOZnw");
-        try {
-            Query query = new Query("source:twitter4j yusukey");
-            QueryResult result;
-            do {
-                result = twitter.search(query);
-                List<Status> tweets = result.getTweets();
-                for (Status tweet : tweets) {
-                    System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getText());
-                }
-            } while ((query = result.nextQuery()) != null);
-            System.exit(0);
-        } catch (TwitterException te) {
+		
+		QueryResult result;
+		try {
+			//Create a new query for a given hashtag
+		    Query query = new Query(hashTag.charAt(0) == '#' ? hashTag : '#' + hashTag);
+		    query.setCount((int)numberOfPosts);
+		    result = twitter.search(query);
+		}
+		catch (TwitterException te) {
             te.printStackTrace();
-            System.out.println("Failed to search tweets: " + te.getMessage());
-            System.exit(-1);
-        }*/
+            System.out.println("Error when finding tweets: " + te.getMessage());
+            return 1;
+        }
+		
+
+		/**
+		 * Process all posts and append into JSONObject
+		 */
+		JSONObject hashTagPageInfo = new JSONObject();
+		JSONArray allPosts = new JSONArray();
+
+		hashTagPageInfo.put("hash_tag", hashTag);
+		hashTagPageInfo.put("total_posts", result.getTweets().size());
+
+	    for (Status tweet : result.getTweets()) {
+			JSONObject post = new JSONObject();
+			JSONArray commentsList = new JSONArray();
+			allPosts.put(post);
+			post.put("posted_by", tweet.getUser().getName());
+			post.put("caption", tweet.getText()); 
+			post.put("no_of_likes", tweet.getFavoriteCount());
+			post.put("no_of_retweets", tweet.getRetweetCount());
+			
+			//Get all replies
+			try {
+		        Query query = new Query("to:" + tweet.getUser().getName() + " since_id:" + tweet.getId());
+		        QueryResult replies;
+
+	        	replies = twitter.search(query);
+	            for (Status reply : replies.getTweets()) {
+	                if (reply.getInReplyToStatusId() == tweet.getId()) {
+	                	JSONObject comment = new JSONObject();
+	                	comment.put("user", reply.getUser().getName()); 
+	    				comment.put("desc", reply.getText());
+	                	commentsList.put(comment);
+	                }
+	            }
+
+		    } catch (Exception e) {
+		    	System.out.println(e.getMessage());
+		        continue;
+		    }
+			post.put("comments", commentsList);			
+	    }
+	
+		hashTagPageInfo.put("extracted_posts", allPosts);		
+		exportJsonObjToFile(hashTagPageInfo, savePath);
+		
+		return 0;
 	}
 }

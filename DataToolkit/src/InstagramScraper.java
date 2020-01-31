@@ -20,7 +20,7 @@ import org.json.*;
  * @author PatrickNigga
  * @Version 1.0
  */
-public class InstagramScraper extends ScrapeUtility {
+public class InstagramScraper extends ScrapeUtilityWebDriver {
 	private final int TIMEOUT_PAGE_DURA = 20;
 	private final int TIMEOUT_ELEMENT_DURA = 10;
 	private final int TIMEOUT_VIEW_MORE = 2;  
@@ -47,8 +47,8 @@ public class InstagramScraper extends ScrapeUtility {
 	 */
 	private ArrayList<String> subUrls;
 
-	public InstagramScraper(String url) {
-		super(url);
+	public InstagramScraper(String defaultURL) {
+		super(defaultURL);
 	}
 	
 	/**
@@ -244,22 +244,6 @@ public class InstagramScraper extends ScrapeUtility {
 		
 	}
 	
-	
-	private boolean exportJsonObjToFile(JSONObject obj, String savePath) {
-		
-		FileWriter file;
-		try {
-			file = new FileWriter(savePath);
-			file.write(obj.toString());
-			file.flush();
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;		
-	}
-	
 	/**
 	 * Main scraping procedure from Login-> scraping post URLS -> scraping each post details
 	 * @param loginId		Login credentials
@@ -272,6 +256,7 @@ public class InstagramScraper extends ScrapeUtility {
 	 * 			0	:	Unable to login? (Might want to split up process)
 	 * 			-1	:	
 	 */
+	@Override
 	public int launchScrapeProcedure(final String loginId, final String loginPassword,
 			final String hashTag, final long numberOfPosts, final String savePath) {
 		if (!loginProcess(loginId, loginPassword)) { return 0; } 	

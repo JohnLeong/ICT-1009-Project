@@ -1,105 +1,63 @@
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import java.io.FileWriter;
+import java.io.IOException;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait; //FluentWait is a Class and it is a part of this package
-import org.openqa.selenium.support.ui.WebDriverWait;
-//import org.testng.annotations.Test;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONObject;
 
 public class ScrapeUtility {
-
-	protected WebDriver driver;
 	protected String defaultUrl;	
-	final private static String GECKO_DRIVER_PATH = System.getProperty("user.dir") + "\\geckodriver.exe";
-	private JavascriptExecutor js;
-	protected List<SocialMediaPost> postList = new ArrayList<SocialMediaPost>();	
-
-	public ScrapeUtility(String url) {
-		System.setProperty("webdriver.gecko.driver",GECKO_DRIVER_PATH);
-		this.defaultUrl = url; 	
-		this.driver= new FirefoxDriver();
-	}
 	
-	protected WebElement waitUntilSelectorLoads(String cssQuery, int seconds) {
-		WebElement element = 
-				(new WebDriverWait(driver, seconds))
-				.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssQuery)));
-		return element;
-	}
-
-	public void browseToUrl(String url) {
-		this.driver.get(url);
-	}
-	public void browseToUrl() {
-		this.driver.get(this.defaultUrl);
-	}
-
-	public void launchScrapeProcedure(String loginUrl) {
-		
+	public ScrapeUtility(String defaultURL) {
+		this.defaultUrl = defaultURL; 	
 	}
 	
 	/**
-	* Prints out all the posts that have been scraped
-	*/
-	public void printAllPosts() {
-		for(SocialMediaPost post : postList) {
-			System.out.println("********************************");
-			System.out.println(post.getText());
-		}
+	 * Launches the scraping procedure. Looks for posts with the given hashtag and retrieves their data.
+	 * @param loginId			Login credentials
+	 * @param loginPassword		Login credentials
+	 * @param hashTag			Hashtag keyword 
+	 * @param numberOfPosts 	Max number of posts details to scrape
+	 * @param savePath			Export JSON file path
+	 * @return					Returns 0 is the procedure is successful
+	 */
+	public int launchScrapeProcedure(final String loginId, final String loginPassword,
+			final String hashTag, final long numberOfPosts, final String savePath) {
+		return 0;
 	}
-
-	public void scrollDownByPixels(int pixels) {
-		this.js = (JavascriptExecutor)driver;
-		this.js.executeScript("window.scrollBy(0, "+ pixels +")");	
+	
+	/**
+	 * Launches the scraping procedure. Looks for posts with the given hashtag and related hashtags,
+	 *  and retrieves their data.
+	 * @param loginId			Login credentials
+	 * @param loginPassword		Login credentials
+	 * @param hashTag			Hashtag keyword 
+	 * @param numberOfPosts 	Max number of posts details to scrape
+	 * @param savePath			Export JSON file path
+	 * @return					Returns 0 is the procedure is successful
+	 */
+	public int launchScrapeProcedure(final String loginId, final String loginPassword,
+			final String hashTag, final long numberOfPosts, final long numberOfRelatedHashtags,final String savePath) {
+		return 0;
 	}
-
-	public void scrollToVisibleElement(WebElement element) {
-		this.js = (JavascriptExecutor)driver;
-		this.js.executeScript("arguments[0].scrollIntoView();", element);
-	}
-
-	public void scrollToPageBottom() {
-		this.js = (JavascriptExecutor)driver;
-		this.js.executeScript("window.scrollTo(0, document.body.scrollHeight)");	
-	}
-
-	public boolean forceWaitInMiliseconds(int ms) {
+	
+	/**
+	 * 
+	 * @param obj		The json object containing the data to write
+	 * @param savePath	The file path to save the new file to
+	 * @return			Returns true if successful
+	 */
+	protected boolean exportJsonObjToFile(JSONObject obj, String savePath) {
+		
+		FileWriter file;
 		try {
-			Thread.sleep(ms);
-			return true;
-		} catch (InterruptedException e) {
+			file = new FileWriter(savePath);
+			file.write(obj.toString());
+			file.flush();
+			file.close();
+			System.out.println("File successfully saved at" + savePath);
+		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
-	}
-	
-	public void waitInSeconds(int seconds) {
-
-		this.driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
+		return true;		
 	}
 }
-
-
-
-
-
-
-
-

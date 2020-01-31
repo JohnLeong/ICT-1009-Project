@@ -19,9 +19,9 @@ public class ScrapeUtility {
 	 * @param savePath			Export JSON file path
 	 * @return					Returns 0 is the procedure is successful
 	 */
-	public int launchScrapeProcedure(final String loginId, final String loginPassword,
+	public ReturnCode launchScrapeProcedure(final String loginId, final String loginPassword,
 			final String hashTag, final long numberOfPosts, final String savePath) {
-		return 0;
+		return ReturnCode.SUCCESS;
 	}
 	
 	/**
@@ -34,9 +34,9 @@ public class ScrapeUtility {
 	 * @param savePath			Export JSON file path
 	 * @return					Returns 0 is the procedure is successful
 	 */
-	public int launchScrapeProcedure(final String loginId, final String loginPassword,
+	public ReturnCode launchScrapeProcedure(final String loginId, final String loginPassword,
 			final String hashTag, final long numberOfPosts, final long numberOfRelatedHashtags,final String savePath) {
-		return 0;
+		return ReturnCode.SUCCESS;
 	}
 	
 	/**

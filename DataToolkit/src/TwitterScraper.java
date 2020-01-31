@@ -11,7 +11,7 @@ public class TwitterScraper extends ScrapeUtility{
 	}
 	
 	@Override
-	public int launchScrapeProcedure(final String loginId, final String loginPassword,
+	public ReturnCode launchScrapeProcedure(final String loginId, final String loginPassword,
 			final String hashTag, final long numberOfPosts, final String savePath) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true)
@@ -32,7 +32,9 @@ public class TwitterScraper extends ScrapeUtility{
 		catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Error when finding tweets: " + te.getMessage());
-            return 1;
+            
+//            return 1;
+            return ReturnCode.SCRAPE_ERROR;
         }
 		
 
@@ -43,7 +45,6 @@ public class TwitterScraper extends ScrapeUtility{
 		JSONArray allPosts = new JSONArray();
 
 		hashTagPageInfo.put("hash_tag", hashTag);
-		hashTagPageInfo.put("total_posts", result.getTweets().size());
 
 	    for (Status tweet : result.getTweets()) {
 			JSONObject post = new JSONObject();
@@ -79,6 +80,7 @@ public class TwitterScraper extends ScrapeUtility{
 		hashTagPageInfo.put("extracted_posts", allPosts);		
 		exportJsonObjToFile(hashTagPageInfo, savePath);
 		
-		return 0;
+		return ReturnCode.SUCCESS;
+//		return 0;
 	}
 }

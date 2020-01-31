@@ -1,6 +1,6 @@
 import java.util.ArrayList;
-import java.io.FileWriter;
-import java.io.IOException;
+//import java.io.FileWriter;
+//import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -10,6 +10,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+
 
 import java.util.List; 
 import java.util.LinkedHashSet;
@@ -34,6 +36,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 	private final String CSS_SLT_LOGIN_PASSWORD 		= ".HmktE input[name='password']";
 	private final String CSS_SLT_LOGIN_SUBMIT 			= ".HmktE button[type='submit']";
 
+	private final String CSS_SLT_LOCATION				= "a.O4GlU";
 	private final String CSS_SLT_POST_COMMENTS			= "div.C4VMK";
 	private final String CSS_SLT_POST_VIEW_MORE			= "button[class='dCJp8 afkep']";
 	private final String CSS_SLT_POST_VIDEO_VIEWS		= "span[class='vcOH2'] span"; 
@@ -41,7 +44,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 	private final String CSS_SLT_POST_BY				= "div.e1e1d a"; 
 	
 	private final String LOGIN_URL 				= "https://www.instagram.com/accounts/login/";
-
+	
 	/**
 	 * For storing all sub Urls in given hashtag page.
 	 */
@@ -80,6 +83,19 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 					.replace(",", ""));
 		} catch (Exception e) {
 			return -1;
+		}
+	}
+	
+	
+	private String getLocationOfPost() {
+		try {
+			waitUntilSelectorLoads(CSS_SLT_LOCATION, TIMEOUT_ELEMENT_DURA);
+			return super.driver
+					.findElement(By.cssSelector(CSS_SLT_LOCATION))
+					.getText()
+					.replace(",", "");
+		} catch (Exception e) {
+			return "None";
 		}
 	}
 	
@@ -181,6 +197,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 		double likes = this.getNumberOfLikesInPost();	
 		
 		post.put("posted_by", super.driver.findElement(By.cssSelector(CSS_SLT_POST_BY)).getAttribute("title"));
+		post.put("location", getLocationOfPost());
 		if (likes > -1) {
 			post.put("no_of_likes", likes);
 			post.put("no_of_views", 0);
@@ -248,18 +265,20 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 	 * Main scraping procedure from Login-> scraping post URLS -> scraping each post details
 	 * @param loginId		Login credentials
 	 * @param loginPassword	Login credentials
-	 * @param hashTag		Hashtag keyword 
+	 * @param hashTag		HashTag keyword 
 	 * @param numberOfPosts Max number of posts details to scrape
 	 * @param savePath		Export JSON file path
-	 * @return 				Flags
-	 * 			1	:	Success
-	 * 			0	:	Unable to login? (Might want to split up process)
-	 * 			-1	:	
+	 * @return 				Look at enum above for better understanding
+	 * 	 				
 	 */
+	
 	@Override
-	public int launchScrapeProcedure(final String loginId, final String loginPassword,
+	public ReturnCode launchScrapeProcedure(final String loginId, final String loginPassword,
 			final String hashTag, final long numberOfPosts, final String savePath) {
-		if (!loginProcess(loginId, loginPassword)) { return 0; } 	
+		if (!loginProcess(loginId, loginPassword)) { 
+			super.driver.quit();
+			return ReturnCode.LOGIN_FAIL; 
+		} 	
 		
 		/*  Wait until go back to home page then redirect to hashtag page.	*/ 		 
 		try {
@@ -268,7 +287,8 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 			super.waitUntilSelectorLoads(CSS_SLT_POSTS_SUB_URL, TIMEOUT_PAGE_DURA);			
 		} catch (Exception e) {
 			System.out.println("--launchScrapeProcedure-- Hashtag page not loading");
-			return -1;
+			super.driver.quit();
+			return ReturnCode.PAGE_TIMEOUT;
 		}
 
 		/**
@@ -291,11 +311,13 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 		for (String s : this.subUrls) {
 			allPosts.put(scrapePostDetails("https://www.instagram.com"+ s));
 		}
+		
 		hashTagPageInfo.put("extracted_posts", allPosts);
 		System.out.println(hashTagPageInfo);
 		
-		exportJsonObjToFile(hashTagPageInfo, savePath);
-		return 1;
+		super.exportJsonObjToFile(hashTagPageInfo, savePath);
+		super.driver.quit();
+		return ReturnCode.SUCCESS;
 	}
 
 	

@@ -280,8 +280,9 @@ public class FrameDashboard extends JFrame {
 				 * -Label for precautions (such as need FireFox, and valid instagram acc)   
 				 */
 				ScrapeUtility scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
-				scrapper.launchScrapeProcedure("hehebongesh", "Password12345", "sit"
+				ReturnCode result = scrapper.launchScrapeProcedure("hehebongesh", "Password12345", "sit"
 						, 10L, "C:\\Users\\User\\Desktop\\Export.JSON");
+				System.out.println(result.getDescription());
 				System.out.println("Done");
 			}
 		});

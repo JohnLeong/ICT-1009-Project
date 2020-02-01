@@ -11,18 +11,19 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
-
 import java.util.List; 
 import java.util.LinkedHashSet;
 
 import org.json.*;
 
+interface PostDetailRetrieving {
+	
+}
 /**
  * @author PatrickNigga
  * @Version 1.0
  */
-public class InstagramScraper extends ScrapeUtilityWebDriver {
+public class InstagramScraper extends ScrapeUtilityWebDriver implements PostDetailRetrieving {
 	private final int TIMEOUT_PAGE_DURA = 20;
 	private final int TIMEOUT_ELEMENT_DURA = 10;
 	private final int TIMEOUT_VIEW_MORE = 2;  
@@ -35,7 +36,8 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 	private final String CSS_SLT_LOGIN_ID 				= ".HmktE input[name='username']";
 	private final String CSS_SLT_LOGIN_PASSWORD 		= ".HmktE input[name='password']";
 	private final String CSS_SLT_LOGIN_SUBMIT 			= ".HmktE button[type='submit']";
-
+	
+	private final String CSS_SLT_DATETIME				= "time[class='_1o9PC Nzb55']";
 	private final String CSS_SLT_LOCATION				= "a.O4GlU";
 	private final String CSS_SLT_POST_COMMENTS			= "div.C4VMK";
 	private final String CSS_SLT_POST_VIEW_MORE			= "button[class='dCJp8 afkep']";
@@ -86,6 +88,16 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 		}
 	}
 	
+	private String getDateTimeOfPost() {
+		try {
+			waitUntilSelectorLoads(CSS_SLT_DATETIME, TIMEOUT_ELEMENT_DURA);
+			return super.driver
+					.findElement(By.cssSelector(CSS_SLT_DATETIME))
+					.getAttribute("datetime");
+		} catch (Exception e) {
+			return "None";
+		}
+	}
 	
 	private String getLocationOfPost() {
 		try {
@@ -198,6 +210,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 		
 		post.put("posted_by", super.driver.findElement(By.cssSelector(CSS_SLT_POST_BY)).getAttribute("title"));
 		post.put("location", getLocationOfPost());
+		post.put("date_time", getDateTimeOfPost());
 		if (likes > -1) {
 			post.put("no_of_likes", likes);
 			post.put("no_of_views", 0);
@@ -216,7 +229,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 			waitUntilSelectorLoads(CSS_SLT_POST_COMMENTS, TIMEOUT_ELEMENT_DURA);
 			showAllCommentsInPost();		
 
-			/* Will have comment elements as waited for it to load else will return*/
+			/* Will have comment elements as waited for it to load else will return */
 			commentElements = super.driver.findElements(By.cssSelector(CSS_SLT_POST_COMMENTS));
 			post.put("caption",commentElements.size() > 0 ? 
 					commentElements.get(0).findElement(By.tagName("span")).getText() :
@@ -224,7 +237,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 
 			for (int i = 1; i < commentElements.size(); ++i) {
 				JSONObject comment = new JSONObject();
-				/*Update below if Instagram changes how their elements are displayed*/
+				/* Update below if Instagram changes how their elements are displayed */
 				comment.put("user", commentElements.get(i).findElement(By.tagName("a")).getAttribute("title")); 
 				comment.put("desc", commentElements.get(i).findElement(By.tagName("span")).getText());
 				comments.put(comment);
@@ -234,8 +247,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 			System.out.println("--scrapePostDetails-- Unable to load any caption/comment elements");
 			return null;
 		}
-		
-		
+				
 		post.put("comments", comments);
 
 		return post;
@@ -261,6 +273,20 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 		
 	}
 	
+	private boolean redirectAfterLogin(final String redirectUrl) {
+		try {
+//			super.browseToUrl("https://www.instagram.com/explore/tags/"+hashTag+"/");
+			super.browseToUrl(redirectUrl);
+			super.waitUntilSelectorLoads(CSS_SLT_POSTS_SUB_URL, TIMEOUT_PAGE_DURA);
+			return true;
+		} catch (Exception e) {
+			System.out.println("--launchScrapeProcedure-- Hashtag page not loading");
+			super.driver.quit();
+			return false;
+//			return ReturnCode.PAGE_TIMEOUT;
+		}
+		
+	}
 	/**
 	 * Main scraping procedure from Login-> scraping post URLS -> scraping each post details
 	 * @param loginId		Login credentials
@@ -280,13 +306,8 @@ public class InstagramScraper extends ScrapeUtilityWebDriver {
 			return ReturnCode.LOGIN_FAIL; 
 		} 	
 		
-		/*  Wait until go back to home page then redirect to hashtag page.	*/ 		 
-		try {
-
-			super.browseToUrl("https://www.instagram.com/explore/tags/"+hashTag+"/");
-			super.waitUntilSelectorLoads(CSS_SLT_POSTS_SUB_URL, TIMEOUT_PAGE_DURA);			
-		} catch (Exception e) {
-			System.out.println("--launchScrapeProcedure-- Hashtag page not loading");
+		/*  Wait until go back to home page then redirect to hashtag page.	*/ 	
+		if (!redirectAfterLogin("https://www.instagram.com/explore/tags/"+hashTag+"/")) {
 			super.driver.quit();
 			return ReturnCode.PAGE_TIMEOUT;
 		}

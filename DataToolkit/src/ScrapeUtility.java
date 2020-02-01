@@ -6,6 +6,7 @@ import org.json.JSONObject;
 public class ScrapeUtility {
 	protected String defaultUrl;	
 	
+	
 	public ScrapeUtility(String defaultURL) {
 		this.defaultUrl = defaultURL; 	
 	}

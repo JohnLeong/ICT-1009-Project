@@ -2,3 +2,4 @@ https://github.com/stleary/JSON-java
 https://jsoup.org/download
 https://selenium.dev/downloads/
 https://github.com/mozilla/geckodriver/releases
+https://stanfordnlp.github.io/CoreNLP/

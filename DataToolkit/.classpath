@@ -13,5 +13,13 @@
 	<classpathentry kind="lib" path="lib/okio-1.14.0.jar"/>
 	<classpathentry kind="lib" path="lib/json-20190722.jar"/>
 	<classpathentry kind="lib" path="lib/twitter4j-core-4.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/stanford-english-corenlp-2018-10-05-models.jar"/>
+	<classpathentry kind="lib" path="lib/stanford-corenlp-3.9.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/stanford-corenlp-3.9.2-models.jar"/>
+	<classpathentry kind="lib" path="lib/stanford-corenlp-3.9.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/stanford-corenlp-3.9.2.jar"/>
+	<classpathentry kind="lib" path="lib/xom-1.2.10-src.jar"/>
+	<classpathentry kind="lib" path="lib/xom.jar"/>
+	<classpathentry kind="lib" path="lib/ejml-0.23.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

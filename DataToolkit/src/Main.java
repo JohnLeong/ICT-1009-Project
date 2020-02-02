@@ -6,11 +6,11 @@ public class Main {
 		
 		FrameDashboard.launchGui(args);
 		
-		InstagramSentimentAnalyzer instagramAnalysis = new InstagramSentimentAnalyzer();
-		HashMap<String, Integer> results = 
-				instagramAnalysis.getInstagramSentimentResults("C:\\Users\\User\\Desktop\\EXPORT2.JSON");
+		//InstagramSentimentAnalyzer instagramAnalysis = new InstagramSentimentAnalyzer();
+		//HashMap<String, Integer> results = 
+		//		instagramAnalysis.getInstagramSentimentResults("C:\\Users\\User\\Desktop\\EXPORT2.JSON");
 		
-		System.out.println(results);
+		//System.out.println(results);
 	}
 
 }

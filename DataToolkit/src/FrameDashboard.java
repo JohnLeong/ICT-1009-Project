@@ -5,6 +5,8 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
@@ -19,6 +21,7 @@ import java.nio.file.Paths;
 import javax.swing.JButton;
 import java.awt.SystemColor;
 import java.awt.CardLayout;
+import javax.swing.JTextField;
 
 public class FrameDashboard extends JFrame {
 
@@ -31,6 +34,10 @@ public class FrameDashboard extends JFrame {
 	private Image img_twitter = new ImageIcon(FrameDashboard.class.getResource("resource/twitter.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_analysis = new ImageIcon(FrameDashboard.class.getResource("resource/eye.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_visualise = new ImageIcon(FrameDashboard.class.getResource("resource/search.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	private JTextField textFieldInstagramUsername;
+	private JPasswordField textFieldInstagramPassword;
+	private JTextArea textFieldInstagramHashtags;
+	private JTextField textFieldNumPosts;
 	
 	/**
 	 * Launch the application.
@@ -151,7 +158,7 @@ public class FrameDashboard extends JFrame {
 		pnlDataAnalysis.setLayout(null);
 		pnlDataAnalysis.setBorder(null);
 		pnlDataAnalysis.setBackground(new Color(51, 51, 51));
-		pnlDataAnalysis.setBounds(0, 157, 236, 53);
+		pnlDataAnalysis.setBounds(0, 206, 236, 53);
 		pnlOptions.add(pnlDataAnalysis);
 		
 		JLabel lblDataAnalysisMode = new JLabel("Data Analysis");
@@ -174,7 +181,7 @@ public class FrameDashboard extends JFrame {
 		pnlVisualisation.setLayout(null);
 		pnlVisualisation.setBorder(null);
 		pnlVisualisation.setBackground(new Color(51, 51, 51));
-		pnlVisualisation.setBounds(0, 209, 236, 53);
+		pnlVisualisation.setBounds(0, 257, 236, 53);
 		pnlOptions.add(pnlVisualisation);
 		
 		JLabel lblVisualisationMode = new JLabel("Visualisation");
@@ -193,6 +200,28 @@ public class FrameDashboard extends JFrame {
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
 		pnlVisualisation.add(lblIconVisualisation);		
 		
+		JPanel pnlDisplayData = new JPanel();
+		pnlDisplayData.setLayout(null);
+		pnlDisplayData.setBorder(null);
+		pnlDisplayData.setBackground(new Color(51, 51, 51));
+		pnlDisplayData.setBounds(0, 155, 236, 53);
+		pnlOptions.add(pnlDisplayData);
+		
+		JLabel lblDisplayData = new JLabel("Display Data");
+		lblDisplayData.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDisplayData.setForeground(Color.WHITE);
+		lblDisplayData.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblDisplayData.setBackground(Color.WHITE);
+		lblDisplayData.setBounds(60, 15, 117, 25);
+		pnlDisplayData.add(lblDisplayData);
+		
+		JLabel lblIconDisplayData = new JLabel("");
+		lblIconDisplayData.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIconDisplayData.setForeground(Color.WHITE);
+		lblIconDisplayData.setBackground(Color.WHITE);
+		lblIconDisplayData.setBounds(18, 7, 39, 41);
+		pnlDisplayData.add(lblIconDisplayData);
+		
 		JPanel pnlInfo = new JPanel();
 		pnlInfo.setBackground(SystemColor.controlHighlight);
 		pnlInfo.setBounds(236, 0, 780, 639);
@@ -206,12 +235,74 @@ public class FrameDashboard extends JFrame {
 		pnlInfo.add(pnlInstagramInfo, "pnlInstagramInfo");
 
 		JButton btnInstagramScrape = new JButton("Launch instagram scraper");
-		btnInstagramScrape.setBounds(37, 100, 252, 31);
+		btnInstagramScrape.setBounds(37, 589, 252, 31);
 		pnlInstagramInfo.add(btnInstagramScrape);
 		
-		JLabel headerInstagramPanel = new JLabel("Instagram Panel");
-		headerInstagramPanel.setBounds(360, 9, 145, 23);
+		JLabel headerInstagramPanel = new JLabel("Instagram Scraper");
+		headerInstagramPanel.setFont(new Font("Tahoma", Font.BOLD, 30));
+		headerInstagramPanel.setBounds(37, 19, 300, 40);
 		pnlInstagramInfo.add(headerInstagramPanel);
+		
+		textFieldInstagramUsername = new JTextField();
+		textFieldInstagramUsername.setBounds(128, 120, 166, 29);
+		pnlInstagramInfo.add(textFieldInstagramUsername);
+		textFieldInstagramUsername.setColumns(10);
+		
+		JLabel lblInstagramUsername = new JLabel("Username");
+		lblInstagramUsername.setBounds(37, 120, 100, 23);
+		pnlInstagramInfo.add(lblInstagramUsername);
+		
+		textFieldInstagramPassword = new JPasswordField();
+		textFieldInstagramPassword.setColumns(10);
+		textFieldInstagramPassword.setBounds(128, 162, 166, 29);
+		pnlInstagramInfo.add(textFieldInstagramPassword);
+		
+		JLabel lblInstagramPassword = new JLabel("Password");
+		lblInstagramPassword.setBounds(37, 162, 100, 23);
+		pnlInstagramInfo.add(lblInstagramPassword);
+		
+		JLabel lblInstagramHashtags = new JLabel("Hashtags");
+		lblInstagramHashtags.setBounds(37, 241, 82, 23);
+		pnlInstagramInfo.add(lblInstagramHashtags);
+		
+		textFieldInstagramHashtags = new JTextArea();
+		textFieldInstagramHashtags.setRows(4);
+		textFieldInstagramHashtags.setLineWrap(true);
+		textFieldInstagramHashtags.setBounds(37, 271, 365, 74);
+		pnlInstagramInfo.add(textFieldInstagramHashtags);
+		textFieldInstagramHashtags.setColumns(10);
+		
+		JLabel lblInstagramExport = new JLabel("Export location");
+		lblInstagramExport.setBounds(37, 437, 133, 23);
+		pnlInstagramInfo.add(lblInstagramExport);
+		
+		JLabel lblInstagramNumPosts = new JLabel("Number of posts");
+		lblInstagramNumPosts.setBounds(37, 362, 194, 23);
+		pnlInstagramInfo.add(lblInstagramNumPosts);
+		
+		JLabel lblInstagramExportPath = new JLabel("Current Path: test/test/test");
+		lblInstagramExportPath.setFont(new Font("Tahoma", Font.ITALIC, 16));
+		lblInstagramExportPath.setBounds(37, 462, 270, 23);
+		pnlInstagramInfo.add(lblInstagramExportPath);
+		
+		JButton btnNewButton = new JButton("Select");
+		btnNewButton.setBounds(37, 490, 131, 31);
+		pnlInstagramInfo.add(btnNewButton);
+		
+		textFieldNumPosts = new JTextField();
+		textFieldNumPosts.setBounds(37, 389, 133, 29);
+		pnlInstagramInfo.add(textFieldNumPosts);
+		textFieldNumPosts.setColumns(10);
+		
+		JPanel pnlDisplayDataInfo = new JPanel();
+		pnlDisplayDataInfo.setLayout(null);
+		pnlDisplayDataInfo.setBackground(SystemColor.controlHighlight);
+		pnlInfo.add(pnlDisplayDataInfo, "pnlDisplayDataInfo");
+		
+		JLabel lblDataDisplayHeader = new JLabel("Data display header here");
+		lblDataDisplayHeader.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblDataDisplayHeader.setBounds(37, 19, 384, 40);
+		pnlDisplayDataInfo.add(lblDataDisplayHeader);
 		
 		JPanel pnlTwitterInfo = new JPanel();
 		pnlTwitterInfo.setLayout(null);
@@ -257,6 +348,21 @@ public class FrameDashboard extends JFrame {
 				pnlInstagram.setBackground(new Color(0.2f, 0.2f, 0.2f));
 			}
 		});
+		pnlDisplayData.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				CardLayout card = (CardLayout)pnlInfo.getLayout();
+				card.show(pnlInfo, "pnlDisplayDataInfo");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				pnlDisplayData.setBackground(new Color(0.3f, 0.3f, 0.3f));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				pnlDisplayData.setBackground(new Color(0.2f, 0.2f, 0.2f));
+			}
+		});
 		
 		//Twitter info panel
 		btnTwitterScrape.addMouseListener(new MouseAdapter() {
@@ -279,11 +385,39 @@ public class FrameDashboard extends JFrame {
 				 * [JSON]	ExportPath(txtBox with placeholder)	<check if empty and valid path>
 				 * -Label for precautions (such as need FireFox, and valid instagram acc)   
 				 */
-				ScrapeUtility scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
+				
+				//Check for valid fields
+				if(textFieldInstagramUsername.getText().length() < 1 || textFieldInstagramPassword.getPassword().length < 1)
+					return;
+				
+				//Check for number of posts
+				int numPosts;
+				try {
+					numPosts = Integer.parseInt(textFieldNumPosts.getText());
+				}
+				catch (Exception e) {
+					return;
+				}
+				
+				//Check for hashtags
+				String[] hashTags = textFieldInstagramHashtags.getText().split("\\s+");
+				
+				for (String hashTag : hashTags) {
+					ScrapeUtility scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
+					ReturnCode result = scrapper.launchScrapeProcedure(textFieldInstagramUsername.getText()
+							, textFieldInstagramPassword.getText()
+							, hashTag
+							, numPosts, "C:\\Users\\User\\Desktop\\Export2.JSON");
+					System.out.println(result.getDescription());
+					System.out.println("Done");	
+				}
+				
+				
+				/*ScrapeUtility scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
 				ReturnCode result = scrapper.launchScrapeProcedure("hehebongesh", "Password12345", "apple"
 						, 10L, "C:\\Users\\User\\Desktop\\Export2.JSON");
 				System.out.println(result.getDescription());
-				System.out.println("Done");
+				System.out.println("Done");	*/
 			}
 		});
 

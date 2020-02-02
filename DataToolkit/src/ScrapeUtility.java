@@ -1,6 +1,4 @@
 import java.io.FileWriter;
-import java.time.format.DateTimeFormatter;  
-import java.time.LocalDateTime;    
 import java.io.IOException;
 
 import org.json.JSONObject;
@@ -51,16 +49,13 @@ public class ScrapeUtility {
 	protected boolean exportJsonObjToFile(JSONObject obj, String savePath) {
 		
 		FileWriter file;
-		try {   
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");  
-			//file = new FileWriter(savePath + "\\apple.txt");
-			file = new FileWriter(savePath + "\\" + dtf.format(LocalDateTime.now()) + ".txt");
+		try {
+			file = new FileWriter(savePath);
 			file.write(obj.toString());
 			file.flush();
 			file.close();
 			System.out.println("File successfully saved at" + savePath);
 		} catch (IOException e) {
-			System.out.println("Error, file failed to save at" + savePath);
 			e.printStackTrace();
 			return false;
 		}

@@ -2,13 +2,21 @@ import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.CoreSentence;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import java.util.List;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class SentimentAnalyzer {
+abstract public class SentimentAnalyzer {
 
 	protected static StanfordCoreNLP stanfordCoreNLP;
+	
 	
 	public SentimentAnalyzer(String modes) {
 		stanfordCoreNLP = Pipeline.getPipeline(modes);
@@ -16,6 +24,30 @@ public class SentimentAnalyzer {
 	public SentimentAnalyzer() {
 		this("tokenize, ssplit, pos, lemma, ner, parse, sentiment");
 	}
+	
+	static {
+		stanfordCoreNLP = Pipeline.getPipeline("tokenize, ssplit, pos, lemma, ner, parse, sentiment");
+	}
+		
+	/**
+	 * For getting all comments from JSONOjbect
+	 * @param jsonObject		
+	 * @return
+	 */
+	abstract protected ArrayList<String> parseJSONComments(JSONObject jsonObject);
+	
+	protected String readJSONFileToString(String path) {
+		try {
+			String fileString = new String(Files.readAllBytes(Paths.get(path)));
+			return fileString;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	
 	
 	/**
 	 * Uses StanfordCoreNLP models to conduct sentiment analysis to 
@@ -25,6 +57,7 @@ public class SentimentAnalyzer {
 	 * @return				Category of user's feelings (Neutral/Postiive/Negative/Very Negative)
 	 */
 	public static String commentCategory(String comment) {
+		
 		CoreDocument coreDocument = new CoreDocument(comment);
 		stanfordCoreNLP.annotate(coreDocument);
 		
@@ -37,31 +70,25 @@ public class SentimentAnalyzer {
 			count = reaction.containsKey(sentimentCategory) ? reaction.get(sentimentCategory) : 0;
 			reaction.put(sentimentCategory, count + 1);
 		}
-		
-//		System.out.println("for comment: " + comment + " " +  reaction + " " + mostCategory);
+	
 		return Collections.max(reaction.entrySet(), Comparator.comparingInt(HashMap.Entry::getValue)).getKey();
 	}
 
 	/**
-	 * Usage example below
+	 * Evaluate sentiment results based on the list of all comments.
+	 * @param comments		ArrayList containing everyone's comments.
+	 * @return				HashMap containing user feelings with the number of counts.
 	 */
-//	public static void main(String[] args) {
-//		
-//		StanfordCoreNLP pipeline = Pipeline.getPipeline("tokenize, ssplit, pos, lemma, ner, parse, sentiment");
-//		String text = "Hello world. Im love this place. I hate my nigga.";
-//		
-//		CoreDocument coreDocument = new CoreDocument(text);
-//		pipeline.annotate(coreDocument);
-//		List<CoreSentence> sentences = coreDocument.sentences();
-//		
-//		for (CoreSentence sentence : sentences) {
-//			String sentiment = sentence.sentiment();
-//			System.out.println(sentiment + "\t" + sentence);			
-//			
-//		}
-//		
-//		System.out.println("end");
-//	}
+	protected HashMap<String, Integer> getSentimentResults(List<String> comments) {
+		HashMap<String, Integer> reactions = new HashMap<String, Integer>();
+		int mapKeyCount; String reaction;
+		for (String comment : comments) {
+			reaction = commentCategory(comment);
+			mapKeyCount = reactions.containsKey(reaction) ? reactions.get(reaction) : 0;
+			reactions.put(reaction, mapKeyCount + 1);
+		}
+		return reactions;
+	}
 	
 }
 

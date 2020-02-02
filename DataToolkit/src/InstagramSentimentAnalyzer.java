@@ -1,6 +1,3 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +16,6 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 	public InstagramSentimentAnalyzer(String modes) {
 		super(modes);
 	}
-
 	
 	/**
 	 * Parses the JSON information scraped by InstagramScraper which contains all 
@@ -27,7 +23,8 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 	 * @param jsonObject	JSONObject containing all details which is scraped by InstagramScraper
 	 * @return				ArrayList of comments
 	 */
-	private ArrayList<String> getCommentsFromAllPosts(JSONObject jsonObject) {
+	@Override
+	protected ArrayList<String> parseJSONComments(JSONObject jsonObject) {
 		ArrayList<String> comments = new ArrayList<String>();
 		JSONArray posts = jsonObject.getJSONArray("extracted_posts");
 		JSONArray postComments = new JSONArray();
@@ -41,7 +38,6 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 		return comments;
 	}
 	
-	
 	/**
 	 * Takes in a JSON file path which was previously scrapped by Instagram Scraper,
 	 * reads the file into a String and then into a JSONObject for comments extraction.
@@ -52,28 +48,13 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 	 * @return				Returns reactions of all comments HashMap in the format <Sentiment Category, Count>
 	 */
 	public HashMap<String, Integer> getInstagramSentimentResults(String jsonPath) {
-		HashMap<String, Integer> reactions = new HashMap<String, Integer>();
-		String fileString; JSONObject contents;
-		
 		try {
-			fileString = new String(Files.readAllBytes(Paths.get(jsonPath)));
-			contents = new JSONObject(fileString);
-			
-			List<String> allComments = getCommentsFromAllPosts(contents);
-			int mapKeyCount; String reaction;
-			for (String comment : allComments) {
-				reaction = super.commentCategory(comment);
-				System.out.println(reaction);
-				mapKeyCount = reactions.containsKey(reaction) ? reactions.get(reaction) : 0;
-				reactions.put(reaction, mapKeyCount + 1);
-			}
-			
+			JSONObject contents = new JSONObject(readJSONFileToString(jsonPath));
+			List<String> allComments = this.parseJSONComments(contents);
+			return super.getSentimentResults(allComments);
 		} catch (JSONException e1) {
-			System.out.println("Error parsing JSON.");
-		} catch (IOException e) {
-			System.out.println(e);
-		}	
-		
-		return reactions;
+			System.out.println("Error parsing JSON file.");
+		}
+		return null;
 	}	
 }

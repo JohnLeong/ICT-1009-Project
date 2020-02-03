@@ -37,17 +37,8 @@ abstract public class SentimentAnalyzer {
 	abstract protected ArrayList<String> parseJSONComments(JSONObject jsonObject);
 	
 	protected String readJSONFileToString(String path) {
-		try {
-			String fileString = new String(Files.readAllBytes(Paths.get(path)));
-			return fileString;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "";
+		return JSONUtility.parseJSONToString(path);
 	}
-	
-	
 	
 	/**
 	 * Uses StanfordCoreNLP models to conduct sentiment analysis to 

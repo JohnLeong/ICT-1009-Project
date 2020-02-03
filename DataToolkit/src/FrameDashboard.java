@@ -29,6 +29,9 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import java.awt.Component;
+import javax.swing.JEditorPane;
+import java.awt.ScrollPane;
+import java.awt.TextArea;
 
 public class FrameDashboard extends JFrame {
 
@@ -73,7 +76,7 @@ public class FrameDashboard extends JFrame {
 	public FrameDashboard() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1040, 703);
-		//setUndecorated(true);
+		setUndecorated(true);
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -93,7 +96,7 @@ public class FrameDashboard extends JFrame {
 		
 		JPanel pnlOptions = new JPanel();
 		pnlOptions.setBackground(new Color(102, 102, 102));
-		pnlOptions.setBounds(0, 133, 236, 699);
+		pnlOptions.setBounds(0, 133, 236, 905);
 		pnlSideMenu.add(pnlOptions);
 		pnlOptions.setLayout(null);
 		
@@ -340,6 +343,11 @@ public class FrameDashboard extends JFrame {
 		lblDataDisplayHeader.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblDataDisplayHeader.setBounds(37, 19, 384, 40);
 		pnlDisplayDataInfo.add(lblDataDisplayHeader);
+		
+		TextArea txaJsonContent = new TextArea();
+		txaJsonContent.setBackground(Color.WHITE);
+		txaJsonContent.setBounds(10, 178, 744, 506);
+		pnlDisplayDataInfo.add(txaJsonContent);
 		
 		JPanel pnlTwitterInfo = new JPanel();
 		pnlTwitterInfo.setLayout(null);

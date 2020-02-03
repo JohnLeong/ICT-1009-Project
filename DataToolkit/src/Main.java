@@ -1,11 +1,13 @@
 import java.util.HashMap;
 
+import org.json.JSONObject;
+
 public class Main {
 
 	public static void main(String[] args) {
 		
 		
-		FrameDashboard.launchGui(args);
+//		FrameDashboard.launchGui(args);
 	
 //		InstagramSentimentAnalyzer instagramAnalysis = new InstagramSentimentAnalyzer();
 //		HashMap<String, Integer> results = 
@@ -20,6 +22,10 @@ public class Main {
 //		System.out.println(twitterResults);
 		
 //		System.out.println(SentimentAnalyzer.commentCategory("Hello world"));
+		
+//		JSONObject obj = new JSONObject(JSONUtility.parseJSONToString("C:\\Users\\User\\Desktop\\EXPORT.JSON"));
+//		System.out.println(JSONUtility.prettifyJSON(obj));
+	
 		
 
 	}

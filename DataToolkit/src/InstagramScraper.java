@@ -275,7 +275,6 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements PostDeta
 	
 	private boolean redirectAfterLogin(final String redirectUrl) {
 		try {
-//			super.browseToUrl("https://www.instagram.com/explore/tags/"+hashTag+"/");
 			super.browseToUrl(redirectUrl);
 			super.waitUntilSelectorLoads(CSS_SLT_POSTS_SUB_URL, TIMEOUT_PAGE_DURA);
 			return true;
@@ -283,7 +282,6 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements PostDeta
 			System.out.println("--launchScrapeProcedure-- Hashtag page not loading");
 			super.driver.quit();
 			return false;
-//			return ReturnCode.PAGE_TIMEOUT;
 		}
 		
 	}

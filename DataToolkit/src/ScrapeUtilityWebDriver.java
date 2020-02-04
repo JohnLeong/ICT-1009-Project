@@ -1,6 +1,7 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -29,6 +30,30 @@ public class ScrapeUtilityWebDriver extends ScrapeUtility {
 				(new WebDriverWait(driver, seconds))
 				.until(ExpectedConditions.elementToBeClickable(By.cssSelector(cssQuery)));
 		return element;
+	}
+	
+	protected WebElement safeGetWebElement(final String cssSelector, final int timeOutSeconds) {
+		try {
+			this.waitUntilSelectorLoads(cssSelector, timeOutSeconds);
+			return driver.findElement(By.cssSelector(cssSelector));
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	protected List<WebElement> safeGetWebElements(final String cssSelector,
+			final int timeOutSeconds) {
+		try {
+			this.waitUntilSelectorLoads(cssSelector, timeOutSeconds);
+			return driver.findElements(By.cssSelector(cssSelector));
+		} catch (Exception e) {
+			return null;
+		}
+		
+	}
+	
+	protected boolean cssSelectorExists(String cssQuery) {
+		return driver.findElements(By.cssSelector(cssQuery)).size() != 0;
 	}
 
 	public void browseToUrl(String url) {
@@ -67,6 +92,8 @@ public class ScrapeUtilityWebDriver extends ScrapeUtility {
 
 		this.driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
 	}
+	
+	
 }
 
 

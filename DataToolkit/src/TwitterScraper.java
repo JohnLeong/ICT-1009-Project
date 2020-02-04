@@ -11,7 +11,7 @@ public class TwitterScraper extends ScrapeUtility{
 	}
 	
 	@Override
-	public ReturnCode launchScrapeProcedure(final String loginId, final String loginPassword,
+	public ReturnCode scrapeByHashTags(final String loginId, final String loginPassword,
 			final String hashTag, final long numberOfPosts, final String savePath) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true)

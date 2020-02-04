@@ -22,7 +22,7 @@ public class ScrapeUtility {
 	 * @param savePath			Export JSON file path
 	 * @return					Returns 0 is the procedure is successful
 	 */
-	public ReturnCode launchScrapeProcedure(final String loginId, final String loginPassword,
+	public ReturnCode scrapeByHashTags(final String loginId, final String loginPassword,
 			final String hashTag, final long numberOfPosts, final String savePath) {
 		return ReturnCode.SUCCESS;
 	}

@@ -1,3 +1,4 @@
+
 public enum ReturnCode {
 	SUCCESS(1, "Successfully finished scraping process.\n"),
 	LOGIN_FAIL (0, "Failed to login. Please check if your account is valid.\n"),

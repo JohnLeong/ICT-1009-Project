@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,7 +34,7 @@ abstract public class SentimentAnalyzer {
 	 */
 	abstract protected ArrayList<String> parseJSONComments(JSONObject jsonObject);
 	
-	protected String readJSONFileToString(String path) {
+	protected String readJSONFileToString(String path) throws IOException {
 		return JSONUtility.parseJSONToString(path);
 	}
 	

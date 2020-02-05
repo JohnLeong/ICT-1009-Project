@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ public class TwitterSentimentAnalyzer extends SentimentAnalyzer {
 			JSONObject contents = new JSONObject(readJSONFileToString(jsonPath));
 			List<String> allComments = this.parseJSONComments(contents);
 			return super.getSentimentResults(allComments);
-		} catch (JSONException e1) {
+		} catch (JSONException | IOException e1) {
 			System.out.println("Error parsing JSON file.");
 		}
 		return null;

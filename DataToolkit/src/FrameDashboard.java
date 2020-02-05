@@ -17,6 +17,9 @@ import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -716,9 +719,18 @@ public class FrameDashboard extends JFrame {
 				int returnVal = chooser.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getSelectedFile();
-					String displayOutput = JSONUtility.prettifyJSON(JSONUtility.parseJSONToString(file.getPath()));
-					txaJsonContent.setText(displayOutput);
-					lblJsonFilePath.setText("File loaded: " + file.getPath());
+					String displayOutput;
+					try {
+						displayOutput = JSONUtility
+								.prettifyJSON(JSONUtility.parseJSONToString(file.getPath()));
+						txaJsonContent.setText(displayOutput);
+						lblJsonFilePath.setText("File loaded: " + file.getPath());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						msgbox("Unable to load file\n");
+						e.printStackTrace();
+					}
+					
 				}
 
 
@@ -730,8 +742,15 @@ public class FrameDashboard extends JFrame {
 				JFileChooser fileChooser = new JFileChooser();
 				if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
-					FileHelper.writeStringToPath(file.getPath(), JSONUtility.unPrettifyJSON(txaJsonContent.getText()));
-					msgbox("Successfully saved text to: " + file.getPath());
+					try {						
+						FileHelper.writeStringToPath(file.getPath(), JSONUtility
+								.unPrettifyJSON(txaJsonContent.getText()));
+					} catch (FileNotFoundException e) {
+						msgbox(e.getMessage());
+						return;
+					} finally {
+						msgbox("Successfully saved text to: " + file.getPath());
+					}					
 				}
 			}
 		});

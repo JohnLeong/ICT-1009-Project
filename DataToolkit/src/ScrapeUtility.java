@@ -1,11 +1,5 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;  
-import java.time.LocalDateTime;  
 
-import org.json.JSONObject;
-
-public class ScrapeUtility {
+public class ScrapeUtility implements JSONFileWriter {
 	protected String defaultUrl;	
 	
 	
@@ -48,21 +42,21 @@ public class ScrapeUtility {
 	 * @param savePath	The file path to save the new file to
 	 * @return			Returns true if successful
 	 */
-	protected boolean exportJsonObjToFile(JSONObject obj, String savePath) {
-		
-		FileWriter file;
-		try {
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");  
-			file = new FileWriter(savePath + "\\" + dtf.format(LocalDateTime.now()) + ".txt");
-			file.write(obj.toString());
-			file.flush();
-			file.close();
-			System.out.println("File successfully saved at" + savePath);
-		} catch (IOException e) {
-			System.out.println("Error, file failed to save at" + savePath);
-			e.printStackTrace();
-			return false;
-		}
-		return true;		
-	}
+//	protected boolean exportJsonObjToFile(JSONObject obj, String savePath) {
+//		
+//		FileWriter file;
+//		try {
+//			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");  
+//			file = new FileWriter(savePath + "\\" + dtf.format(LocalDateTime.now()) + ".txt");
+//			file.write(obj.toString());
+//			file.flush();
+//			file.close();
+//			System.out.println("File successfully saved at" + savePath);
+//		} catch (IOException e) {
+//			System.out.println("Error, file failed to save at" + savePath);
+//			e.printStackTrace();
+//			return false;
+//		}
+//		return true;		
+//	}
 }

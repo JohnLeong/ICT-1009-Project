@@ -1,23 +1,24 @@
-import java.util.HashMap;
+import java.io.IOException;
 
-import org.json.JSONObject;
+import org.json.JSONException;
 
 public class Main {
 
 	
 	public static void main(String[] args) {
 		
-//		JunkStorage junk = new JunkStorage();
-//		
-//		String output = junk.getWindowSharedDataJson("https://www.instagram.com/p/B8D-kFFFSfa/");
-//		System.out.println(output);
-//		
-//		System.out.println(StringConverter.convertUnicodeToUTF8("https://instagram.fsin5-1.fna.fbcdn.net/v/t51.2885-15/e35/p1080x1080/81210954_613443382550379_7286237893168116918_n.jpg?_nc_ht=instagram.fsin5-1.fna.fbcdn.net\\u0026_nc_cat=103\\u0026_nc_ohc=x7RAjg6EgXwAX9Yfv0b\\u0026oh=42f8891a4b0cdd703c8bb7776e8042e2\\u0026oe=5EBB02A5"));
+
+		//GUI
+//		FrameDashboard.launchGui(args);
 		
-		FrameDashboard.launchGui(args);
-//		OCRUtility obj = new OCRUtility();
-//		OCRUtility.evaluateImage2("");
-		
+		//Usage of OCR here
+		OCRUtility ocr = new OCRUtility();
+		try {
+			ocr.parseJsonAndAppendImageText("C:\\Users\\User\\Desktop\\JSON Exports\\06-02-2020_03-53-27.txt");
+		} catch (JSONException | IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Done");
 	}
 
 }

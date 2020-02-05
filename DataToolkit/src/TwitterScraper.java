@@ -78,7 +78,7 @@ public class TwitterScraper extends ScrapeUtility{
 	    }
 	
 		hashTagPageInfo.put("extracted_posts", allPosts);		
-		exportJsonObjToFile(hashTagPageInfo, savePath);
+		exportJsonObjToFolder(hashTagPageInfo, savePath);
 		
 		return ReturnCode.SUCCESS;
 //		return 0;

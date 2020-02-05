@@ -66,7 +66,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 	public InstagramScraper(String defaultURL) {
 		super(defaultURL);
 	}
-
+		
 	private boolean hashTagPageIsAvailable(String hashTagUrl) {
 		WebElement e = super.safeGetWebElement(CSS_VALID_PAGE_DIV, TIMEOUT_PAGE_LOAD);
 		return e != null;
@@ -206,7 +206,8 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		int previousCount, repeatCount = 0;
 		while (true) {
 			if (repeatCount == 10) { 
-				System.out.println("--showAllComments()-- Safety Break after " + repeatCount + " repeated tries of clicking view more.");
+				System.out.println("--showAllComments()-- Safety Break after " 
+						+ repeatCount + " repeated tries of clicking view more.");
 				return;
 			}
 			try {				
@@ -233,7 +234,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		JSONArray comments = new JSONArray();
 
 		double likes = this.getNumberOfLikesInPost();	
-
+		post.put("display_image_url", InstagramDryScraping.super.getDisplayImageUrl(url));
 		post.put("posted_by", super.driver.findElement(By.cssSelector(CSS_POST_POSTED_BY)).getAttribute("title"));
 		post.put("no_of_comments", InstagramDryScraping.super.getNumberOfComments(url));
 		post.put("location", getLocationOfPost());
@@ -318,31 +319,6 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		}
 
 	}
-	//	private boolean scrapeAllPostDetailsIntoFile(final String hashTag, final ArrayList<String> subUrls,
-	//			final String savePath) {
-	//
-	//		try {
-	////			JSONObject hashTagPageInfo = new JSONObject();
-	////			JSONArray allPosts = new JSONArray();
-	////
-	////			hashTagPageInfo.put("hash_tag", hashTag);
-	////			hashTagPageInfo.put("total_posts", this.getNumOfPostsInPage());
-	//
-	//			for (String s : subUrls) {
-	//				allPosts.put(scrapePostDetails("https://www.instagram.com"+ s));
-	//			}
-	//
-	//			hashTagPageInfo.put("extracted_posts", allPosts);
-	//			System.out.println(hashTagPageInfo);
-	//
-	//			super.exportJsonObjToFile(hashTagPageInfo, savePath);
-	//			return true;			
-	//		} catch (JSONException e) {
-	//			e.printStackTrace();			
-	//		}
-	//		return false;
-	//
-	//	}
 
 	/**
 	 * Main scraping procedure from Login-> scraping post URLS -> scraping each post details
@@ -399,8 +375,9 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			JSONArray posts = new JSONArray();
 			
 			for (int j = 0; j < hashTagPostsSubUrl.size(); ++j) {
-				FrameDashboard.appendInstagramConsole("*Scraping posts in:" + "https://www.instagram.com"+ hashTagPostsSubUrl.get(j) + "\n");
-				posts.put(scrapePostDetails("https://www.instagram.com"+ hashTagPostsSubUrl.get(j)));
+				String postUrl = "https://www.instagram.com" + hashTagPostsSubUrl.get(j);
+				FrameDashboard.appendInstagramConsole("*Scraping posts in:" + postUrl + "\n");
+				posts.put(scrapePostDetails(postUrl));
 			}			
 
 			hashTagPageDetails.put("posts", posts);
@@ -411,7 +388,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		results.put("scrape_mode", "mode_instagram_hash_tags");
 		results.put("hash_tags_details", allHashTagsDetails);
 
-		super.exportJsonObjToFile(results, savePath);
+		super.exportJsonObjToFolder(results, savePath);
 		super.driver.quit();
 		
 		return ReturnCode.SUCCESS;
@@ -432,20 +409,15 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 
 		/* Iterate all the list of profiles and append into JSON. */
 
-		//		https://www.instagram.com/hashtag_wilbert/
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("scrape_mode", "Instagram_Profiles");
-
-		JSONArray profiles = new JSONArray(); JSONArray posts = new JSONArray();
-		JSONObject profile;	
-
+		JSONArray profiles = new JSONArray(); 
+		
 		String[] profileNames = joinedProfileNames.split(DELIM_PROFILES_NAME);
 		String postLink;
 		List<String> profilePostsSubUrl;
 
-		System.out.println("Here");
 		for (int i = 0; i < profileNames.length; ++i) {
-			profile = new JSONObject();
+			JSONArray posts = new JSONArray();
+			JSONObject profile = new JSONObject();
 			String profileUrl = "https://www.instagram.com/" + profileNames[i] + "/";
 
 			super.browseToUrl(profileUrl);			
@@ -471,7 +443,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 
 			System.out.println("BeforeGetSuburls");
 			profilePostsSubUrl = getProfilePostSubUrl(numberOfPosts);
-
+			
 			for (String subUrl : profilePostsSubUrl) {
 				JSONObject post  = new JSONObject();
 				postLink = "https://www.instagram.com" + subUrl;
@@ -488,16 +460,15 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 
 				posts.put(post);
 			}
-
 			profile.put("posts", posts);
 			profiles.put(profile);
 		}
 
 		JSONObject results = new JSONObject();
 		results.put("scrape_mode", "mode_instagram_profiles");
-		results.put("results", profiles);
+		results.put("profiles_details", profiles);
 
-		super.exportJsonObjToFile(results, savePath);
+		super.exportJsonObjToFolder(results, savePath);
 		super.driver.quit();
 
 		System.out.print("Successfully finish");		

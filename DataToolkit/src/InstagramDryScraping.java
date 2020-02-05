@@ -9,14 +9,16 @@ public interface InstagramDryScraping {
 	final String STRIP_JSON_OUTPUT = "<script type=\"text/javascript\">window._sharedData = ";
 	final String STRIP_JSON_OUTPUT2	= ";</script>";
 
-	final String SOUP_USER_AGENT = "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6";
+	final String SOUP_USER_AGENT			= "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6";
 	
-	final String JS_NUM_OF_LIKES = "/entry_data/PostPage/0/graphql/shortcode_media/edge_media_preview_like/count";
-	final String JS_IS_VIDEO = "/entry_data/PostPage/0/graphql/shortcode_media/is_video";	
-	final String JS_NUM_OF_VIDEO_VIEWS = "/entry_data/PostPage/0/graphql/shortcode_media/video_view_count/";	
-	final String JS_NUM_OF_COMMENTS = "/entry_data/PostPage/0/graphql/shortcode_media/edge_media_to_parent_comment/count";
-	final String JS_VIDEO_URL 		= "/entry_data/PostPage/0/graphql/shortcode_media/video_url";
+	final String JS_NUM_OF_LIKES 			= "/entry_data/PostPage/0/graphql/shortcode_media/edge_media_preview_like/count";
+	final String JS_IS_VIDEO 				= "/entry_data/PostPage/0/graphql/shortcode_media/is_video";	
+	final String JS_NUM_OF_VIDEO_VIEWS 		= "/entry_data/PostPage/0/graphql/shortcode_media/video_view_count/";	
+	final String JS_NUM_OF_COMMENTS 		= "/entry_data/PostPage/0/graphql/shortcode_media/edge_media_to_parent_comment/count";
+	final String JS_VIDEO_URL 				= "/entry_data/PostPage/0/graphql/shortcode_media/video_url";
 	final String JS_IMAGE_DISPLAY_URL		="/entry_data/PostPage/0/graphql/shortcode_media/display_url";
+	
+	
 	default Object returnQueryObject(final String postUrl, final String query) {
 		return (new JSONObject(getWindowSharedDataJson(postUrl))).optQuery(query);
 	}

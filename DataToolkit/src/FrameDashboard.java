@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
 
@@ -7,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -16,25 +14,16 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.nio.file.Paths;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.SystemColor;
 import java.awt.CardLayout;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JFormattedTextField;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import java.awt.Component;
-import javax.swing.JEditorPane;
-import java.awt.ScrollPane;
 import java.awt.TextArea;
 import javax.swing.JSeparator;
 
@@ -75,6 +64,7 @@ public class FrameDashboard extends JFrame {
 	 */
 	public static void launchGui(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					FrameDashboard frame = new FrameDashboard();
@@ -740,7 +730,7 @@ public class FrameDashboard extends JFrame {
 				JFileChooser fileChooser = new JFileChooser();
 				if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
-					FileWriter.writeStringToPath(file.getPath(), JSONUtility.unPrettifyJSON(txaJsonContent.getText()));
+					FileHelper.writeStringToPath(file.getPath(), JSONUtility.unPrettifyJSON(txaJsonContent.getText()));
 					msgbox("Successfully saved text to: " + file.getPath());
 				}
 			}

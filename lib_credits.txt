@@ -3,3 +3,4 @@ https://jsoup.org/download
 https://selenium.dev/downloads/
 https://github.com/mozilla/geckodriver/releases
 https://stanfordnlp.github.io/CoreNLP/
+https://sourceforge.net/projects/tess4j/ (All jars are extracted from their project manually lol) So many jar dependencies so i cant list all.

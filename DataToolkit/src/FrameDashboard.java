@@ -62,6 +62,26 @@ public class FrameDashboard extends JFrame {
 	private JTextField txtTwitterNumPosts;
 	private JTextField txtProfileNumberOfPosts;
 
+	private JLabel lblIconSit;
+
+	private JPanel pnlSideMenu;	private JPanel pnlOptions;
+	private JPanel pnlInstagram;
+	private JPanel pnlTwitter;
+	private JPanel pnlDisplayJson;
+	private JPanel pnlDataAnalysis;
+	private JPanel pnlVisualisation;
+
+	private JLabel lblInstagramMode; private JLabel lblIconInstagram;
+	private JLabel lblTwitterMode; private JLabel lblIconTwitter;
+	private JLabel lblDisplayJsonMode; private JLabel lblIconJson;
+	private JLabel lblDataAnalysisMode;	private JLabel lblIconDataAnalysis;
+	private JLabel lblVisualisationMode; private JLabel lblIconVisualisation;
+
+
+	private JPanel pnlInfo;
+	
+	private JPanel selectedSidePanel;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -78,22 +98,135 @@ public class FrameDashboard extends JFrame {
 			}
 		});
 	}
+
+
+	private void changeSelectedPanelColor(JPanel panel) {
+		panel.setBackground(new Color(0.3f, 0.3f, 0.3f)); //Set to light grey		
+	}
+
+	private void resetSidePanelsColor(JPanel[] panels) {
+		for (int i = 0; i < panels.length; ++i) {
+			if (panels[i] != selectedSidePanel) {
+				panels[i].setBackground(new Color(0.2f, 0.2f, 0.2f));
+			}
+		}
+	}
 	
 	private void msgbox(String s){
 		JOptionPane.showMessageDialog(null, s);
 	}
-	
+
 	public static void appendInstagramConsole(String message) {
 		txaInstagramConsole.append(message);
 	}
 
+	
+	private void resetAllPanelIcons() {
+		lblIconInstagram.setIcon(new ImageIcon(img_instagram));
+		lblIconTwitter.setIcon(new ImageIcon(img_twitter));
+		lblIconJson.setIcon(new ImageIcon(img_json));
+		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
+		
+	}
+	/**
+	 *Side panel button click events 
+	 */
+	private void addSidePanelEvents() {			
+		JPanel[] sidePanels = new JPanel[] { pnlInstagram
+				, pnlTwitter
+				, pnlDisplayJson
+				, pnlDataAnalysis
+				, pnlVisualisation };
+		
+		pnlInstagram.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				selectedSidePanel = pnlInstagram;
+				resetSidePanelsColor(sidePanels);
+				resetAllPanelIcons();
+				
+				changeSelectedPanelColor(pnlInstagram);
+				lblIconInstagram.setIcon(new ImageIcon(img_instagram_hover));
+				
+				CardLayout card = (CardLayout)pnlInfo.getLayout();
+				card.show(pnlInfo, "pnlInstagramInfo");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeSelectedPanelColor(pnlInstagram);
+				lblIconInstagram.setIcon(new ImageIcon(img_instagram_hover));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {		
+				if (pnlInstagram != selectedSidePanel) {
+					resetSidePanelsColor(sidePanels);
+					lblIconInstagram.setIcon(new ImageIcon(img_instagram));
+				}
+				
+			}
+		});
+		
+		pnlTwitter.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				selectedSidePanel = pnlTwitter;
+				resetSidePanelsColor(sidePanels);
+				resetAllPanelIcons();
+				
+				changeSelectedPanelColor(pnlTwitter);
+				lblIconTwitter.setIcon(new ImageIcon(img_twitter_hover));
+				
+				CardLayout card = (CardLayout)pnlInfo.getLayout();
+				card.show(pnlInfo, "pnlTwitterInfo");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeSelectedPanelColor(pnlTwitter);
+				lblIconTwitter.setIcon(new ImageIcon(img_twitter_hover));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (pnlTwitter != selectedSidePanel) {
+					resetSidePanelsColor(sidePanels);
+					lblIconTwitter.setIcon(new ImageIcon(img_twitter));
+				}				
+			}
+		});
+		
+		pnlDisplayJson.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				selectedSidePanel = pnlDisplayJson;
+				resetSidePanelsColor(sidePanels);
+				resetAllPanelIcons();
+				
+				changeSelectedPanelColor(pnlDisplayJson);
+				lblIconJson.setIcon(new ImageIcon(img_json_hover));
+				
+				CardLayout card = (CardLayout)pnlInfo.getLayout();
+				card.show(pnlInfo, "pnlDisplayDataInfo");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeSelectedPanelColor(pnlDisplayJson);
+				lblIconJson.setIcon(new ImageIcon(img_json_hover));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (pnlDisplayJson != selectedSidePanel) {
+					resetSidePanelsColor(sidePanels);
+					lblIconJson.setIcon(new ImageIcon(img_json));
+				}				
+			}
+		});
+	}
 	/**
 	 * Create the frame.
 	 */
 	public FrameDashboard() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1040, 703);
-//		setUndecorated(true);
+		setBounds(100, 100, 1041, 764);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -101,30 +234,30 @@ public class FrameDashboard extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel pnlSideMenu = new JPanel();
-		pnlSideMenu.setBounds(0, 0, 237, 832);
+		pnlSideMenu = new JPanel();
+		pnlSideMenu.setBounds(0, 0, 237, 868);
 		contentPane.add(pnlSideMenu);
 		pnlSideMenu.setLayout(null);
 
-		JLabel lblIconSit = new JLabel("");
+		lblIconSit = new JLabel("");
 		lblIconSit.setBounds(15, 19, 205, 86);
 		lblIconSit.setIcon(new ImageIcon(img_logo));
 		pnlSideMenu.add(lblIconSit);
 
-		JPanel pnlOptions = new JPanel();
+		pnlOptions = new JPanel();
 		pnlOptions.setBackground(new Color(102, 102, 102));
-		pnlOptions.setBounds(0, 133, 236, 905);
+		pnlOptions.setBounds(0, 133, 236, 753);
 		pnlSideMenu.add(pnlOptions);
 		pnlOptions.setLayout(null);
 
-		JPanel pnlInstagram = new JPanel();
+		pnlInstagram = new JPanel();
 		pnlInstagram.setBorder(null);
 		pnlInstagram.setBackground(new Color(51, 51, 51));
 		pnlInstagram.setBounds(0, 0, 236, 53);
 		pnlOptions.add(pnlInstagram);
 		pnlInstagram.setLayout(null);
 
-		JLabel lblInstagramMode = new JLabel("Instagram");
+		lblInstagramMode = new JLabel("Instagram");
 		lblInstagramMode.setForeground(new Color(255, 255, 255));
 		lblInstagramMode.setBackground(new Color(255, 255, 255));
 		lblInstagramMode.setHorizontalAlignment(SwingConstants.CENTER);
@@ -132,7 +265,7 @@ public class FrameDashboard extends JFrame {
 		lblInstagramMode.setBounds(60, 15, 117, 25);
 		pnlInstagram.add(lblInstagramMode);
 
-		JLabel lblIconInstagram = new JLabel("");
+		lblIconInstagram = new JLabel("");
 		lblIconInstagram.setBounds(18, 7, 39, 41);
 		pnlInstagram.add(lblIconInstagram);
 		lblIconInstagram.setForeground(new Color(255, 255, 255));
@@ -140,14 +273,14 @@ public class FrameDashboard extends JFrame {
 		lblIconInstagram.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIconInstagram.setIcon(new ImageIcon(img_instagram));
 
-		JPanel pnlTwitter = new JPanel();
+		pnlTwitter = new JPanel();
 		pnlTwitter.setLayout(null);
 		pnlTwitter.setBorder(null);
 		pnlTwitter.setBackground(new Color(51, 51, 51));
 		pnlTwitter.setBounds(0, 51, 236, 53);
 		pnlOptions.add(pnlTwitter);
 
-		JLabel lblTwitterMode = new JLabel("Twitter");
+		lblTwitterMode = new JLabel("Twitter");
 		lblTwitterMode.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTwitterMode.setForeground(Color.WHITE);
 		lblTwitterMode.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -155,7 +288,7 @@ public class FrameDashboard extends JFrame {
 		lblTwitterMode.setBounds(60, 15, 117, 25);
 		pnlTwitter.add(lblTwitterMode);
 
-		JLabel lblIconTwitter = new JLabel("");
+		lblIconTwitter = new JLabel("");
 		lblIconTwitter.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIconTwitter.setForeground(Color.WHITE);
 		lblIconTwitter.setBackground(Color.WHITE);
@@ -163,14 +296,14 @@ public class FrameDashboard extends JFrame {
 		lblIconTwitter.setIcon(new ImageIcon(img_twitter));
 		pnlTwitter.add(lblIconTwitter);
 
-		JPanel pnlDataAnalysis = new JPanel();
+		pnlDataAnalysis = new JPanel();
 		pnlDataAnalysis.setLayout(null);
 		pnlDataAnalysis.setBorder(null);
 		pnlDataAnalysis.setBackground(new Color(51, 51, 51));
 		pnlDataAnalysis.setBounds(0, 154, 236, 53);
 		pnlOptions.add(pnlDataAnalysis);
 
-		JLabel lblDataAnalysisMode = new JLabel("Data Analysis");
+		lblDataAnalysisMode = new JLabel("Data Analysis");
 		lblDataAnalysisMode.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDataAnalysisMode.setForeground(Color.WHITE);
 		lblDataAnalysisMode.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -178,7 +311,7 @@ public class FrameDashboard extends JFrame {
 		lblDataAnalysisMode.setBounds(60, 15, 131, 25);
 		pnlDataAnalysis.add(lblDataAnalysisMode);
 
-		JLabel lblIconDataAnalysis = new JLabel("");
+		lblIconDataAnalysis = new JLabel("");
 		lblIconDataAnalysis.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIconDataAnalysis.setForeground(Color.WHITE);
 		lblIconDataAnalysis.setBackground(Color.WHITE);
@@ -186,14 +319,14 @@ public class FrameDashboard extends JFrame {
 		lblIconDataAnalysis.setIcon(new ImageIcon(img_analysis));
 		pnlDataAnalysis.add(lblIconDataAnalysis);
 
-		JPanel pnlVisualisation = new JPanel();
+		pnlVisualisation = new JPanel();
 		pnlVisualisation.setLayout(null);
 		pnlVisualisation.setBorder(null);
 		pnlVisualisation.setBackground(new Color(51, 51, 51));
 		pnlVisualisation.setBounds(0, 205, 236, 53);
 		pnlOptions.add(pnlVisualisation);
 
-		JLabel lblVisualisationMode = new JLabel("Visualisation");
+		lblVisualisationMode = new JLabel("Visualisation");
 		lblVisualisationMode.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVisualisationMode.setForeground(Color.WHITE);
 		lblVisualisationMode.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -201,7 +334,7 @@ public class FrameDashboard extends JFrame {
 		lblVisualisationMode.setBounds(60, 15, 117, 25);
 		pnlVisualisation.add(lblVisualisationMode);
 
-		JLabel lblIconVisualisation = new JLabel("");
+		lblIconVisualisation = new JLabel("");
 		lblIconVisualisation.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIconVisualisation.setForeground(Color.WHITE);
 		lblIconVisualisation.setBackground(Color.WHITE);
@@ -209,14 +342,14 @@ public class FrameDashboard extends JFrame {
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
 		pnlVisualisation.add(lblIconVisualisation);		
 
-		JPanel pnlDisplayJson = new JPanel();
+		pnlDisplayJson = new JPanel();
 		pnlDisplayJson.setLayout(null);
 		pnlDisplayJson.setBorder(null);
 		pnlDisplayJson.setBackground(new Color(51, 51, 51));
 		pnlDisplayJson.setBounds(0, 103, 236, 53);
 		pnlOptions.add(pnlDisplayJson);
 
-		JLabel lblDisplayJsonMode = new JLabel("Display JSON");
+		lblDisplayJsonMode = new JLabel("Display JSON");
 		lblDisplayJsonMode.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDisplayJsonMode.setForeground(Color.WHITE);
 		lblDisplayJsonMode.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -224,7 +357,7 @@ public class FrameDashboard extends JFrame {
 		lblDisplayJsonMode.setBounds(60, 15, 117, 25);
 		pnlDisplayJson.add(lblDisplayJsonMode);
 
-		JLabel lblIconJson = new JLabel("");
+		lblIconJson = new JLabel("");
 		lblIconJson.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIconJson.setForeground(Color.WHITE);
 		lblIconJson.setBackground(Color.WHITE);
@@ -232,9 +365,9 @@ public class FrameDashboard extends JFrame {
 		lblIconJson.setIcon(new ImageIcon(img_json));
 		pnlDisplayJson.add(lblIconJson);
 
-		JPanel pnlInfo = new JPanel();
+		pnlInfo = new JPanel();
 		pnlInfo.setBackground(SystemColor.controlHighlight);
-		pnlInfo.setBounds(236, 0, 804, 703);
+		pnlInfo.setBounds(236, 0, 799, 721);
 		pnlInfo.setLayout(new CardLayout(0, 0));
 		contentPane.add(pnlInfo);
 		//CardLayout cardInfo = (CardLayout)pnlInfo.getLayout();
@@ -281,7 +414,7 @@ public class FrameDashboard extends JFrame {
 		txtInstagramHashtags = new JTextArea();
 		txtInstagramHashtags.setRows(3);
 		txtInstagramHashtags.setLineWrap(true);
-		
+
 		txtInstagramHashtags.setBounds(37, 180, 365, 74);
 		pnlInstagramInfo.add(txtInstagramHashtags);
 		txtInstagramHashtags.setColumns(9);
@@ -329,51 +462,51 @@ public class FrameDashboard extends JFrame {
 		JLabel lblInstagramConsole = new JLabel("Output");
 		lblInstagramConsole.setBounds(37, 523, 82, 23);
 		pnlInstagramInfo.add(lblInstagramConsole);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(31, 222, 736, 23);
 		pnlInstagramInfo.add(separator);
-		
+
 		JLabel lblHashtagMode = new JLabel("HashTag Mode");
 		lblHashtagMode.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblHashtagMode.setBounds(42, 236, 300, 40);
 		pnlInstagramInfo.add(lblHashtagMode);
-		
+
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setOrientation(SwingConstants.VERTICAL);
 		separator_1.setBounds(401, 226, 24, 301);
 		pnlInstagramInfo.add(separator_1);
-		
+
 		JLabel lblProfileMode = new JLabel("Profile Mode");
 		lblProfileMode.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblProfileMode.setBounds(432, 234, 300, 40);
 		pnlInstagramInfo.add(lblProfileMode);
-		
+
 		JLabel lblProfileNumPosts = new JLabel("Number of posts");
 		lblProfileNumPosts.setBounds(432, 278, 194, 23);
 		pnlInstagramInfo.add(lblProfileNumPosts);
-		
+
 		txtProfileNumberOfPosts = new JTextField();
 		txtProfileNumberOfPosts.setColumns(10);
 		txtProfileNumberOfPosts.setBounds(432, 309, 300, 29);
 		pnlInstagramInfo.add(txtProfileNumberOfPosts);
-		
+
 		JLabel lblInstagramProfileNames = new JLabel("Profile Names");
 		lblInstagramProfileNames.setBounds(432, 348, 82, 23);
 		pnlInstagramInfo.add(lblInstagramProfileNames);
-		
+
 		JScrollPane scrInstagramProfiles = new JScrollPane();
 		scrInstagramProfiles.setBounds(429, 377, 303, 78);
 		pnlInstagramInfo.add(scrInstagramProfiles);
-		
+
 		JTextArea txtInstagramProfiles = new JTextArea();
 		scrInstagramProfiles.setViewportView(txtInstagramProfiles);
 		txtInstagramProfiles.setRows(3);
 		txtInstagramProfiles.setLineWrap(true);
 		txtInstagramProfiles.setColumns(9);
-		
+
 		JButton btnInstagramProfileScrape = new JButton("Start");
-		
+
 		btnInstagramProfileScrape.setBounds(452, 466, 252, 31);
 		pnlInstagramInfo.add(btnInstagramProfileScrape);
 
@@ -478,58 +611,8 @@ public class FrameDashboard extends JFrame {
 		lblTwitterConsole.setBounds(37, 523, 82, 23);
 		pnlTwitterInfo.add(lblTwitterConsole);
 
-		//Side panel button click events
-		pnlTwitter.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				CardLayout card = (CardLayout)pnlInfo.getLayout();
-				card.show(pnlInfo, "pnlTwitterInfo");
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				pnlTwitter.setBackground(new Color(0.3f, 0.3f, 0.3f));
-				lblIconTwitter.setIcon(new ImageIcon(img_twitter_hover));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				pnlTwitter.setBackground(new Color(0.2f, 0.2f, 0.2f));
-				lblIconTwitter.setIcon(new ImageIcon(img_twitter));
-			}
-		});
-		pnlInstagram.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				CardLayout card = (CardLayout)pnlInfo.getLayout();
-				card.show(pnlInfo, "pnlInstagramInfo");
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				pnlInstagram.setBackground(new Color(0.3f, 0.3f, 0.3f));
-				lblIconInstagram.setIcon(new ImageIcon(img_instagram_hover));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				pnlInstagram.setBackground(new Color(0.2f, 0.2f, 0.2f));
-				lblIconInstagram.setIcon(new ImageIcon(img_instagram));
-			}
-		});
-		pnlDisplayJson.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				CardLayout card = (CardLayout)pnlInfo.getLayout();
-				card.show(pnlInfo, "pnlDisplayDataInfo");
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				pnlDisplayJson.setBackground(new Color(0.3f, 0.3f, 0.3f));
-				lblIconJson.setIcon(new ImageIcon(img_json_hover));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				pnlDisplayJson.setBackground(new Color(0.2f, 0.2f, 0.2f));
-				lblIconJson.setIcon(new ImageIcon(img_json));
-			}
-		});
+
+		this.addSidePanelEvents();
 
 		btnInstagramFile.addMouseListener(new MouseAdapter() {
 			@Override
@@ -598,7 +681,7 @@ public class FrameDashboard extends JFrame {
 					txaInstagramConsole.append("*Invalid amount of posts to scrape\n");
 					return;
 				}
-				
+
 				txaInstagramConsole.append("*Scraping HashTags procedure started\n");
 				ScrapeUtility scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
 				ReturnCode result = scrapper.scrapeByHashTags(txtInstagramUsername.getText()
@@ -607,33 +690,9 @@ public class FrameDashboard extends JFrame {
 						, numPosts
 						, exportPath);
 				txaInstagramConsole.append("*" + result.getDescription());
-				
-
-				//Check for hashtags
-//				String[] hashTags = txtInstagramHashtags.getText().split("\\s+");
-				
-				
-				
-//				for (String hashTag : hashTags) {
-//					textAreaInstagramConsole.append("*Scraping for hashtag: " + hashTag + "\n");
-//					ScrapeUtility scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
-//					ReturnCode result = scrapper.launchScrapeProcedure(textFieldInstagramUsername.getText()
-//							, textFieldInstagramPassword.getText()
-//							, hashTag
-//							, numPosts
-//							, exportPath);
-//					textAreaInstagramConsole.append("*" + result.getDescription());
-//				}
-
-
-				/*ScrapeUtility scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
-				ReturnCode result = scrapper.launchScrapeProcedure("hehebongesh", "Password12345", "apple"
-						, 10L, "C:\\Users\\User\\Desktop\\Export2.JSON");
-				System.out.println(result.getDescription());
-//				System.out.println("Done");	*/
 			}
 		});
-		
+
 		btnInstagramProfileScrape.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -659,22 +718,22 @@ public class FrameDashboard extends JFrame {
 					txaInstagramConsole.append("*Invalid amount of profiles to scrape\n");
 					return;
 				}
-				
-//				textAreaInstagramConsole.append("*Scraping for profile details: " + hashTag + "\n");
+
+				//				textAreaInstagramConsole.append("*Scraping for profile details: " + hashTag + "\n");
 				txaInstagramConsole.append("*Scraping profiles procedure started\n");
-				
+
 				InstagramScraper scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
-				
+
 				ReturnCode result = scrapper.scrapeByProfiles(txtInstagramUsername.getText()
 						, txtInstagramPassword.getText()
 						, txtInstagramProfiles.getText()
 						, numPosts
 						, exportPath);
-				
+
 				txaInstagramConsole.append("*" + result.getDescription());				
 			}
 		});
-		
+
 		btnTwitterScrape.addMouseListener(new MouseAdapter() {
 			@Override		
 			public void mouseClicked(MouseEvent arg0) {
@@ -730,7 +789,7 @@ public class FrameDashboard extends JFrame {
 						msgbox("Unable to load file\n");
 						e.printStackTrace();
 					}
-					
+
 				}
 
 

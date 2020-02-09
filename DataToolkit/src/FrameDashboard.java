@@ -19,6 +19,11 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -29,6 +34,8 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import java.awt.TextArea;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class FrameDashboard extends JFrame {
 
@@ -47,6 +54,7 @@ public class FrameDashboard extends JFrame {
 	private Image img_twitter = new ImageIcon(FrameDashboard.class.getResource("resource/twitter.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_twitter_hover = new ImageIcon(FrameDashboard.class.getResource("resource/twitter_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_analysis = new ImageIcon(FrameDashboard.class.getResource("resource/eye.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	private Image img_analysis_hover = new ImageIcon(FrameDashboard.class.getResource("resource/eye_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_visualise = new ImageIcon(FrameDashboard.class.getResource("resource/search.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json = new ImageIcon(FrameDashboard.class.getResource("resource/json.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json_hover = new ImageIcon(FrameDashboard.class.getResource("resource/json_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -81,6 +89,7 @@ public class FrameDashboard extends JFrame {
 	private JPanel pnlInfo;
 	
 	private JPanel selectedSidePanel;
+	private JTable tableDataAnalysisRelatedHashtags;
 	
 	/**
 	 * Launch the application.
@@ -126,7 +135,7 @@ public class FrameDashboard extends JFrame {
 		lblIconTwitter.setIcon(new ImageIcon(img_twitter));
 		lblIconJson.setIcon(new ImageIcon(img_json));
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
-		
+		lblIconDataAnalysis.setIcon(new ImageIcon(img_analysis));
 	}
 	/**
 	 *Side panel button click events 
@@ -216,6 +225,33 @@ public class FrameDashboard extends JFrame {
 				if (pnlDisplayJson != selectedSidePanel) {
 					resetSidePanelsColor(sidePanels);
 					lblIconJson.setIcon(new ImageIcon(img_json));
+				}				
+			}
+		});
+		
+		pnlDataAnalysis.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				selectedSidePanel = pnlDataAnalysis;
+				resetSidePanelsColor(sidePanels);
+				resetAllPanelIcons();
+				
+				changeSelectedPanelColor(pnlDataAnalysis);
+				lblIconDataAnalysis.setIcon(new ImageIcon(img_analysis_hover));
+				
+				CardLayout card = (CardLayout)pnlInfo.getLayout();
+				card.show(pnlInfo, "pnlDataAnalysisInfo");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeSelectedPanelColor(pnlDataAnalysis);
+				lblIconDataAnalysis.setIcon(new ImageIcon(img_analysis_hover));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (pnlDataAnalysis != selectedSidePanel) {
+					resetSidePanelsColor(sidePanels);
+					lblIconDataAnalysis.setIcon(new ImageIcon(img_analysis));
 				}				
 			}
 		});
@@ -542,6 +578,89 @@ public class FrameDashboard extends JFrame {
 		JButton btnJsonSaveAs = new JButton("Save as");
 		btnJsonSaveAs.setBounds(209, 145, 131, 29);
 		pnlDisplayJsonInfo.add(btnJsonSaveAs);
+		
+		JPanel pnlDataAnalysisInfo = new JPanel();
+		pnlDataAnalysisInfo.setLayout(null);
+		pnlDataAnalysisInfo.setBackground(SystemColor.controlHighlight);
+		pnlInfo.add(pnlDataAnalysisInfo, "pnlDataAnalysisInfo");
+
+		JLabel lblDataAnalysisHeader = new JLabel("Data analysis header here");
+		lblDataAnalysisHeader.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblDataAnalysisHeader.setBounds(37, 19, 384, 40);
+		pnlDataAnalysisInfo.add(lblDataAnalysisHeader);
+		
+		JLabel lblDataAnalysisNumPosts = new JLabel("Number of posts : ");
+		lblDataAnalysisNumPosts.setBounds(18, 209, 289, 23);
+		pnlDataAnalysisInfo.add(lblDataAnalysisNumPosts);
+
+		JLabel lblDataAnalysisHashtag = new JLabel("Target hashtag : ");
+		lblDataAnalysisHashtag.setBounds(423, 209, 359, 23);
+		pnlDataAnalysisInfo.add(lblDataAnalysisHashtag);
+		
+		JLabel lblDataAnalysisAvgLikes = new JLabel("Avg. likes : ");
+		lblDataAnalysisAvgLikes.setBounds(18, 251, 264, 23);
+		pnlDataAnalysisInfo.add(lblDataAnalysisAvgLikes);
+
+		JLabel lblDataAnalysisAvgHashtags = new JLabel("Avg. no. of hashtags : ");
+		lblDataAnalysisAvgHashtags.setBounds(423, 251, 302, 23);
+		pnlDataAnalysisInfo.add(lblDataAnalysisAvgHashtags);
+		
+		JLabel lblDataAnalysisAvgWords = new JLabel("Avg. no. words per post : ");
+		lblDataAnalysisAvgWords.setBounds(18, 293, 321, 23);
+		pnlDataAnalysisInfo.add(lblDataAnalysisAvgWords);
+		
+		JLabel lblDataAnalysisAvgChars = new JLabel("Avg. post length : ");
+		lblDataAnalysisAvgChars.setBounds(423, 293, 315, 23);
+		pnlDataAnalysisInfo.add(lblDataAnalysisAvgChars);
+
+		JLabel lblDataAnalysisRelatedHashtags = new JLabel("Related hashtags");
+		lblDataAnalysisRelatedHashtags.setBounds(18, 335, 174, 23);
+		pnlDataAnalysisInfo.add(lblDataAnalysisRelatedHashtags);
+		
+		tableDataAnalysisRelatedHashtags = new JTable();
+		tableDataAnalysisRelatedHashtags.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		tableDataAnalysisRelatedHashtags.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+			},
+			new String[] {
+				"Hashtag", "Avg. frequency", "Total frequency"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Float.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(0).setResizable(false);
+		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(0).setPreferredWidth(263);
+		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(0).setMinWidth(30);
+		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(1).setResizable(false);
+		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(1).setPreferredWidth(140);
+		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(2).setResizable(false);
+		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(2).setPreferredWidth(145);
+		tableDataAnalysisRelatedHashtags.setBounds(18, 318, 373, 141);
+		//pnlDataAnalysisInfo.add(tableDataAnalysisRelatedHashtags);
+		
+		JScrollPane scrollPaneDataAnalysisRelatedHashtags = new JScrollPane(tableDataAnalysisRelatedHashtags);
+		scrollPaneDataAnalysisRelatedHashtags.setBounds(18, 360, 486, 141);
+		pnlDataAnalysisInfo.add(scrollPaneDataAnalysisRelatedHashtags);
+
+
+		JLabel lblDataAnalysisFilePath = new JLabel("File loaded: none");
+		lblDataAnalysisFilePath.setFont(new Font("Tahoma", Font.ITALIC, 14));
+		lblDataAnalysisFilePath.setBounds(18, 117, 707, 23);
+		pnlDataAnalysisInfo.add(lblDataAnalysisFilePath);
+
+		JLabel lblDataAnalysisFileLocation = new JLabel("File location");
+		lblDataAnalysisFileLocation.setBounds(18, 92, 133, 23);
+		pnlDataAnalysisInfo.add(lblDataAnalysisFileLocation);
+
+		JButton btnDataAnalysisSelectFile = new JButton("Select file");
+		btnDataAnalysisSelectFile.setBounds(18, 145, 131, 29);
+		pnlDataAnalysisInfo.add(btnDataAnalysisSelectFile);
 
 		JPanel pnlTwitterInfo = new JPanel();
 		pnlTwitterInfo.setLayout(null);
@@ -814,5 +933,59 @@ public class FrameDashboard extends JFrame {
 			}
 		});
 
+		//Data analysis select file
+		btnDataAnalysisSelectFile.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				JFileChooser chooser = new JFileChooser();
+				chooser.setFileFilter(new FileNameExtensionFilter("Data files", "JSON", "json", "txt", "TXT"));
+				// optionally set chooser options ...
+				int returnVal = chooser.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = chooser.getSelectedFile();
+					try {
+						AnalysedDataProperties analysedData = DataAnalyser.AnalyseData(file.getPath());
+						lblDataAnalysisFilePath.setText("File loaded: " + file.getPath());
+						
+						//Set analyzed properties to GUI
+						lblDataAnalysisNumPosts.setText("Number of posts : " + analysedData.getNumberOfPosts());
+						lblDataAnalysisHashtag.setText("Target hashtag : " + analysedData.getTargetHashtag());
+						lblDataAnalysisAvgHashtags.setText("Avg. no. of hashtags : " + analysedData.getAvgHashtags());
+						lblDataAnalysisAvgLikes.setText("Avg. likes : " + analysedData.getAvgLikes());
+						lblDataAnalysisAvgWords.setText("Avg. words per post : " + analysedData.getAvgWords());
+						lblDataAnalysisAvgChars.setText("Avg. post length : " + analysedData.getAvgCharacters() + " characters");
+						
+						DefaultTableModel hashtagTableModel = (DefaultTableModel)tableDataAnalysisRelatedHashtags.getModel();
+						
+						// Clear old data
+						for (int i = hashtagTableModel.getRowCount() - 1; i > -1; --i) {
+							hashtagTableModel.removeRow(i);
+						}
+
+						// Sort related hashtag hashmap
+						List<HashMap.Entry<String, Integer>> relatedHashtags = new ArrayList<HashMap.Entry<String, Integer>>(
+								analysedData.getRelatedHashtags().entrySet());
+						Collections.sort(relatedHashtags, new Comparator<HashMap.Entry<String, Integer>>() {
+							public int compare(HashMap.Entry<String, Integer> a, HashMap.Entry<String, Integer> b) {
+								return Integer.compare(b.getValue(), a.getValue());
+							}
+						});
+						
+						//Populate table with analyzed data
+						for (HashMap.Entry<String, Integer> entry : relatedHashtags) {
+							hashtagTableModel.addRow(new Object[] {entry.getKey(), (float)entry.getValue() / analysedData.getNumberOfPosts(), entry.getValue()});
+						}
+
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						msgbox("Unable to load file\n");
+						e.printStackTrace();
+					}
+
+				}
+
+
+			}
+		});
 	}
 }

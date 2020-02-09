@@ -54,6 +54,7 @@ public class TwitterScraper extends ScrapeUtility{
 			post.put("caption", tweet.getText()); 
 			post.put("no_of_likes", tweet.getFavoriteCount());
 			post.put("no_of_retweets", tweet.getRetweetCount());
+			post.put("date_time", tweet.getCreatedAt().toString());
 			
 			//Get all replies
 			try {

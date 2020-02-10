@@ -1,7 +1,7 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class DataCleansing {
+public class DataCleanser {
  public static JSONObject dataCleanse(JSONObject scrapeData) {
 	//remove multiple spaces
 	JSONArray extractedData =  scrapeData.getJSONArray("extracted_posts");

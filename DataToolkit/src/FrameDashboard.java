@@ -873,18 +873,16 @@ public class FrameDashboard extends JFrame {
 				}
 
 				//Check for hashtags
-				String[] hashTags = txtTwitterHashtags.getText().split("\\s+");
+				//String[] hashTags = txtTwitterHashtags.getText().split("\\s+");
 
-				for (String hashTag : hashTags) {
-					txaTwitterConsole.append("*Scraping for hashtag: " + hashTag + "\n");
-					ScrapeUtility scrapper = new TwitterScraper("test");
-					ReturnCode result = scrapper.scrapeByHashTags("nil"
-							, "nil"
-							, hashTag
-							, numPosts
-							, exportPath);
-					txaTwitterConsole.append("*" + result.getDescription());
-				}
+				txaTwitterConsole.append("*Scraping for hashtags: " + txtTwitterHashtags.getText() + "\n");
+				ScrapeUtility scrapper = new TwitterScraper("test");
+				ReturnCode result = scrapper.scrapeByHashTags("nil"
+						, "nil"
+						, txtTwitterHashtags.getText()
+						, numPosts
+						, exportPath);
+				txaTwitterConsole.append("*" + result.getDescription());
 			}
 		});
 
@@ -949,7 +947,7 @@ public class FrameDashboard extends JFrame {
 						
 						//Set analyzed properties to GUI
 						lblDataAnalysisNumPosts.setText("Number of posts : " + analysedData.getNumberOfPosts());
-						lblDataAnalysisHashtag.setText("Target hashtag : " + analysedData.getTargetHashtag());
+						lblDataAnalysisHashtag.setText("Target hashtag(s) : " + analysedData.getTargetHashtag());
 						lblDataAnalysisAvgHashtags.setText("Avg. no. of hashtags : " + analysedData.getAvgHashtags());
 						lblDataAnalysisAvgLikes.setText("Avg. likes : " + analysedData.getAvgLikes());
 						lblDataAnalysisAvgWords.setText("Avg. words per post : " + analysedData.getAvgWords());

@@ -55,7 +55,6 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 	private final String CSS_PRIVATE				= ".rkEop";
 	private final String LOGIN_URL 					= "https://www.instagram.com/accounts/login/";
 
-	private final String DELIM_HASHTAGS		= "\\s+";
 	private final String DELIM_PROFILES_NAME		= "\\s+";
 
 	/**
@@ -385,7 +384,8 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		}
 
 		JSONObject results = new JSONObject();
-		results.put("scrape_mode", "mode_instagram_hash_tags");
+		results.put("platform", "instagram");
+		results.put("scrape_mode", "hashtags");
 		results.put("hash_tags_details", allHashTagsDetails);
 
 		super.exportJsonObjToFolder(results, savePath);
@@ -465,7 +465,8 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		}
 
 		JSONObject results = new JSONObject();
-		results.put("scrape_mode", "mode_instagram_profiles");
+		results.put("platform", "instagram");
+		results.put("scrape_mode", "profiles");
 		results.put("profiles_details", profiles);
 
 		super.exportJsonObjToFolder(results, savePath);

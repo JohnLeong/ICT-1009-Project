@@ -1,7 +1,7 @@
 
 public class ScrapeUtility implements JSONFileWriter {
 	protected String defaultUrl;	
-	
+	protected final String DELIM_HASHTAGS		= "\\s+";
 	
 	public ScrapeUtility(String defaultURL) {
 		this.defaultUrl = defaultURL; 	
@@ -11,28 +11,13 @@ public class ScrapeUtility implements JSONFileWriter {
 	 * Launches the scraping procedure. Looks for posts with the given hashtag and retrieves their data.
 	 * @param loginId			Login credentials
 	 * @param loginPassword		Login credentials
-	 * @param hashTag			Hashtag keyword 
+	 * @param joinedHashTags	A string of appended hashtags seperated by a space
 	 * @param numberOfPosts 	Max number of posts details to scrape
 	 * @param savePath			Export JSON file path
 	 * @return					Returns 0 is the procedure is successful
 	 */
 	public ReturnCode scrapeByHashTags(final String loginId, final String loginPassword,
-			final String hashTag, final long numberOfPosts, final String savePath) {
-		return ReturnCode.SUCCESS;
-	}
-	
-	/**
-	 * Launches the scraping procedure. Looks for posts with the given hashtag and related hashtags,
-	 *  and retrieves their data.
-	 * @param loginId			Login credentials
-	 * @param loginPassword		Login credentials
-	 * @param hashTag			Hashtag keyword 
-	 * @param numberOfPosts 	Max number of posts details to scrape
-	 * @param savePath			Export JSON file path
-	 * @return					Returns 0 is the procedure is successful
-	 */
-	public ReturnCode launchScrapeProcedure(final String loginId, final String loginPassword,
-			final String hashTag, final long numberOfPosts, final long numberOfRelatedHashtags,final String savePath) {
+			final String joinedHashTags, final long numberOfPosts, final String savePath) {
 		return ReturnCode.SUCCESS;
 	}
 	

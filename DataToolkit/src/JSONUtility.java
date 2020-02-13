@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 interface JSONFileWriter {
 	default boolean exportJsonObjToFolder(JSONObject obj, String folderPath) {
+		DataCleansing.dataCleanse(obj);
 		FileWriter file;
 		try {
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");  

@@ -8,15 +8,17 @@ public class AnalysedDataProperties {
 	private float avgWords;
 	private float avgCharacters;
 	private HashMap<String, Integer> relatedHashtags;
+	private String scrapeType;
 	
 	public AnalysedDataProperties(int numberOfPosts, String targetHashtag, float avgLikes, float avgHashtags
-			, float avgWords, float avgCharacters, HashMap<String, Integer> relatedHashtags) {
+			, float avgWords, float avgCharacters, String scrapeType, HashMap<String, Integer> relatedHashtags) {
 		this.numberOfPosts = numberOfPosts;
 		this.targetHashtag = targetHashtag;
 		this.avgLikes = avgLikes;
 		this.avgHashtags = avgHashtags;
 		this.avgWords = avgWords;
 		this.avgCharacters = avgCharacters;
+		this.scrapeType = scrapeType;
 		this.relatedHashtags = relatedHashtags;
 	}
 	
@@ -46,5 +48,9 @@ public class AnalysedDataProperties {
 	
 	public HashMap<String, Integer> getRelatedHashtags(){
 		return relatedHashtags;
+	}
+	
+	public String getScrapeType() {
+		return scrapeType;
 	}
 }

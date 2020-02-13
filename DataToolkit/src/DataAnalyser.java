@@ -25,7 +25,10 @@ public class DataAnalyser {
 			JSONObject hashTagData = extractedHashTagsData.getJSONObject(i);
 			JSONArray extractedPosts =  hashTagData.getJSONArray("extracted_posts");
 			numberOfPosts += extractedPosts.length();
-			targetHashtag += hashTagData.getString("hash_tag") + " ";
+			if (hashTagData.has("hash_tag"))
+				targetHashtag += hashTagData.getString("hash_tag") + " ";
+			else
+				targetHashtag += hashTagData.getString("profile_name") + " ";
 			
 			//Loop through all posts
 			for(int j = 0; j < extractedPosts.length(); ++j) {
@@ -77,6 +80,6 @@ public class DataAnalyser {
 					
 		return (new AnalysedDataProperties(numberOfPosts, targetHashtag, averageLikes
 				, averageHashtags, averageWords
-				, averageChars, relatedHashtags));
+				, averageChars, data.getString("scrape_mode"), relatedHashtags));
 	}
 }

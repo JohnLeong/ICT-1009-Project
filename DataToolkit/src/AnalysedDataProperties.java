@@ -1,3 +1,4 @@
+import java.io.OutputStream;
 import java.util.HashMap;
 
 public class AnalysedDataProperties {
@@ -9,6 +10,7 @@ public class AnalysedDataProperties {
 	private float avgCharacters;
 	private HashMap<String, Integer> relatedHashtags;
 	private String scrapeType;
+	private OutputStream oStream;
 	
 	public AnalysedDataProperties(int numberOfPosts, String targetHashtag, float avgLikes, float avgHashtags
 			, float avgWords, float avgCharacters, String scrapeType, HashMap<String, Integer> relatedHashtags) {
@@ -20,6 +22,20 @@ public class AnalysedDataProperties {
 		this.avgCharacters = avgCharacters;
 		this.scrapeType = scrapeType;
 		this.relatedHashtags = relatedHashtags;
+	}
+	
+	public AnalysedDataProperties(int numberOfPosts, String targetHashtag, float avgLikes, float avgHashtags
+			, float avgWords, float avgCharacters, String scrapeType, HashMap<String, Integer> relatedHashtags
+			, OutputStream oStream) {
+		this.numberOfPosts = numberOfPosts;
+		this.targetHashtag = targetHashtag;
+		this.avgLikes = avgLikes;
+		this.avgHashtags = avgHashtags;
+		this.avgWords = avgWords;
+		this.avgCharacters = avgCharacters;
+		this.scrapeType = scrapeType;
+		this.relatedHashtags = relatedHashtags;
+		this.oStream = oStream;
 	}
 	
 	public int getNumberOfPosts() {

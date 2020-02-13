@@ -19,6 +19,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -723,7 +725,14 @@ public class FrameDashboard extends JFrame {
 		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(2).setResizable(false);
 		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(2).setPreferredWidth(145);
 		tableDataAnalysisRelatedHashtags.setBounds(18, 318, 373, 141);
-		//pnlDataAnalysisInfo.add(tableDataAnalysisRelatedHashtags);
+		//pnlDataAnalysisInfo.add(tableDataAnalysisRelatedHashtags)		
+		JLabel lblWordmap = new JLabel("");
+		lblWordmap.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWordmap.setForeground(Color.BLACK);
+		lblWordmap.setBackground(Color.GREEN);
+		lblWordmap.setBounds(526, 360, 256, 256);
+		pnlDataAnalysisInfo.add(lblWordmap);
+;
 		
 		JScrollPane scrollPaneDataAnalysisRelatedHashtags = new JScrollPane(tableDataAnalysisRelatedHashtags);
 		scrollPaneDataAnalysisRelatedHashtags.setBounds(18, 360, 486, 141);
@@ -1099,6 +1108,9 @@ public class FrameDashboard extends JFrame {
 							hashtagTableModel.addRow(new Object[] {entry.getKey(), (float)entry.getValue() / analysedData.getNumberOfPosts(), entry.getValue()});
 						}
 
+						Image wordMapImg = new ImageIcon(Paths.get("").toAbsolutePath().toString() + "/wordmap.png").getImage().getScaledInstance(256, 256, Image.SCALE_SMOOTH);
+						lblWordmap.setIcon(new ImageIcon(wordMapImg));
+						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						msgbox("Unable to load file\n");

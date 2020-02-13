@@ -1,9 +1,22 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.kennycason.kumo.*;
+import com.kennycason.kumo.bg.CircleBackground;
+import com.kennycason.kumo.font.scale.SqrtFontScalar;
+import com.kennycason.kumo.nlp.FrequencyAnalyzer;
+import com.kennycason.kumo.palette.ColorPalette;
 
 public class DataAnalyser {
 	public static AnalysedDataProperties AnalyseData(String filePath) throws Exception {
@@ -11,6 +24,7 @@ public class DataAnalyser {
 		String targetHashtag = "";
 		HashMap<String, Integer> relatedHashtags = new HashMap<String, Integer>();
 		JSONObject data;
+		ArrayList<String> wordMap = new ArrayList<String>();
 		
 		try {
 			data = new JSONObject(JSONUtility.parseJSONToString(filePath)) ;
@@ -43,6 +57,8 @@ public class DataAnalyser {
 				
 				//Add number of words/characters of current post to total
 				String[] words = caption.split("\\s+");
+				for(String word : words)
+					wordMap.add(word);
 				totalWords += words.length;
 				totalCharacters += caption.length();
 				
@@ -72,6 +88,18 @@ public class DataAnalyser {
 				}
 			}
 		}
+		
+		final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+		final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(wordMap);
+		final Dimension dimension = new Dimension(600, 600);
+		final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
+		wordCloud.setPadding(2);
+		wordCloud.setBackground(new CircleBackground(300));
+		wordCloud.setBackgroundColor(new Color(0xb3b3b3));
+		wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
+		wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
+		wordCloud.build(wordFrequencies);
+		wordCloud.writeToFile( Paths.get("").toAbsolutePath().toString() + "/wordmap.png");
 		
 		float averageLikes = Math.round(((float)totalLikes / numberOfPosts) * 100.0f) / 100.0f;
 		float averageHashtags = Math.round(((float)totalHashtags / numberOfPosts) * 100.0f) / 100.0f;

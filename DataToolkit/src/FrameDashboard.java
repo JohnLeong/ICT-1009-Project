@@ -83,7 +83,6 @@ public class FrameDashboard extends JFrame {
 	private JPanel pnlDataAnalysis;
 	private JPanel pnlVisualisation;
 	private JPanel pnlAbout;
-	private JPanel pnlCredits;
 
 	private JLabel lblInstagramMode; private JLabel lblIconInstagram;
 	private JLabel lblTwitterMode; private JLabel lblIconTwitter;
@@ -92,8 +91,6 @@ public class FrameDashboard extends JFrame {
 	private JLabel lblVisualisationMode; private JLabel lblIconVisualisation;
 
 	private JLabel lblAbout; private JLabel lblIconAbout;
-
-	private JLabel lblCreditsMode; private JLabel lblIconCredits;
 
 
 	private JPanel pnlInfo;
@@ -147,7 +144,7 @@ public class FrameDashboard extends JFrame {
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
 		lblIconDataAnalysis.setIcon(new ImageIcon(img_analysis));
 		lblIconAbout.setIcon(new ImageIcon(img_about));
-		lblIconCredits.setIcon(new ImageIcon(img_analysis));
+
 
 	}
 	/**
@@ -159,8 +156,7 @@ public class FrameDashboard extends JFrame {
 				, pnlDisplayJson
 				, pnlDataAnalysis
 				, pnlVisualisation
-				, pnlAbout 
-				, pnlCredits};
+				, pnlAbout };
 
 		
 		pnlInstagram.addMouseListener(new MouseAdapter() {
@@ -330,34 +326,6 @@ public class FrameDashboard extends JFrame {
 				}				
 			}
 		});
-		
-
-		pnlCredits.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				selectedSidePanel = pnlCredits;
-				resetSidePanelsColor(sidePanels);
-				resetAllPanelIcons();
-				
-				changeSelectedPanelColor(pnlCredits);
-				lblIconCredits.setIcon(new ImageIcon(img_visualise_hover));
-				
-				CardLayout card = (CardLayout)pnlInfo.getLayout();
-				card.show(pnlInfo, "pnlCreditsInfo");
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				changeSelectedPanelColor(pnlCredits);
-				lblIconCredits.setIcon(new ImageIcon(img_visualise_hover));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				if (pnlCredits != selectedSidePanel) {
-					resetSidePanelsColor(sidePanels);
-					lblIconCredits.setIcon(new ImageIcon(img_visualise));
-				}				
-			}
-		});
 
 	}
 	/**
@@ -481,30 +449,7 @@ public class FrameDashboard extends JFrame {
 		lblIconVisualisation.setBackground(Color.WHITE);
 		lblIconVisualisation.setBounds(18, 7, 39, 41);
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
-		pnlVisualisation.add(lblIconVisualisation);	
-		
-		pnlCredits = new JPanel();
-		pnlCredits.setLayout(null);
-		pnlCredits.setBorder(null);
-		pnlCredits.setBackground(new Color(51, 51, 51));
-		pnlCredits.setBounds(0, 256, 236, 53);
-		pnlOptions.add(pnlCredits);
-		
-		lblCreditsMode = new JLabel("Credits");
-		lblCreditsMode.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCreditsMode.setForeground(Color.WHITE);
-		lblCreditsMode.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblCreditsMode.setBackground(Color.WHITE);
-		lblCreditsMode.setBounds(60, 15, 117, 25);
-		pnlCredits.add(lblCreditsMode);
-
-		lblIconCredits = new JLabel("");
-		lblIconCredits.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconCredits.setForeground(Color.WHITE);
-		lblIconCredits.setBackground(Color.WHITE);
-		lblIconCredits.setBounds(18, 7, 39, 41);
-		lblIconCredits.setIcon(new ImageIcon(img_visualise));
-		pnlCredits.add(lblIconCredits);	
+		pnlVisualisation.add(lblIconVisualisation);
 
 		pnlDisplayJson = new JPanel();
 		pnlDisplayJson.setLayout(null);

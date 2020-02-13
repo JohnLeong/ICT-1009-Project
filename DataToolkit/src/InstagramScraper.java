@@ -379,7 +379,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 				posts.put(scrapePostDetails(postUrl));
 			}			
 
-			hashTagPageDetails.put("posts", posts);
+			hashTagPageDetails.put("extracted_posts", posts);
 			allHashTagsDetails.put(hashTagPageDetails);			
 		}
 

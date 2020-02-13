@@ -19,7 +19,7 @@ public class DataAnalyser {
 			throw new Exception("Unable to read file");
 		}
 		
-		JSONArray extractedHashTagsData = data.getJSONArray("hash_tags_details");
+		JSONArray extractedHashTagsData = data.getJSONArray("details");
 		
 		for(int i = 0; i < extractedHashTagsData.length(); ++i) {
 			JSONObject hashTagData = extractedHashTagsData.getJSONObject(i);

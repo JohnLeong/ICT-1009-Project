@@ -26,7 +26,7 @@ public class DataCleansing {
 							postCaption.deleteCharAt(j);
 						}	
 						else {
-							spaceReached = false;
+							spaceReached = true;
 						}
 					}
 					else {

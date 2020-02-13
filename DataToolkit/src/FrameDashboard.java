@@ -56,6 +56,7 @@ public class FrameDashboard extends JFrame {
 	private Image img_analysis = new ImageIcon(FrameDashboard.class.getResource("resource/eye.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_analysis_hover = new ImageIcon(FrameDashboard.class.getResource("resource/eye_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_visualise = new ImageIcon(FrameDashboard.class.getResource("resource/search.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	private Image img_visualise_hover = new ImageIcon(FrameDashboard.class.getResource("resource/search_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json = new ImageIcon(FrameDashboard.class.getResource("resource/json.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json_hover = new ImageIcon(FrameDashboard.class.getResource("resource/json_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 
@@ -252,6 +253,33 @@ public class FrameDashboard extends JFrame {
 				if (pnlDataAnalysis != selectedSidePanel) {
 					resetSidePanelsColor(sidePanels);
 					lblIconDataAnalysis.setIcon(new ImageIcon(img_analysis));
+				}				
+			}
+		});
+		
+		pnlVisualisation.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				selectedSidePanel = pnlVisualisation;
+				resetSidePanelsColor(sidePanels);
+				resetAllPanelIcons();
+				
+				changeSelectedPanelColor(pnlVisualisation);
+				lblIconVisualisation.setIcon(new ImageIcon(img_visualise_hover));
+				
+				CardLayout card = (CardLayout)pnlInfo.getLayout();
+				card.show(pnlInfo, "pnlVisualisationInfo");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeSelectedPanelColor(pnlVisualisation);
+				lblIconVisualisation.setIcon(new ImageIcon(img_visualise_hover));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (pnlVisualisation != selectedSidePanel) {
+					resetSidePanelsColor(sidePanels);
+					lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
 				}				
 			}
 		});
@@ -729,8 +757,27 @@ public class FrameDashboard extends JFrame {
 		JLabel lblTwitterConsole = new JLabel("Output");
 		lblTwitterConsole.setBounds(37, 523, 82, 23);
 		pnlTwitterInfo.add(lblTwitterConsole);
-
-
+				
+		/* start of visualisation panel*/
+		JPanel pnlVisualisationInfo = new JPanel();
+		pnlVisualisationInfo.setLayout(null);
+		pnlVisualisationInfo.setBackground(SystemColor.controlHighlight);
+		pnlInfo.add(pnlVisualisationInfo, "pnlVisualisationInfo");
+		
+		JLabel lblVisualisationHeader = new JLabel("Data visualisation");
+		lblVisualisationHeader.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblVisualisationHeader.setBounds(37, 19, 384, 40);
+		pnlVisualisationInfo.add(lblVisualisationHeader);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(65, 152, 48, 14);
+		pnlVisualisationInfo.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Ngtregtr");
+		lblNewLabel_1.setBounds(95, 212, 48, 14);
+		pnlVisualisationInfo.add(lblNewLabel_1);
+		/* end of visualisation panel*/
+		
 		this.addSidePanelEvents();
 
 		btnInstagramFile.addMouseListener(new MouseAdapter() {

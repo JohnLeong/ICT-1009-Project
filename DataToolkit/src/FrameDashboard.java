@@ -61,7 +61,10 @@ public class FrameDashboard extends JFrame {
 	private Image img_visualise_hover = new ImageIcon(FrameDashboard.class.getResource("resource/search_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json = new ImageIcon(FrameDashboard.class.getResource("resource/json.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json_hover = new ImageIcon(FrameDashboard.class.getResource("resource/json_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-
+	
+	private Image img_about = new ImageIcon(FrameDashboard.class.getResource("resource/about.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	private Image img_about_hover = new ImageIcon(FrameDashboard.class.getResource("resource/about_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	
 	private JTextField txtInstagramUsername;
 	private JPasswordField txtInstagramPassword;
 	private JTextArea txtInstagramHashtags;
@@ -81,14 +84,16 @@ public class FrameDashboard extends JFrame {
 	private JPanel pnlDisplayJson;
 	private JPanel pnlDataAnalysis;
 	private JPanel pnlVisualisation;
-	private JPanel pnlCredits;
+	private JPanel pnlAbout;
 
 	private JLabel lblInstagramMode; private JLabel lblIconInstagram;
 	private JLabel lblTwitterMode; private JLabel lblIconTwitter;
 	private JLabel lblDisplayJsonMode; private JLabel lblIconJson;
 	private JLabel lblDataAnalysisMode;	private JLabel lblIconDataAnalysis;
 	private JLabel lblVisualisationMode; private JLabel lblIconVisualisation;
-	private JLabel lblCreditsMode; private JLabel lblIconCredits;
+
+	private JLabel lblAbout; private JLabel lblIconAbout;
+
 
 	private JPanel pnlInfo;
 	
@@ -140,7 +145,9 @@ public class FrameDashboard extends JFrame {
 		lblIconJson.setIcon(new ImageIcon(img_json));
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
 		lblIconDataAnalysis.setIcon(new ImageIcon(img_analysis));
-		lblIconCredits.setIcon(new ImageIcon(img_analysis));
+		lblIconAbout.setIcon(new ImageIcon(img_about));
+
+
 	}
 	/**
 	 *Side panel button click events 
@@ -150,8 +157,9 @@ public class FrameDashboard extends JFrame {
 				, pnlTwitter
 				, pnlDisplayJson
 				, pnlDataAnalysis
-				, pnlVisualisation 
-				, pnlCredits};
+				, pnlVisualisation
+				, pnlAbout };
+
 		
 		pnlInstagram.addMouseListener(new MouseAdapter() {
 			@Override
@@ -180,6 +188,9 @@ public class FrameDashboard extends JFrame {
 				
 			}
 		});
+		
+		
+		
 		
 		pnlTwitter.addMouseListener(new MouseAdapter() {
 			@Override
@@ -289,37 +300,41 @@ public class FrameDashboard extends JFrame {
 			}
 		});
 		
-		pnlCredits.addMouseListener(new MouseAdapter() {
+
+		pnlAbout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				selectedSidePanel = pnlCredits;
+				selectedSidePanel = pnlAbout;
 				resetSidePanelsColor(sidePanels);
 				resetAllPanelIcons();
 				
-				changeSelectedPanelColor(pnlCredits);
-				lblIconCredits.setIcon(new ImageIcon(img_visualise_hover));
+				changeSelectedPanelColor(pnlAbout);
+				lblIconAbout.setIcon(new ImageIcon(img_about_hover));
 				
-				CardLayout card = (CardLayout)pnlInfo.getLayout();
-				card.show(pnlInfo, "pnlCreditsInfo");
+				//Change after the panel done
+//				CardLayout card = (CardLayout)pnlInfo.getLayout();
+//				card.show(pnlInfo, "pnlVisualisationInfo");
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				changeSelectedPanelColor(pnlCredits);
-				lblIconCredits.setIcon(new ImageIcon(img_visualise_hover));
+				changeSelectedPanelColor(pnlAbout);
+				lblIconAbout.setIcon(new ImageIcon(img_about_hover));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				if (pnlCredits != selectedSidePanel) {
+				if (pnlAbout != selectedSidePanel) {
 					resetSidePanelsColor(sidePanels);
-					lblIconCredits.setIcon(new ImageIcon(img_visualise));
+					lblIconAbout.setIcon(new ImageIcon(img_about));
 				}				
 			}
 		});
+
 	}
 	/**
 	 * Create the frame.
 	 */
 	public FrameDashboard() {
+//		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1041, 764);
@@ -342,14 +357,14 @@ public class FrameDashboard extends JFrame {
 
 		pnlOptions = new JPanel();
 		pnlOptions.setBackground(new Color(102, 102, 102));
-		pnlOptions.setBounds(0, 133, 236, 753);
+		pnlOptions.setBounds(25, 138, 236, 753);
 		pnlSideMenu.add(pnlOptions);
 		pnlOptions.setLayout(null);
 
 		pnlInstagram = new JPanel();
 		pnlInstagram.setBorder(null);
 		pnlInstagram.setBackground(new Color(51, 51, 51));
-		pnlInstagram.setBounds(0, 0, 236, 53);
+		pnlInstagram.setBounds(0, 43, 236, 53);
 		pnlOptions.add(pnlInstagram);
 		pnlInstagram.setLayout(null);
 
@@ -373,7 +388,7 @@ public class FrameDashboard extends JFrame {
 		pnlTwitter.setLayout(null);
 		pnlTwitter.setBorder(null);
 		pnlTwitter.setBackground(new Color(51, 51, 51));
-		pnlTwitter.setBounds(0, 51, 236, 53);
+		pnlTwitter.setBounds(0, 94, 236, 53);
 		pnlOptions.add(pnlTwitter);
 
 		lblTwitterMode = new JLabel("Twitter");
@@ -396,7 +411,7 @@ public class FrameDashboard extends JFrame {
 		pnlDataAnalysis.setLayout(null);
 		pnlDataAnalysis.setBorder(null);
 		pnlDataAnalysis.setBackground(new Color(51, 51, 51));
-		pnlDataAnalysis.setBounds(0, 154, 236, 53);
+		pnlDataAnalysis.setBounds(0, 197, 236, 53);
 		pnlOptions.add(pnlDataAnalysis);
 
 		lblDataAnalysisMode = new JLabel("Data Analysis");
@@ -419,7 +434,7 @@ public class FrameDashboard extends JFrame {
 		pnlVisualisation.setLayout(null);
 		pnlVisualisation.setBorder(null);
 		pnlVisualisation.setBackground(new Color(51, 51, 51));
-		pnlVisualisation.setBounds(0, 205, 236, 53);
+		pnlVisualisation.setBounds(0, 248, 236, 53);
 		pnlOptions.add(pnlVisualisation);
 
 		lblVisualisationMode = new JLabel("Visualisation");
@@ -436,36 +451,13 @@ public class FrameDashboard extends JFrame {
 		lblIconVisualisation.setBackground(Color.WHITE);
 		lblIconVisualisation.setBounds(18, 7, 39, 41);
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
-		pnlVisualisation.add(lblIconVisualisation);	
-		
-		pnlCredits = new JPanel();
-		pnlCredits.setLayout(null);
-		pnlCredits.setBorder(null);
-		pnlCredits.setBackground(new Color(51, 51, 51));
-		pnlCredits.setBounds(0, 256, 236, 53);
-		pnlOptions.add(pnlCredits);
-		
-		lblCreditsMode = new JLabel("Credits");
-		lblCreditsMode.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCreditsMode.setForeground(Color.WHITE);
-		lblCreditsMode.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblCreditsMode.setBackground(Color.WHITE);
-		lblCreditsMode.setBounds(60, 15, 117, 25);
-		pnlCredits.add(lblCreditsMode);
-
-		lblIconCredits = new JLabel("");
-		lblIconCredits.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconCredits.setForeground(Color.WHITE);
-		lblIconCredits.setBackground(Color.WHITE);
-		lblIconCredits.setBounds(18, 7, 39, 41);
-		lblIconCredits.setIcon(new ImageIcon(img_visualise));
-		pnlCredits.add(lblIconCredits);	
+		pnlVisualisation.add(lblIconVisualisation);
 
 		pnlDisplayJson = new JPanel();
 		pnlDisplayJson.setLayout(null);
 		pnlDisplayJson.setBorder(null);
 		pnlDisplayJson.setBackground(new Color(51, 51, 51));
-		pnlDisplayJson.setBounds(0, 103, 236, 53);
+		pnlDisplayJson.setBounds(0, 146, 236, 53);
 		pnlOptions.add(pnlDisplayJson);
 
 		lblDisplayJsonMode = new JLabel("Display JSON");
@@ -483,6 +475,59 @@ public class FrameDashboard extends JFrame {
 		lblIconJson.setBounds(18, 7, 39, 41);
 		lblIconJson.setIcon(new ImageIcon(img_json));
 		pnlDisplayJson.add(lblIconJson);
+		
+		JPanel pnlFunctionalities = new JPanel();
+		pnlFunctionalities.setLayout(null);
+		pnlFunctionalities.setBorder(null);
+		pnlFunctionalities.setBackground(new Color(51, 51, 51));
+		pnlFunctionalities.setBounds(0, 0, 236, 44);
+		pnlOptions.add(pnlFunctionalities);
+		
+		JLabel lblFunctionalities = new JLabel("Functionalities");
+		lblFunctionalities.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFunctionalities.setForeground(Color.LIGHT_GRAY);
+		lblFunctionalities.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+		lblFunctionalities.setBackground(Color.WHITE);
+		lblFunctionalities.setBounds(12, 10, 117, 25);
+		pnlFunctionalities.add(lblFunctionalities);
+		
+		JPanel pnlInformation = new JPanel();
+		pnlInformation.setLayout(null);
+		pnlInformation.setBorder(null);
+		pnlInformation.setBackground(new Color(51, 51, 51));
+		pnlInformation.setBounds(0, 301, 236, 44);
+		pnlOptions.add(pnlInformation);
+		
+		JLabel lblInformation = new JLabel("Information");
+		lblInformation.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInformation.setForeground(Color.LIGHT_GRAY);
+		lblInformation.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+		lblInformation.setBackground(Color.WHITE);
+		lblInformation.setBounds(12, 10, 93, 25);
+		pnlInformation.add(lblInformation);
+		
+		pnlAbout = new JPanel();
+		pnlAbout.setLayout(null);
+		pnlAbout.setBorder(null);
+		pnlAbout.setBackground(new Color(51, 51, 51));
+		pnlAbout.setBounds(0, 345, 236, 53);
+		pnlOptions.add(pnlAbout);
+		
+		lblAbout = new JLabel("About");
+		lblAbout.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAbout.setForeground(Color.WHITE);
+		lblAbout.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblAbout.setBackground(Color.WHITE);
+		lblAbout.setBounds(58, 15, 97, 25);
+		pnlAbout.add(lblAbout);
+		
+		lblIconAbout = new JLabel("");
+		lblIconAbout.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIconAbout.setForeground(Color.WHITE);
+		lblIconAbout.setBackground(Color.WHITE);
+		lblIconAbout.setBounds(18, 7, 39, 41);
+		lblIconAbout.setIcon(new ImageIcon(img_about));
+		pnlAbout.add(lblIconAbout);
 
 		pnlInfo = new JPanel();
 		pnlInfo.setBackground(SystemColor.controlHighlight);

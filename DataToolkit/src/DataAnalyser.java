@@ -16,7 +16,6 @@ public class DataAnalyser {
 			data = new JSONObject(JSONUtility.parseJSONToString(filePath)) ;
 		}
 		catch (Exception e) {
-			System.out.print("FDDSFSDFSD");
 			throw new Exception("Unable to read file");
 		}
 		

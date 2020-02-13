@@ -882,6 +882,11 @@ public class FrameDashboard extends JFrame {
 						, txtTwitterHashtags.getText()
 						, numPosts
 						, exportPath);
+//				ReturnCode result = scrapper.scrapeByProfiles("nil"
+//						, "nil"
+//						, txtTwitterHashtags.getText()
+//						, numPosts
+//						, exportPath);
 				txaTwitterConsole.append("*" + result.getDescription());
 			}
 		});

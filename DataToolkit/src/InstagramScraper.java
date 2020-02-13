@@ -394,6 +394,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		return ReturnCode.SUCCESS;
 	}
 
+	@Override
 	public ReturnCode scrapeByProfiles(final String loginId, final String loginPassword,
 			final String joinedProfileNames, final long numberOfPosts, final String savePath) {
 		if (!loginProcess(loginId, loginPassword)) { 
@@ -460,7 +461,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 
 				posts.put(post);
 			}
-			profile.put("posts", posts);
+			profile.put("extracted_posts", posts);
 			profiles.put(profile);
 		}
 

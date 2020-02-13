@@ -22,6 +22,20 @@ public class ScrapeUtility implements JSONFileWriter {
 	}
 	
 	/**
+	 * Launches the scraping procedure. Looks for posts with the given hashtag and retrieves their data.
+	 * @param loginId			Login credentials
+	 * @param loginPassword		Login credentials
+	 * @param joinedProfileNames	A string of appended profile names seperated by a space
+	 * @param numberOfPosts 	Max number of posts details to scrape
+	 * @param savePath			Export JSON file path
+	 * @return					Returns 0 is the procedure is successful
+	 */
+	public ReturnCode scrapeByProfiles(final String loginId, final String loginPassword,
+			final String joinedProfileNames, final long numberOfPosts, final String savePath) {
+		return ReturnCode.SUCCESS;
+	}
+	
+	/**
 	 * 
 	 * @param obj		The json object containing the data to write
 	 * @param savePath	The file path to save the new file to

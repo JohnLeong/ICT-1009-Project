@@ -87,7 +87,7 @@ public class TwitterScraper extends ScrapeUtility{
 		JSONObject results = new JSONObject();
 		results.put("platform", "twitter");
 		results.put("scrape_mode", "hashtags");
-		results.put("hash_tags_details", allHashTagsDetails);
+		results.put("details", allHashTagsDetails);
 		
 		exportJsonObjToFolder(results, savePath);
 		
@@ -163,7 +163,7 @@ public class TwitterScraper extends ScrapeUtility{
 		JSONObject results = new JSONObject();
 		results.put("platform", "twitter");
 		results.put("scrape_mode", "profiles");
-		results.put("profiles_details", allHashTagsDetails);
+		results.put("details", allHashTagsDetails);
 		
 		exportJsonObjToFolder(results, savePath);
 		

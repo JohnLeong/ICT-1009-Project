@@ -386,7 +386,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		JSONObject results = new JSONObject();
 		results.put("platform", "instagram");
 		results.put("scrape_mode", "hashtags");
-		results.put("hash_tags_details", allHashTagsDetails);
+		results.put("details", allHashTagsDetails);
 
 		super.exportJsonObjToFolder(results, savePath);
 		super.driver.quit();
@@ -468,7 +468,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		JSONObject results = new JSONObject();
 		results.put("platform", "instagram");
 		results.put("scrape_mode", "profiles");
-		results.put("profiles_details", profiles);
+		results.put("details", profiles);
 
 		super.exportJsonObjToFolder(results, savePath);
 		super.driver.quit();

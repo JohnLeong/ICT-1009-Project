@@ -40,12 +40,10 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.json.JSONException;
+
 public class FrameDashboard extends JFrame {
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
@@ -58,12 +56,16 @@ public class FrameDashboard extends JFrame {
 	private Image img_twitter_hover = new ImageIcon(FrameDashboard.class.getResource("resource/twitter_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_analysis = new ImageIcon(FrameDashboard.class.getResource("resource/eye.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_analysis_hover = new ImageIcon(FrameDashboard.class.getResource("resource/eye_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	private Image img_visualise = new ImageIcon(FrameDashboard.class.getResource("resource/search.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	private Image img_visualise_hover = new ImageIcon(FrameDashboard.class.getResource("resource/search_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	private Image img_visualise = new ImageIcon(FrameDashboard.class.getResource("resource/report.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	private Image img_visualise_hover = new ImageIcon(FrameDashboard.class.getResource("resource/report_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json = new ImageIcon(FrameDashboard.class.getResource("resource/json.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json_hover = new ImageIcon(FrameDashboard.class.getResource("resource/json_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	
 	private Image img_about = new ImageIcon(FrameDashboard.class.getResource("resource/about.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_about_hover = new ImageIcon(FrameDashboard.class.getResource("resource/about_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	private Image img_ocr = new ImageIcon(FrameDashboard.class.getResource("resource/ocr1.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	private Image img_ocr_hover = new ImageIcon(FrameDashboard.class.getResource("resource/ocr_hover1.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	
 	private Image img_javaLogo = new ImageIcon(FrameDashboard.class.getResource("resource/java_logo.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
 	private Image img_jSoup = new ImageIcon(FrameDashboard.class.getResource("resource/jsoup.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
 	private Image img_javaSwing = new ImageIcon(FrameDashboard.class.getResource("resource/javaSwing.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
@@ -71,6 +73,9 @@ public class FrameDashboard extends JFrame {
 	private Image img_standford = new ImageIcon(FrameDashboard.class.getResource("resource/standfordCoreNlp.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
 	private Image img_twitter4j = new ImageIcon(FrameDashboard.class.getResource("resource/twitter4j.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
 	private Image img_maven = new ImageIcon(FrameDashboard.class.getResource("resource/maven.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
+	
+	
+	
 	
 	private JTextField txtInstagramUsername;
 	private JPasswordField txtInstagramPassword;
@@ -93,6 +98,7 @@ public class FrameDashboard extends JFrame {
 	private JPanel pnlDataAnalysis;
 	private JPanel pnlVisualisation;
 	private JPanel pnlAbout;
+	private JPanel pnlOcr;
 
 	private JLabel lblInstagramMode; private JLabel lblIconInstagram;
 	private JLabel lblTwitterMode; private JLabel lblIconTwitter;
@@ -101,7 +107,8 @@ public class FrameDashboard extends JFrame {
 	private JLabel lblVisualisationMode; private JLabel lblIconVisualisation;
 
 	private JLabel lblAbout; private JLabel lblIconAbout;
-
+	
+	private JLabel lblOcr; private JLabel lblIconOcr;
 
 	private JPanel pnlInfo;
 	
@@ -156,6 +163,7 @@ public class FrameDashboard extends JFrame {
 		lblIconVisualisation.setIcon(new ImageIcon(img_visualise));
 		lblIconDataAnalysis.setIcon(new ImageIcon(img_analysis));
 		lblIconAbout.setIcon(new ImageIcon(img_about));
+		lblIconOcr.setIcon(new ImageIcon(img_ocr));
 
 
 	}
@@ -168,6 +176,7 @@ public class FrameDashboard extends JFrame {
 				, pnlDisplayJson
 				, pnlDataAnalysis
 				, pnlVisualisation
+				, pnlOcr
 				, pnlAbout };
 
 		
@@ -198,10 +207,6 @@ public class FrameDashboard extends JFrame {
 				
 			}
 		});
-		
-		
-		
-		
 		pnlTwitter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -310,6 +315,34 @@ public class FrameDashboard extends JFrame {
 			}
 		});
 		
+		pnlOcr.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				selectedSidePanel = pnlOcr;
+				resetSidePanelsColor(sidePanels);
+				resetAllPanelIcons();
+				
+				changeSelectedPanelColor(pnlOcr);
+				lblIconOcr.setIcon(new ImageIcon(img_ocr_hover));
+				
+				CardLayout card = (CardLayout)pnlInfo.getLayout();
+				card.show(pnlInfo, "pnlOcrInfo");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeSelectedPanelColor(pnlOcr);
+				lblIconOcr.setIcon(new ImageIcon(img_ocr_hover));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (pnlOcr != selectedSidePanel) {
+					resetSidePanelsColor(sidePanels);
+					lblIconOcr.setIcon(new ImageIcon(img_ocr));
+				}				
+			}
+		});
+		
+		
 
 		pnlAbout.addMouseListener(new MouseAdapter() {
 			@Override
@@ -360,13 +393,13 @@ public class FrameDashboard extends JFrame {
 		pnlSideMenu.setLayout(null);
 
 		lblIconSit = new JLabel("");
-		lblIconSit.setBounds(15, 19, 205, 86);
+		lblIconSit.setBounds(12, 33, 205, 86);
 		lblIconSit.setIcon(new ImageIcon(img_logo));
 		pnlSideMenu.add(lblIconSit);
 
 		pnlOptions = new JPanel();
 		pnlOptions.setBackground(new Color(102, 102, 102));
-		pnlOptions.setBounds(25, 138, 236, 753);
+		pnlOptions.setBounds(0, 138, 261, 753);
 		pnlSideMenu.add(pnlOptions);
 		pnlOptions.setLayout(null);
 
@@ -504,7 +537,7 @@ public class FrameDashboard extends JFrame {
 		pnlInformation.setLayout(null);
 		pnlInformation.setBorder(null);
 		pnlInformation.setBackground(new Color(51, 51, 51));
-		pnlInformation.setBounds(0, 301, 236, 44);
+		pnlInformation.setBounds(0, 351, 236, 44);
 		pnlOptions.add(pnlInformation);
 		
 		JLabel lblInformation = new JLabel("Information");
@@ -519,7 +552,7 @@ public class FrameDashboard extends JFrame {
 		pnlAbout.setLayout(null);
 		pnlAbout.setBorder(null);
 		pnlAbout.setBackground(new Color(51, 51, 51));
-		pnlAbout.setBounds(0, 345, 236, 53);
+		pnlAbout.setBounds(0, 395, 236, 53);
 		pnlOptions.add(pnlAbout);
 		
 		lblAbout = new JLabel("About");
@@ -527,7 +560,7 @@ public class FrameDashboard extends JFrame {
 		lblAbout.setForeground(Color.WHITE);
 		lblAbout.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblAbout.setBackground(Color.WHITE);
-		lblAbout.setBounds(58, 15, 97, 25);
+		lblAbout.setBounds(65, 15, 97, 25);
 		pnlAbout.add(lblAbout);
 		
 		lblIconAbout = new JLabel("");
@@ -537,10 +570,33 @@ public class FrameDashboard extends JFrame {
 		lblIconAbout.setBounds(18, 7, 39, 41);
 		lblIconAbout.setIcon(new ImageIcon(img_about));
 		pnlAbout.add(lblIconAbout);
+		
+		pnlOcr = new JPanel();
+		pnlOcr.setLayout(null);
+		pnlOcr.setBorder(null);
+		pnlOcr.setBackground(new Color(51, 51, 51));
+		pnlOcr.setBounds(0, 297, 236, 53);
+		pnlOptions.add(pnlOcr);
+		
+		lblOcr = new JLabel("Image OCR");
+		lblOcr.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOcr.setForeground(Color.WHITE);
+		lblOcr.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblOcr.setBackground(Color.WHITE);
+		lblOcr.setBounds(50, 17, 137, 25);
+		pnlOcr.add(lblOcr);
+		
+		lblIconOcr = new JLabel("");
+		lblIconOcr.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIconOcr.setForeground(Color.WHITE);
+		lblIconOcr.setBackground(Color.WHITE);
+		lblIconOcr.setBounds(18, 7, 39, 41);
+		lblIconOcr.setIcon(new ImageIcon(img_ocr));
+		pnlOcr.add(lblIconOcr);
 
 		pnlInfo = new JPanel();
 		pnlInfo.setBackground(SystemColor.controlHighlight);
-		pnlInfo.setBounds(236, 0, 799, 721);
+		pnlInfo.setBounds(236, 0, 799, 749);
 		pnlInfo.setLayout(new CardLayout(0, 0));
 		contentPane.add(pnlInfo);
 		//CardLayout cardInfo = (CardLayout)pnlInfo.getLayout();
@@ -688,7 +744,7 @@ public class FrameDashboard extends JFrame {
 		pnlDisplayJsonInfo.setBackground(SystemColor.controlHighlight);
 		pnlInfo.add(pnlDisplayJsonInfo, "pnlDisplayDataInfo");
 
-		JLabel lblDataDisplayHeader = new JLabel("Data display header here");
+		JLabel lblDataDisplayHeader = new JLabel("Display JSON");
 		lblDataDisplayHeader.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblDataDisplayHeader.setBounds(37, 19, 384, 40);
 		pnlDisplayJsonInfo.add(lblDataDisplayHeader);
@@ -721,9 +777,9 @@ public class FrameDashboard extends JFrame {
 		pnlDataAnalysisInfo.setBackground(SystemColor.controlHighlight);
 		pnlInfo.add(pnlDataAnalysisInfo, "pnlDataAnalysisInfo");
 
-		JLabel lblDataAnalysisHeader = new JLabel("Data analysis header here");
+		JLabel lblDataAnalysisHeader = new JLabel("Data Analysis");
 		lblDataAnalysisHeader.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblDataAnalysisHeader.setBounds(37, 19, 384, 40);
+		lblDataAnalysisHeader.setBounds(37, 19, 507, 40);
 		pnlDataAnalysisInfo.add(lblDataAnalysisHeader);
 		
 		JLabel lblDataAnalysisNumPosts = new JLabel("Number of posts : ");
@@ -964,6 +1020,67 @@ public class FrameDashboard extends JFrame {
 		
 		
 		/* end of about panel*/
+		
+		
+		
+		
+		
+		
+		JPanel pnlOcrInfo = new JPanel();
+		pnlOcrInfo.setLayout(null);
+		pnlOcrInfo.setBackground(SystemColor.controlHighlight);
+		pnlInfo.add(pnlOcrInfo, "pnlOcrInfo");
+		
+		JLabel lblOcrHeader = new JLabel("Optimal Character Recognition");
+		lblOcrHeader.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblOcrHeader.setBounds(37, 19, 583, 40);
+		pnlOcrInfo.add(lblOcrHeader);	
+		
+		JButton btnOcrSelectJson = new JButton("Select file");
+		
+		
+		
+		btnOcrSelectJson.setBounds(37, 254, 131, 29);
+		pnlOcrInfo.add(btnOcrSelectJson);
+		
+		JLabel lblOcrJsonFilePath = new JLabel("File loaded: none");
+		lblOcrJsonFilePath.setFont(new Font("Tahoma", Font.ITALIC, 14));
+		lblOcrJsonFilePath.setBounds(37, 218, 707, 23);
+		pnlOcrInfo.add(lblOcrJsonFilePath);
+		
+		JLabel lblOcrJsonFileLocation = new JLabel("File location");
+		lblOcrJsonFileLocation.setBounds(37, 193, 133, 23);
+		pnlOcrInfo.add(lblOcrJsonFileLocation);
+		
+		JLabel lblOcrDescription = new JLabel("<html>*This function is currently only compatible with <font color='red'>Instagram </font>scraped Data. For every post in the JSON file, an ocr_text field will be appended to it whenever text extraction is possible. </html>");
+		lblOcrDescription.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOcrDescription.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		lblOcrDescription.setBounds(37, 64, 688, 96);
+		pnlOcrInfo.add(lblOcrDescription);
+		
+		JButton btnAppendOcr = new JButton("Execute");
+		btnAppendOcr.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (lblOcrJsonFilePath.getText() == "File loaded: none") {
+					msgbox("Please choose JSON file before executing\n");
+				} else {
+					try {
+						OCRUtility ocr = new OCRUtility();
+						String filePath = lblOcrJsonFilePath.getText().replace("File loaded: ", "");
+						long res = ocr.parseJsonAndAppendImageText(filePath);
+						System.out.println(res);
+						msgbox(res + " text images has appended to JSON file.\n");
+					} catch (JSONException | IOException e1) {
+						e1.printStackTrace();
+						msgbox("Error reading JSON file.\n");
+					}
+				}
+			}
+		});
+		btnAppendOcr.setBounds(37, 300, 197, 47);
+		pnlOcrInfo.add(btnAppendOcr);
+		/* end of credits panel*/
 		
 		this.addSidePanelEvents();
 
@@ -1252,6 +1369,22 @@ public class FrameDashboard extends JFrame {
 
 			}
 		});
+		
+		btnOcrSelectJson.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				JFileChooser chooser = new JFileChooser();
+				chooser.setFileFilter(new FileNameExtensionFilter("Data files", "JSON", "json", "txt", "TXT"));
+				// optionally set chooser options ...
+				int returnVal = chooser.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = chooser.getSelectedFile();
+					lblOcrJsonFilePath.setText("File loaded: " + chooser.getSelectedFile().getAbsolutePath());
+					
+				}
+			}
+		});
+		
 		
 		lblWordmap.addMouseListener(new MouseAdapter() {
 			@Override

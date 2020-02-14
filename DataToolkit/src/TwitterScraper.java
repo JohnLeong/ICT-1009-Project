@@ -53,7 +53,9 @@ public class TwitterScraper extends ScrapeUtility{
 				JSONArray commentsList = new JSONArray();
 				allPosts.put(post);
 				post.put("posted_by", tweet.getUser().getName());
-				post.put("caption", tweet.getText()); 
+				post.put("caption", DataCleansing
+						.dataCleanse(tweet.getText())
+						); 
 				post.put("no_of_likes", tweet.getFavoriteCount());
 				post.put("no_of_retweets", tweet.getRetweetCount());
 				post.put("date_time", tweet.getCreatedAt().toString());
@@ -68,7 +70,9 @@ public class TwitterScraper extends ScrapeUtility{
 		                if (reply.getInReplyToStatusId() == tweet.getId()) {
 		                	JSONObject comment = new JSONObject();
 		                	comment.put("user", reply.getUser().getName()); 
-		    				comment.put("desc", reply.getText());
+		    				comment.put("desc", DataCleansing.dataCleanse(
+		    						reply.getText())
+		    						);
 		                	commentsList.put(comment);
 		                }
 		            }
@@ -129,7 +133,7 @@ public class TwitterScraper extends ScrapeUtility{
 				JSONArray commentsList = new JSONArray();
 				allPosts.put(post);
 				post.put("posted_by", tweet.getUser().getName());
-				post.put("caption", tweet.getText()); 
+				post.put("caption", DataCleansing.dataCleanse(tweet.getText())); 
 				post.put("no_of_likes", tweet.getFavoriteCount());
 				post.put("no_of_retweets", tweet.getRetweetCount());
 				post.put("date_time", tweet.getCreatedAt().toString());
@@ -144,7 +148,7 @@ public class TwitterScraper extends ScrapeUtility{
 		                if (reply.getInReplyToStatusId() == tweet.getId()) {
 		                	JSONObject comment = new JSONObject();
 		                	comment.put("user", reply.getUser().getName()); 
-		    				comment.put("desc", reply.getText());
+		    				comment.put("desc", DataCleansing.dataCleanse(reply.getText()));
 		                	commentsList.put(comment);
 		                }
 		            }

@@ -21,7 +21,6 @@ import org.json.*;
 
 /**
  * @author PatrickNigga
- * @Version 1.0
  */
 public class InstagramScraper extends ScrapeUtilityWebDriver implements InstagramDryScraping {
 	private final int TIMEOUT_PAGE_DURA = 20;
@@ -65,7 +64,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 	public InstagramScraper(String defaultURL) {
 		super(defaultURL);
 	}
-		
+
 	private boolean hashTagPageIsAvailable(String hashTagUrl) {
 		WebElement e = super.safeGetWebElement(CSS_VALID_PAGE_DIV, TIMEOUT_PAGE_LOAD);
 		return e != null;
@@ -261,16 +260,21 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 					.findElements(By.cssSelector(CSS_POST_COMMENTS));
 
 			post.put("caption",commentElements.size() > 0 ? 
-					commentElements.get(0).findElement(By.tagName("span")).getText() :
+					DataCleansing
+					.dataCleanse(commentElements
+							.get(0)
+							.findElement(By.tagName("span"))
+							.getText()
+							) :
 					"None"); 
 
 			for (int i = 1; i < commentElements.size(); ++i) {
 				JSONObject comment = new JSONObject();
 				/* Update below if Instagram changes how their elements are displayed */
 				comment.put("user", commentElements.get(i).findElement(By.tagName("a")).getAttribute("title")); 
-				comment.put("desc", StringConverter
+				comment.put("desc", DataCleansing.dataCleanse(StringConverter
 						.convertUnicodeToUTF8(commentElements.get(i)
-								.findElement(By.tagName("span")).getText()));
+								.findElement(By.tagName("span")).getText())));
 				comments.put(comment);
 			}		
 			post.put("comments", comments);
@@ -369,13 +373,13 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			hashTagPageDetails.put("hash_tag", hashTags[i]);
 			hashTagPageDetails.put("total_posts", this.getNumOfPostsInPage());
 
-
 			ArrayList<String> hashTagPostsSubUrl = getHashTagPostsSubUrl(numberOfPosts);
 			JSONArray posts = new JSONArray();
-			
+
 			for (int j = 0; j < hashTagPostsSubUrl.size(); ++j) {
 				String postUrl = "https://www.instagram.com" + hashTagPostsSubUrl.get(j);
-				FrameDashboard.appendInstagramConsole("*Scraping posts in:" + postUrl + "\n");
+				System.out.println("*Scraping posts in:" + postUrl);
+//				FrameDashboard.appendInstagramConsole("*Scraping posts in:" + postUrl + "\n");
 				posts.put(scrapePostDetails(postUrl));
 			}			
 
@@ -390,7 +394,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 
 		super.exportJsonObjToFolder(results, savePath);
 		super.driver.quit();
-		
+
 		return ReturnCode.SUCCESS;
 	}
 
@@ -411,7 +415,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		/* Iterate all the list of profiles and append into JSON. */
 
 		JSONArray profiles = new JSONArray(); 
-		
+
 		String[] profileNames = joinedProfileNames.split(DELIM_PROFILES_NAME);
 		String postLink;
 		List<String> profilePostsSubUrl;
@@ -436,15 +440,15 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			}
 
 			profile.put("profile_name", profileNames[i]);
-			profile.put("profile_description", StringConverter.
-					convertUnicodeToUTF8(getProfileDescription()));
+			profile.put("profile_description", DataCleansing.dataCleanse(StringConverter.
+					convertUnicodeToUTF8(getProfileDescription())));
 			profile.put("no_of_posts", getNumOfPostsInProfilePage());
 			profile.put("no_of_followers", getNumOfFollowersInProfilePage());
 			profile.put("no_of_following", getNumOfFollowingInProfilePage());
 
 			System.out.println("BeforeGetSuburls");
 			profilePostsSubUrl = getProfilePostSubUrl(numberOfPosts);
-			
+
 			for (String subUrl : profilePostsSubUrl) {
 				JSONObject post  = new JSONObject();
 				postLink = "https://www.instagram.com" + subUrl;
@@ -458,7 +462,6 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 				post.put("no_of_comments", InstagramDryScraping.super.getNumberOfComments(postLink));
 				post.put("is_video", InstagramDryScraping.super.getIsVideo(postLink));
 				post.put("no_of_video_views", InstagramDryScraping.super.getNumberOfVideoViews(postLink));
-
 				posts.put(post);
 			}
 			profile.put("extracted_posts", posts);

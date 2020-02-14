@@ -14,11 +14,13 @@ public class Main {
 		//Usage of OCR here
 //		OCRUtility ocr = new OCRUtility();
 //		try {
-//			ocr.parseJsonAndAppendImageText("C:\\Users\\User\\Desktop\\JSON Exports\\06-02-2020_03-53-27.txt");
+//			long res = ocr.parseJsonAndAppendImageText("C:\\Users\\User\\Desktop\\JSON Exports\\15-02-2020_01-58-46.txt");
+//			System.out.println("Done");
+//			System.out.println(res);
 //		} catch (JSONException | IOException e) {
 //			e.printStackTrace();
 //		}
-//		System.out.println("Done");
+		
 	}
 
 }

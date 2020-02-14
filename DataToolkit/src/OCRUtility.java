@@ -65,42 +65,30 @@ public class OCRUtility {
 	 * @throws IOException 		Unable to read bytes from JSON File or get JSONString output
 	 * @throws JSONException 	Unable to parse JSON Object
 	 */
-	public void parseJsonAndAppendImageText(String jsonFilePath) throws JSONException, IOException {
+	public long parseJsonAndAppendImageText(String jsonFilePath) throws JSONException, IOException {
+		long numberOfImagesText = 0;
 		JSONObject obj = new JSONObject(JSONUtility.parseJSONToString(jsonFilePath));
 		
-		String resultsNaming;
-		switch (obj.getString("scrape_mode")) {
-			
-			case "mode_instagram_hash_tags":
-				resultsNaming = "hash_tags_details";
-				break;
-			case "mode_instagram_profiles":
-				resultsNaming = "profiles_details";
-				break;
-			default:
-				resultsNaming = "None";
-				break;
-		} 
-		
-		//Try change to throw invalid JSON Type
-		if (resultsNaming == "None") { return; }
-		JSONArray allDetails = obj.getJSONArray(resultsNaming);
+		JSONArray allDetails = obj.getJSONArray("details");
 		for (int i = 0; i < allDetails.length(); ++i) {
-			JSONArray posts = allDetails.getJSONObject(i).getJSONArray("posts");
+			JSONArray posts = allDetails.getJSONObject(i).getJSONArray("extracted_posts");
 			if (posts.length() == 0) {
 				continue;
 			} else {				
 				for (int j = 0; j < posts.length(); ++j) {
 					JSONObject post = posts.getJSONObject(j);
 					System.out.println("img_url: " + post.getString("display_image_url"));
-					String ocrText = getOCRTextFromURL(post.getString("display_image_url"));
+					String ocrText = DataCleansing
+							.dataCleanse(getOCRTextFromURL(post.getString("display_image_url")));
 					post.put("img_ocr_text", ocrText);
+					numberOfImagesText += 1;
 					System.out.println("Successfully OCRed: " + ocrText);					
 				}
 			}
 		}
 		JSONUtility jsonUtility = new JSONUtility();
 		jsonUtility.exportJsonObjToFile(obj, jsonFilePath); //Replace the current one.
-				
+		
+		return numberOfImagesText;
 	}
 }

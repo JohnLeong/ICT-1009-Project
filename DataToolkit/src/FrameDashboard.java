@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import java.awt.Color;
+import java.awt.Desktop;
+
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JLabel;
@@ -99,6 +101,8 @@ public class FrameDashboard extends JFrame {
 	
 	private JPanel selectedSidePanel;
 	private JTable tableDataAnalysisRelatedHashtags;
+	
+	private boolean wordmapGenerated = false;
 	
 	/**
 	 * Launch the application.
@@ -796,6 +800,12 @@ public class FrameDashboard extends JFrame {
 		JButton btnDataAnalysisSelectFile = new JButton("Select file");
 		btnDataAnalysisSelectFile.setBounds(18, 145, 131, 29);
 		pnlDataAnalysisInfo.add(btnDataAnalysisSelectFile);
+		
+		JLabel lblDataAnalysisView = new JLabel("Click image to view");
+		lblDataAnalysisView.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDataAnalysisView.setBounds(526, 623, 256, 23);
+		pnlDataAnalysisInfo.add(lblDataAnalysisView);
+		lblDataAnalysisView.setVisible(false);
 
 		/* start of twitter panel */
 		JPanel pnlTwitterInfo = new JPanel();
@@ -1212,9 +1222,10 @@ public class FrameDashboard extends JFrame {
 
 						Image wordMapImg = new ImageIcon(Paths.get("").toAbsolutePath().toString() + "/wordmap.png").getImage().getScaledInstance(256, 256, Image.SCALE_SMOOTH);
 						lblWordmap.setIcon(new ImageIcon(wordMapImg));
+						lblDataAnalysisView.setVisible(true);
+						wordmapGenerated = true;
 						
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						msgbox("Unable to load file\n");
 						e.printStackTrace();
 					}
@@ -1222,6 +1233,21 @@ public class FrameDashboard extends JFrame {
 				}
 
 
+			}
+		});
+		
+		lblWordmap.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (!wordmapGenerated)
+					return;
+				try {
+					Desktop dsk = Desktop.getDesktop();
+					dsk.open(new File(Paths.get("").toAbsolutePath().toString() + "/wordmap.png"));
+				} catch (Exception e) {
+					msgbox("Unable to view wordmap\n");
+					e.printStackTrace();
+				}
 			}
 		});
 	}

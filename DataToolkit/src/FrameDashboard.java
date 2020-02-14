@@ -19,7 +19,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,6 +73,7 @@ public class FrameDashboard extends JFrame {
 
 	private String exportPath = "";
 	private JTextField txtTwitterNumPosts;
+	private JTextField txtTwitterNumPostsProfile;
 	private JTextField txtProfileNumberOfPosts;
 
 	private JLabel lblIconSit;
@@ -797,14 +797,19 @@ public class FrameDashboard extends JFrame {
 		btnDataAnalysisSelectFile.setBounds(18, 145, 131, 29);
 		pnlDataAnalysisInfo.add(btnDataAnalysisSelectFile);
 
+		/* start of twitter panel */
 		JPanel pnlTwitterInfo = new JPanel();
 		pnlTwitterInfo.setLayout(null);
 		pnlTwitterInfo.setBackground(SystemColor.controlHighlight);
 		pnlInfo.add(pnlTwitterInfo, "pnlTwitterInfo");
 
-		JButton btnTwitterScrape = new JButton("Launch twitter scraper");
-		btnTwitterScrape.setBounds(37, 397, 252, 31);
+		JButton btnTwitterScrape = new JButton("Scrape by hashtags");
+		btnTwitterScrape.setBounds(425, 269, 252, 31);
 		pnlTwitterInfo.add(btnTwitterScrape);
+		
+		JButton btnTwitterScrapeProfile = new JButton("Scrape by profiles");
+		btnTwitterScrapeProfile.setBounds(425, 423, 252, 31);
+		pnlTwitterInfo.add(btnTwitterScrapeProfile);
 
 		JLabel headerTwitterPanel = new JLabel("Twitter Scraper");
 		headerTwitterPanel.setFont(new Font("Tahoma", Font.BOLD, 30));
@@ -812,46 +817,77 @@ public class FrameDashboard extends JFrame {
 		pnlTwitterInfo.add(headerTwitterPanel);
 
 		JLabel lblTwitterHashtags = new JLabel("Hashtags");
-		lblTwitterHashtags.setBounds(37, 78, 82, 23);
+		lblTwitterHashtags.setLocation(37, 191);
+		lblTwitterHashtags.setSize(100, 20);
 		pnlTwitterInfo.add(lblTwitterHashtags);
+		
+		JLabel lblTwitterProfiles = new JLabel("Profiles");
+		lblTwitterProfiles.setLocation(37, 345);
+		lblTwitterProfiles.setSize(100, 20);
+		pnlTwitterInfo.add(lblTwitterProfiles);
 
 		JTextArea txtTwitterHashtags = new JTextArea();
 		txtTwitterHashtags.setRows(3);
 		txtTwitterHashtags.setLineWrap(true);
 		txtTwitterHashtags.setColumns(10);
-		txtTwitterHashtags.setBounds(0, 0, 348, 78);
+		txtTwitterHashtags.setBounds(223, 370, 348, 78);
 		pnlTwitterInfo.add(txtTwitterHashtags);
+		
+		JTextArea txtTwitterProfiles = new JTextArea();
+		txtTwitterProfiles.setRows(3);
+		txtTwitterProfiles.setLineWrap(true);
+		txtTwitterProfiles.setColumns(10);
+		txtTwitterProfiles.setBounds(223, 370, 348, 78);
+		pnlTwitterInfo.add(txtTwitterProfiles);
 
 		JScrollPane scrollPaneTwitterHashTags = new JScrollPane(txtTwitterHashtags);
-		scrollPaneTwitterHashTags.setBounds(38, 107, 350, 80);
+		scrollPaneTwitterHashTags.setBounds(38, 220, 350, 80);
 		pnlTwitterInfo.add(scrollPaneTwitterHashTags);
+		
+		JScrollPane scrollPaneTwitterProfiles = new JScrollPane(txtTwitterProfiles);
+		scrollPaneTwitterProfiles.setBounds(38, 374, 350, 80);
+		pnlTwitterInfo.add(scrollPaneTwitterProfiles);
 
 		JLabel lblTwitterExport = new JLabel("Export location");
-		lblTwitterExport.setBounds(37, 201, 133, 23);
+		lblTwitterExport.setBounds(37, 64, 133, 23);
 		pnlTwitterInfo.add(lblTwitterExport);
 
 		JLabel lblTwitterNumPosts = new JLabel("Number of posts");
-		lblTwitterNumPosts.setBounds(443, 78, 194, 23);
+		lblTwitterNumPosts.setBounds(425, 190, 194, 23);
 		pnlTwitterInfo.add(lblTwitterNumPosts);
 
 		JLabel lblTwitterExportPath = new JLabel("Path: none");
 		lblTwitterExportPath.setFont(new Font("Tahoma", Font.ITALIC, 14));
-		lblTwitterExportPath.setBounds(37, 226, 707, 23);
+		lblTwitterExportPath.setBounds(37, 89, 707, 23);
 		pnlTwitterInfo.add(lblTwitterExportPath);
 
 		JButton btnTwitterFile = new JButton("Select path");
-		btnTwitterFile.setBounds(37, 254, 131, 29);
+		btnTwitterFile.setBounds(37, 117, 131, 29);
 		pnlTwitterInfo.add(btnTwitterFile);
 		
 		JLabel lblHashtagModeTwitter = new JLabel("HashTag Mode");
 		lblHashtagModeTwitter.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblHashtagModeTwitter.setBounds(42, 0, 300, 40);
+		lblHashtagModeTwitter.setBounds(37, 152, 300, 40);
 		pnlTwitterInfo.add(lblHashtagModeTwitter);
+		
+		JLabel lblProfileModeTwitter = new JLabel("Profile Mode");
+		lblProfileModeTwitter.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblProfileModeTwitter.setBounds(37, 310, 300, 40);
+		pnlTwitterInfo.add(lblProfileModeTwitter);
+		
+		JLabel lblTwitterNumPosts_1 = new JLabel("Number of posts");
+		lblTwitterNumPosts_1.setBounds(425, 344, 194, 23);
+		pnlTwitterInfo.add(lblTwitterNumPosts_1);
 
 		txtTwitterNumPosts = new JTextField();
 		txtTwitterNumPosts.setColumns(10);
-		txtTwitterNumPosts.setBounds(443, 105, 88, 29);
+		txtTwitterNumPosts.setBounds(425, 215, 88, 29);
 		pnlTwitterInfo.add(txtTwitterNumPosts);
+		
+		txtTwitterNumPostsProfile = new JTextField();
+		txtTwitterNumPostsProfile.setColumns(10);
+		txtTwitterNumPostsProfile.setBounds(425, 370, 88, 29);
+		pnlTwitterInfo.add(txtTwitterNumPostsProfile);
 
 		txaTwitterConsole = new JTextArea();
 		txaTwitterConsole.setRows(4);
@@ -1043,9 +1079,6 @@ public class FrameDashboard extends JFrame {
 					return;
 				}
 
-				//Check for hashtags
-				//String[] hashTags = txtTwitterHashtags.getText().split("\\s+");
-
 				txaTwitterConsole.append("*Scraping for hashtags: " + txtTwitterHashtags.getText() + "\n");
 				ScrapeUtility scrapper = new TwitterScraper("test");
 				ReturnCode result = scrapper.scrapeByHashTags("nil"
@@ -1053,11 +1086,35 @@ public class FrameDashboard extends JFrame {
 						, txtTwitterHashtags.getText()
 						, numPosts
 						, exportPath);
-//				ReturnCode result = scrapper.scrapeByProfiles("nil"
-//						, "nil"
-//						, txtTwitterHashtags.getText()
-//						, numPosts
-//						, exportPath);
+				txaTwitterConsole.append("*" + result.getDescription());
+			}
+		});
+		btnTwitterScrapeProfile.addMouseListener(new MouseAdapter() {
+			@Override		
+			public void mouseClicked(MouseEvent arg0) {
+				//Check for valid fields
+				if(exportPath.length() < 1) {
+					txaTwitterConsole.append("*Please choose an export path\n");
+					return;				
+				}
+
+				//Check for number of posts
+				int numPosts;
+				try {
+					numPosts = Integer.parseInt(txtTwitterNumPostsProfile.getText());
+				}
+				catch (Exception e) {
+					txaTwitterConsole.append("*Invalid amount of posts to scrape\n");
+					return;
+				}
+
+				txaTwitterConsole.append("*Scraping for profiles: " + txtTwitterProfiles.getText() + "\n");
+				ScrapeUtility scrapper = new TwitterScraper("test");
+				ReturnCode result = scrapper.scrapeByProfiles("nil"
+						, "nil"
+						, txtTwitterProfiles.getText()
+						, numPosts
+						, exportPath);
 				txaTwitterConsole.append("*" + result.getDescription());
 			}
 		});

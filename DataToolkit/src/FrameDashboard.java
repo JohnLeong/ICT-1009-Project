@@ -62,9 +62,15 @@ public class FrameDashboard extends JFrame {
 	private Image img_visualise_hover = new ImageIcon(FrameDashboard.class.getResource("resource/search_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json = new ImageIcon(FrameDashboard.class.getResource("resource/json.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json_hover = new ImageIcon(FrameDashboard.class.getResource("resource/json_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	
 	private Image img_about = new ImageIcon(FrameDashboard.class.getResource("resource/about.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_about_hover = new ImageIcon(FrameDashboard.class.getResource("resource/about_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	private Image img_javaLogo = new ImageIcon(FrameDashboard.class.getResource("resource/java_logo.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
+	private Image img_jSoup = new ImageIcon(FrameDashboard.class.getResource("resource/jsoup.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
+	private Image img_javaSwing = new ImageIcon(FrameDashboard.class.getResource("resource/javaSwing.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
+	private Image img_selenium = new ImageIcon(FrameDashboard.class.getResource("resource/selenium.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
+	private Image img_standford = new ImageIcon(FrameDashboard.class.getResource("resource/standfordCoreNlp.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
+	private Image img_twitter4j = new ImageIcon(FrameDashboard.class.getResource("resource/twitter4j.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
+	private Image img_maven = new ImageIcon(FrameDashboard.class.getResource("resource/maven.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
 	
 	private JTextField txtInstagramUsername;
 	private JPasswordField txtInstagramPassword;
@@ -314,10 +320,9 @@ public class FrameDashboard extends JFrame {
 				
 				changeSelectedPanelColor(pnlAbout);
 				lblIconAbout.setIcon(new ImageIcon(img_about_hover));
-				
-				//Change after the panel done
-//				CardLayout card = (CardLayout)pnlInfo.getLayout();
-//				card.show(pnlInfo, "pnlVisualisationInfo");
+						
+				CardLayout card = (CardLayout)pnlInfo.getLayout();
+				card.show(pnlInfo, "pnlCreditsInfo");
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -936,7 +941,7 @@ public class FrameDashboard extends JFrame {
 		pnlVisualisationInfo.add(lblNewLabel_1);
 		/* end of visualisation panel*/
 		
-		/* start of credits panel*/
+		/* start of about panel*/
 		JPanel pnlCreditsInfo = new JPanel();
 		pnlCreditsInfo.setLayout(null);
 		pnlCreditsInfo.setBackground(SystemColor.controlHighlight);
@@ -944,9 +949,21 @@ public class FrameDashboard extends JFrame {
 		
 		JLabel lblCreditsHeader = new JLabel("Credits");
 		lblCreditsHeader.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblCreditsHeader.setBounds(37, 19, 384, 40);
+		lblCreditsHeader.setBounds(350, 50, 384, 40);
 		pnlCreditsInfo.add(lblCreditsHeader);
-		/* end of credits panel*/
+		
+		JLabel lblCreditsHeader2 = new JLabel("Done By");
+		lblCreditsHeader2.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblCreditsHeader2.setBounds(350, 350, 384, 40);
+		pnlCreditsInfo.add(lblCreditsHeader2);
+		
+		JLabel lblIconJava = new JLabel("");
+		lblIconJava.setBounds(50, 50, 200, 200);
+		lblIconJava.setIcon(new ImageIcon(img_javaLogo));
+		pnlCreditsInfo.add(lblIconJava);
+		
+		
+		/* end of about panel*/
 		
 		this.addSidePanelEvents();
 

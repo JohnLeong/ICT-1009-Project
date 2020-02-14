@@ -5,7 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class DataCleansing {
-	
+
 	public static String dataCleanse(String input) {
 		boolean spaceReached = false; 
 		//remove unnecessary character

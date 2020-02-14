@@ -334,18 +334,18 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 	 * 	 				
 	 */	
 	@Override
-	public ReturnCode scrapeByHashTags(final String loginId, final String loginPassword,
+	public ScrapeCode scrapeByHashTags(final String loginId, final String loginPassword,
 			final String joinedHashTags, final long numberOfPosts, final String savePath) {
 
 		if (!loginProcess(loginId, loginPassword)) { 
 			super.driver.quit();
-			return ReturnCode.LOGIN_FAIL; 
+			return ScrapeCode.LOGIN_FAIL; 
 		} 	
 
 		/* Redirect to homepage first to ensure that success is definitely successful. */
 		if (!redirectAfterLogin("https://www.instagram.com/")) {
 			super.driver.quit();
-			return ReturnCode.PAGE_TIMEOUT;
+			return ScrapeCode.PAGE_TIMEOUT;
 		}
 
 		String[] hashTags = joinedHashTags.split(DELIM_HASHTAGS);
@@ -360,7 +360,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			super.browseToUrl(hashTagUrl);
 			if (!redirectAfterLogin(hashTagUrl)) {
 				super.driver.quit();
-				return ReturnCode.PAGE_TIMEOUT;
+				return ScrapeCode.PAGE_TIMEOUT;
 			}
 
 			if (!hashTagPageIsAvailable(hashTagUrl)) {
@@ -395,21 +395,21 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		super.exportJsonObjToFolder(results, savePath);
 		super.driver.quit();
 
-		return ReturnCode.SUCCESS;
+		return ScrapeCode.SUCCESS;
 	}
 
 	@Override
-	public ReturnCode scrapeByProfiles(final String loginId, final String loginPassword,
+	public ScrapeCode scrapeByProfiles(final String loginId, final String loginPassword,
 			final String joinedProfileNames, final long numberOfPosts, final String savePath) {
 		if (!loginProcess(loginId, loginPassword)) { 
 			super.driver.quit();
-			return ReturnCode.LOGIN_FAIL; 
+			return ScrapeCode.LOGIN_FAIL; 
 		} 	
 
 		/* Redirect to homepage first to ensure that success is definitely successful. */
 		if (!redirectAfterLogin("https://www.instagram.com/")) {
 			super.driver.quit();
-			return ReturnCode.PAGE_TIMEOUT;
+			return ScrapeCode.PAGE_TIMEOUT;
 		}		
 
 		/* Iterate all the list of profiles and append into JSON. */
@@ -477,7 +477,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		super.driver.quit();
 
 		System.out.print("Successfully finish");		
-		return ReturnCode.SUCCESS;
+		return ScrapeCode.SUCCESS;
 	}
 
 

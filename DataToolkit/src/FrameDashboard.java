@@ -42,7 +42,9 @@ import javax.swing.table.DefaultTableModel;
 
 import org.json.JSONException;
 
-public class FrameDashboard extends JFrame {
+
+
+public class FrameDashboard extends JFrame implements ReturnCodes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -1154,7 +1156,7 @@ public class FrameDashboard extends JFrame {
 
 				txaInstagramConsole.append("*Scraping HashTags procedure started\n");
 				ScrapeUtility scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
-				ReturnCode result = scrapper.scrapeByHashTags(txtInstagramUsername.getText()
+				ScrapeCode result = scrapper.scrapeByHashTags(txtInstagramUsername.getText()
 						, txtInstagramPassword.getText()
 						, txtInstagramHashtags.getText()
 						, numPosts
@@ -1194,7 +1196,7 @@ public class FrameDashboard extends JFrame {
 
 				InstagramScraper scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
 
-				ReturnCode result = scrapper.scrapeByProfiles(txtInstagramUsername.getText()
+				ScrapeCode result = scrapper.scrapeByProfiles(txtInstagramUsername.getText()
 						, txtInstagramPassword.getText()
 						, txtInstagramProfiles.getText()
 						, numPosts
@@ -1225,7 +1227,7 @@ public class FrameDashboard extends JFrame {
 
 				txaTwitterConsole.append("*Scraping for hashtags: " + txtTwitterHashtags.getText() + "\n");
 				ScrapeUtility scrapper = new TwitterScraper("test");
-				ReturnCode result = scrapper.scrapeByHashTags("nil"
+				ScrapeCode result = scrapper.scrapeByHashTags("nil"
 						, "nil"
 						, txtTwitterHashtags.getText()
 						, numPosts
@@ -1254,7 +1256,7 @@ public class FrameDashboard extends JFrame {
 
 				txaTwitterConsole.append("*Scraping for profiles: " + txtTwitterProfiles.getText() + "\n");
 				ScrapeUtility scrapper = new TwitterScraper("test");
-				ReturnCode result = scrapper.scrapeByProfiles("nil"
+				ScrapeCode result = scrapper.scrapeByProfiles("nil"
 						, "nil"
 						, txtTwitterProfiles.getText()
 						, numPosts
@@ -1365,8 +1367,6 @@ public class FrameDashboard extends JFrame {
 					}
 
 				}
-
-
 			}
 		});
 		

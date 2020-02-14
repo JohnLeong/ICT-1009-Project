@@ -19,7 +19,7 @@ public class TwitterScraper extends ScrapeUtility{
 	}
 	
 	@Override
-	public ReturnCode scrapeByHashTags(final String loginId, final String loginPassword,
+	public ScrapeCode scrapeByHashTags(final String loginId, final String loginPassword,
 			final String joinedHashTags, final long numberOfPosts, final String savePath) {
 		Twitter twitter = createTwitterInstance();
 		
@@ -37,7 +37,7 @@ public class TwitterScraper extends ScrapeUtility{
 			catch (TwitterException te) {
 	            te.printStackTrace();
 	            System.out.println("Error when finding tweets: " + te.getMessage());	      
-	            return ReturnCode.SCRAPE_ERROR;
+	            return ScrapeCode.SCRAPE_ERROR;
 	        }
 			
 			/**
@@ -95,12 +95,12 @@ public class TwitterScraper extends ScrapeUtility{
 		
 		exportJsonObjToFolder(results, savePath);
 		
-		return ReturnCode.SUCCESS;
+		return ScrapeCode.SUCCESS;
 	}
 	
 	
 	@Override
-	public ReturnCode scrapeByProfiles(final String loginId, final String loginPassword,
+	public ScrapeCode scrapeByProfiles(final String loginId, final String loginPassword,
 			final String joinedProfileNames, final long numberOfPosts, final String savePath) {
 		Twitter twitter = createTwitterInstance();
 		
@@ -117,7 +117,7 @@ public class TwitterScraper extends ScrapeUtility{
 			catch (TwitterException te) {
 	            te.printStackTrace();
 	            System.out.println("Error when finding tweets: " + te.getMessage());	      
-	            return ReturnCode.SCRAPE_ERROR;
+	            return ScrapeCode.SCRAPE_ERROR;
 	        }
 			
 			/**
@@ -171,7 +171,7 @@ public class TwitterScraper extends ScrapeUtility{
 		
 		exportJsonObjToFolder(results, savePath);
 		
-		return ReturnCode.SUCCESS;
+		return ScrapeCode.SUCCESS;
 	}
 	
 	private Twitter createTwitterInstance() {

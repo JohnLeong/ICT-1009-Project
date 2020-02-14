@@ -1,5 +1,5 @@
 
-public class ScrapeUtility implements JSONFileWriter {
+public class ScrapeUtility implements JSONFileWriter, ReturnCodes {
 	protected String defaultUrl;	
 	protected final String DELIM_HASHTAGS		= "\\s+";
 	
@@ -16,9 +16,9 @@ public class ScrapeUtility implements JSONFileWriter {
 	 * @param savePath			Export JSON file path
 	 * @return					Returns 0 is the procedure is successful
 	 */
-	public ReturnCode scrapeByHashTags(final String loginId, final String loginPassword,
+	public ScrapeCode scrapeByHashTags(final String loginId, final String loginPassword,
 			final String joinedHashTags, final long numberOfPosts, final String savePath) {
-		return ReturnCode.SUCCESS;
+		return ScrapeCode.SUCCESS;
 	}
 	
 	/**
@@ -30,9 +30,9 @@ public class ScrapeUtility implements JSONFileWriter {
 	 * @param savePath			Export JSON file path
 	 * @return					Returns 0 is the procedure is successful
 	 */
-	public ReturnCode scrapeByProfiles(final String loginId, final String loginPassword,
+	public ScrapeCode scrapeByProfiles(final String loginId, final String loginPassword,
 			final String joinedProfileNames, final long numberOfPosts, final String savePath) {
-		return ReturnCode.SUCCESS;
+		return ScrapeCode.SUCCESS;
 	}
 	
 	/**

@@ -70,12 +70,13 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 	
 	private Image img_javaLogo = new ImageIcon(FrameDashboard.class.getResource("resource/java_logo.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
 	private Image img_jSoup = new ImageIcon(FrameDashboard.class.getResource("resource/jsoup.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
-	private Image img_javaSwing = new ImageIcon(FrameDashboard.class.getResource("resource/javaSwing.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
-	private Image img_selenium = new ImageIcon(FrameDashboard.class.getResource("resource/selenium.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
-	private Image img_standford = new ImageIcon(FrameDashboard.class.getResource("resource/standfordCoreNlp.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
-	private Image img_twitter4j = new ImageIcon(FrameDashboard.class.getResource("resource/twitter4j.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
-	private Image img_maven = new ImageIcon(FrameDashboard.class.getResource("resource/maven.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
-	
+	private Image img_javaSwing = new ImageIcon(FrameDashboard.class.getResource("resource/javaSwing.png")).getImage().getScaledInstance(150, 100, Image.SCALE_SMOOTH);
+	private Image img_selenium = new ImageIcon(FrameDashboard.class.getResource("resource/selenium.png")).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+	private Image img_standford = new ImageIcon(FrameDashboard.class.getResource("resource/standfordCoreNlp.png")).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+	private Image img_twitter4j = new ImageIcon(FrameDashboard.class.getResource("resource/twitter4j.png")).getImage().getScaledInstance(300, 90, Image.SCALE_SMOOTH);
+	private Image img_maven = new ImageIcon(FrameDashboard.class.getResource("resource/maven.png")).getImage().getScaledInstance(150, 50, Image.SCALE_SMOOTH);
+	private Image img_tesseract = new ImageIcon(FrameDashboard.class.getResource("resource/tesseractOCR.png")).getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
+	private Image img_profilePic = new ImageIcon(FrameDashboard.class.getResource("resource/profilePic.png")).getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
 	
 	
 	
@@ -999,6 +1000,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		pnlVisualisationInfo.add(lblNewLabel_1);
 		/* end of visualisation panel*/
 		
+		
 		/* start of about panel*/
 		JPanel pnlCreditsInfo = new JPanel();
 		pnlCreditsInfo.setLayout(null);
@@ -1006,19 +1008,116 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		pnlInfo.add(pnlCreditsInfo, "pnlCreditsInfo");
 		
 		JLabel lblCreditsHeader = new JLabel("Credits");
-		lblCreditsHeader.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblCreditsHeader.setBounds(350, 50, 384, 40);
+		lblCreditsHeader.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblCreditsHeader.setBounds(330, 10, 384, 40);
 		pnlCreditsInfo.add(lblCreditsHeader);
-		
-		JLabel lblCreditsHeader2 = new JLabel("Done By");
-		lblCreditsHeader2.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblCreditsHeader2.setBounds(350, 350, 384, 40);
-		pnlCreditsInfo.add(lblCreditsHeader2);
-		
+			
 		JLabel lblIconJava = new JLabel("");
-		lblIconJava.setBounds(50, 50, 200, 200);
+		lblIconJava.setBounds(20, 35, 300, 200);
 		lblIconJava.setIcon(new ImageIcon(img_javaLogo));
 		pnlCreditsInfo.add(lblIconJava);
+		
+		JLabel lblIconjSoup = new JLabel("");
+		lblIconjSoup.setBounds(200, 35, 300, 200);
+		lblIconjSoup.setIcon(new ImageIcon(img_jSoup));
+		pnlCreditsInfo.add(lblIconjSoup);
+		
+		JLabel lblIconjSwing = new JLabel("");
+		lblIconjSwing.setBounds(400, 35, 200, 200);
+		lblIconjSwing.setIcon(new ImageIcon(img_javaSwing));
+		pnlCreditsInfo.add(lblIconjSwing);
+		
+		
+		JLabel lblIconSelenium = new JLabel("Selenium");
+		lblIconSelenium.setBounds(600, 35, 300, 200);
+		lblIconSelenium.setIcon(new ImageIcon(img_selenium));
+		pnlCreditsInfo.add(lblIconSelenium);
+		
+		JLabel lblIconStandfordCoreNlp = new JLabel("");
+		lblIconStandfordCoreNlp.setBounds(60, 150, 300, 200);
+		lblIconStandfordCoreNlp.setIcon(new ImageIcon(img_standford));
+		pnlCreditsInfo.add(lblIconStandfordCoreNlp);
+		JLabel lblStandford = new JLabel("Standford CoreNLP");
+		lblStandford.setLocation(60, 300);
+		lblStandford.setSize(200, 20);
+		pnlCreditsInfo.add(lblStandford);
+		
+		
+		JLabel lblIconTwitter4j = new JLabel("");
+		lblIconTwitter4j.setBounds(150, 150, 300, 200);
+		lblIconTwitter4j.setIcon(new ImageIcon(img_twitter4j));
+		pnlCreditsInfo.add(lblIconTwitter4j);
+		
+		JLabel lblIconMaven = new JLabel("");
+		lblIconMaven.setBounds(420, 150, 200, 200);
+		lblIconMaven.setIcon(new ImageIcon(img_maven));
+		pnlCreditsInfo.add(lblIconMaven);
+		
+		JLabel lblIconTesseract = new JLabel("");
+		lblIconTesseract.setBounds(600, 150, 200, 200);
+		lblIconTesseract.setIcon(new ImageIcon(img_tesseract));
+		pnlCreditsInfo.add(lblIconTesseract);
+		
+		JLabel lblCreditsHeader2 = new JLabel("Done By");
+		lblCreditsHeader2.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblCreditsHeader2.setBounds(320, 320, 384, 50);
+		pnlCreditsInfo.add(lblCreditsHeader2);
+		
+		
+		JLabel lblCourse = new JLabel("ICT 1009");
+		lblCourse.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblCourse.setBounds(350, 370, 200, 40);
+		pnlCreditsInfo.add(lblCourse);
+		
+		
+		JLabel lblModule = new JLabel("Object Oriented Programming");
+		lblModule.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblModule.setBounds(220, 400, 500, 40);
+		pnlCreditsInfo.add(lblModule);
+		
+		
+		JLabel lblGroup = new JLabel("Group 34");
+		lblGroup.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblGroup.setBounds(350, 430, 200, 40);
+		pnlCreditsInfo.add(lblGroup);
+		
+		JLabel lblIconProfile = new JLabel("");
+		lblIconProfile.setBounds(60, 480, 200, 200);
+		lblIconProfile.setIcon(new ImageIcon(img_profilePic));
+		pnlCreditsInfo.add(lblIconProfile);
+		JLabel lblPatrick = new JLabel("PATRICK KANG (1902132)");
+		lblPatrick.setLocation(60, 690);
+		lblPatrick.setSize(200, 20);
+		pnlCreditsInfo.add(lblPatrick);
+		
+		JLabel lblIconProfile1 = new JLabel("");
+		lblIconProfile1.setBounds(240, 480, 200, 200);
+		lblIconProfile1.setIcon(new ImageIcon(img_profilePic));
+		pnlCreditsInfo.add(lblIconProfile1);
+		JLabel lblJohn = new JLabel("JOHN LEONG (1902605)");
+		lblJohn.setLocation(240, 690);
+		lblJohn.setSize(200, 20);
+		pnlCreditsInfo.add(lblJohn);
+		
+		
+		JLabel lblIconProfile2 = new JLabel("");
+		lblIconProfile2.setBounds(420, 480, 200, 200);
+		lblIconProfile2.setIcon(new ImageIcon(img_profilePic));
+		pnlCreditsInfo.add(lblIconProfile2);
+		JLabel lblDamon = new JLabel("DAMON ANG (1902707)");
+		lblDamon.setLocation(420, 690);
+		lblDamon.setSize(200, 20);
+		pnlCreditsInfo.add(lblDamon);
+		
+		
+		JLabel lblIconProfile3 = new JLabel("");
+		lblIconProfile3.setBounds(600, 480, 200, 200);
+		lblIconProfile3.setIcon(new ImageIcon(img_profilePic));
+		pnlCreditsInfo.add(lblIconProfile3);
+		JLabel lblAaron = new JLabel("AARON CHUA (1902146)");
+		lblAaron.setLocation(600, 690);
+		lblAaron.setSize(200, 20);
+		pnlCreditsInfo.add(lblAaron);
 		
 		
 		/* end of about panel*/

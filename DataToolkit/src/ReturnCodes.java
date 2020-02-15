@@ -1,5 +1,5 @@
-
 interface ReturnCodes {
+	
 	public enum ScrapeCode {
 		SUCCESS(1, "Successfully finished scraping process.\n"),
 		LOGIN_FAIL (0, "Failed to login. Please check if your account is valid.\n"),
@@ -14,11 +14,11 @@ interface ReturnCodes {
 		public int getCode() {
 			return this.code;
 		}
-
+		
 		public String getDescription() {
 			return this.description;
 		}
-
+		
 		private ScrapeCode(int code, String description) {
 			this.code = code;
 			this.description = description;

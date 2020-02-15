@@ -5,6 +5,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 public class WindowSharedDataExtractor {
+	
+	
 	final static String STRIP_JSON_OUTPUT = "<script type=\"text/javascript\">window._sharedData = ";
 	final static String STRIP_JSON_OUTPUT2	= ";</script>";
 	final static String SOUP_USER_AGENT			= "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6";
@@ -12,7 +14,11 @@ public class WindowSharedDataExtractor {
 	private static String previousUrl = "";
 	private static String previousJson = "";
 	
-	
+	/**
+	 * Used for retrieving _windowSharedData field from Script tag in page.
+	 * @param postUrl		URL of Instagram post
+	 * @return				JSON string with details of the posts
+	 */
 	static String getWindowSharedDataJson(String postUrl) {
 		Document doc;
 		if (previousUrl.equals(postUrl) && previousJson != "") {

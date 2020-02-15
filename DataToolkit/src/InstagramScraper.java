@@ -55,27 +55,42 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 	private final String LOGIN_URL 					= "https://www.instagram.com/accounts/login/";
 
 	private final String DELIM_PROFILES_NAME		= "\\s+";
-
-	/**
-	 * For storing all sub Urls in given hashtag page.
-	 */
-	//	private ArrayList<String> subUrls;
-
+	
+	
 	public InstagramScraper(String defaultURL) {
 		super(defaultURL);
 	}
-
+	
+	/**
+	 * Checks if page has element which will be present in a valid HashTag page
+	 * @param hashTagUrl	URL of hashtag page
+	 * @return				HashTag page is Valid and available
+	 */
 	private boolean hashTagPageIsAvailable(String hashTagUrl) {
+		if (!hashTagUrl.equals(super.driver.getCurrentUrl())) { super.browseToUrl(hashTagUrl); }
 		WebElement e = super.safeGetWebElement(CSS_VALID_PAGE_DIV, TIMEOUT_PAGE_LOAD);
 		return e != null;
 	}
 
+	/**
+	 * Checks if the page has element which is present in ProfileURL. If page doesnt have that element,
+	 * its an indicator that the profile is either invalid or private
+	 * @param profileUrl	URL of user profile
+	 * @return				Profile is valid and available
+	 */
 	private boolean profileIsAvailable(String profileUrl) {
+		if (!profileUrl.equals(super.driver.getCurrentUrl())) { super.browseToUrl(profileUrl); }
 		//		if (super.driver.getCurrentUrl() != profileUrl) { super.browseToUrl(profileUrl); }
 		WebElement e = super.safeGetWebElement(CSS_VALID_PAGE_DIV, TIMEOUT_PAGE_LOAD);
 		return e != null;
 	}
 
+	/**
+	 * Checks if the profile page contains an element which determines that the
+	 * user profile page is private
+	 * @param profileUrl	URL of user profile
+	 * @return				Whether user profile is private
+	 */
 	private boolean profileIsPrivate(String profileUrl) {
 		System.out.println("profileUrl: " + profileUrl);
 		System.out.println("CurrentUrl: " + super.driver.getCurrentUrl());
@@ -83,19 +98,12 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		return (profileIsAvailable(profileUrl) && cssSelectorExists(CSS_PRIVATE));
 	}
 
-	/**
-	 * Waits for the element which contain the number of likes to appear
-	 * @return		Count of likes else -1 if element is not found after waiting.
-	 */
+
 	private double getNumberOfLikesInPost() {
 		WebElement e = super.safeGetWebElement(CSS_POST_NUM_OF_LIKES, TIMEOUT_ELEMENT_DURA);
 		return e != null ? Double.parseDouble(e.getText().replace(",", "")) : -1;		
 	}
 
-	/**
-	 * Waits for the element which contain the number of video views
-	 * @return 		Count of video views else -1 if the element is not found after waiting.
-	 */
 	private double getNumberOfViewsInPost() {
 		WebElement e = super.safeGetWebElement(CSS_POST_VIDEO_VIEWS, TIMEOUT_ELEMENT_DURA);
 		return e != null ? Double.parseDouble(e.getText().replace(",", "")) : -1;
@@ -111,11 +119,6 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		return e != null ? e.getText().replace(",",  "") : "None";
 	}
 
-	/**
-	 * Waits for the number of posts in hashtag page to load.
-	 * Return value be 0 cause else the post wont be in the hashtag page.
-	 * @return 		Count of posts for current hashtag page. 
-	 */
 	private long getNumOfPostsInPage() {
 		WebElement element = super.driver.findElement(By.cssSelector(CSS_PAGE_DETAILS));
 		return Long.parseLong(element.getText().replace(",", "")); 
@@ -148,14 +151,16 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 	 * @return		Count of visible comments
 	 */
 	private int getCurrentCommentsCountInPostPage() {
-		List<WebElement> elements = super.safeGetWebElements(CSS_POST_COMMENTS, TIMEOUT_ELEMENT_DURA);
+		List<WebElement> elements = super.safeGetWebElements(CSS_POST_COMMENTS, 2);
 		return elements != null ? elements.size() : -1;
 	}
 
 	/**
-	 * Extracts all posts sub URL current page page
+	 * Extracts all posts sub URL current page by scrolling down the page and
+	 * appendign the suburls retrieved into a hashmap to ensure that they are unique
+	 * and converted to ArrayList before returning. 
 	 * @param threshold		Count of posts to scrape 
-	 * @return				True if successfully stored all posts sub URL into variable
+	 * @return				ArrayList of SubUrls
 	 */
 	private ArrayList<String> getPostsSubUrl(final long threshold, final String cssQuery) {
 		ArrayList<String> subUrls = new ArrayList<String>();
@@ -185,6 +190,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		return subUrls;
 	}
 
+
 	private ArrayList<String> getHashTagPostsSubUrl(final long threshold) {
 		return getPostsSubUrl(threshold, CSS_HASHTAG_POSTS_SUB_URL);
 	}
@@ -195,20 +201,21 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 
 
 	/**
-	 * Continuously clicking view more posts button, until the element disappears. 
-	 * Maybe should implement a safety check algorithm to escape in case element cant disappear...
-	 * Implemented repeated count and logic inside to prevent continuous looping
+	 * Continuously clicks on view more post element, until the element disappears.
+	 * Once element is not found, it means that all comments in the post has been loaded.
 	 */
 	private void showAllCommentsInPost() {
 		WebElement viewMoreButton;
 		int previousCount, repeatCount = 0;
 		while (true) {
+			System.out.println("While loop.");
 			if (repeatCount == 10) { 
 				System.out.println("--showAllComments()-- Safety Break after " 
 						+ repeatCount + " repeated tries of clicking view more.");
 				return;
 			}
-			try {				
+			try {
+				System.out.println("Waiting for view more");
 				super.waitUntilSelectorLoads(CSS_POST_VIEW_MORE, TIMEOUT_VIEW_MORE); 
 				viewMoreButton = super.driver.findElement(By.cssSelector(CSS_POST_VIEW_MORE));
 				viewMoreButton.click();
@@ -217,26 +224,34 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 				break;
 			}
 			previousCount = getCurrentCommentsCountInPostPage();
-			repeatCount = (previousCount == getCurrentCommentsCountInPostPage()) ? 0 : ++repeatCount; 
+			repeatCount += (previousCount == getCurrentCommentsCountInPostPage()) ? 1 : 0; 
 		}
 		System.out.println("--showAllComments()-- Broke from loop after " + TIMEOUT_VIEW_MORE + " seconds.");
 	}
 
+	/**
+	 * Scrapes Post Details.
+	 * @param url	PostUrl
+	 * @return		JSONObject containing post details
+	 */
 	private JSONObject scrapePostDetails(String url) {
 
 		do {
-			super.browseToUrl(url);			
+			super.browseToUrl(url);
 		} while (!super.driver.getCurrentUrl().equals(url));
 
 		JSONObject post = new JSONObject();
 		JSONArray comments = new JSONArray();
 
 		double likes = this.getNumberOfLikesInPost();	
+		
 		post.put("display_image_url", InstagramDryScraping.super.getDisplayImageUrl(url));
 		post.put("posted_by", super.driver.findElement(By.cssSelector(CSS_POST_POSTED_BY)).getAttribute("title"));
 		post.put("no_of_comments", InstagramDryScraping.super.getNumberOfComments(url));
 		post.put("location", getLocationOfPost());
 		post.put("date_time", getDateTimeOfPost());
+		
+		System.out.println("Putting number of likes");
 		if (likes > -1) {
 			post.put("no_of_likes", likes);
 			post.put("no_of_views", 0);
@@ -252,8 +267,11 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		/* Will go to exception if dont have any comments of caption */
 		try {
 			//Need to handle case for videos as it wont have likes but views.
+			System.out.println("Wait until comment selector to load");
 			waitUntilSelectorLoads(CSS_POST_COMMENTS, TIMEOUT_ELEMENT_DURA);
+			System.out.println("Finished waiting for post comments to load.");
 			showAllCommentsInPost();		
+			
 
 			/* Will have comment elements as waited for it to load else will return */
 			List<WebElement> commentElements = super.driver
@@ -286,7 +304,13 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		}
 		return post;
 	}
-
+	
+	/**
+	 * Pilots selenium to do the login process
+	 * @param userId		User Login ID
+	 * @param userPassword	User Password
+	 * @return				Login successfully 
+	 */
 	private boolean loginProcess(final String userId, final String userPassword) {
 		try {
 			super.browseToUrl(this.LOGIN_URL);
@@ -309,7 +333,12 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		}	
 
 	}
-
+	
+	/**
+	 * Checks if Selenium has been redirected to the specific url
+	 * @param redirectUrl	Redirected URL
+	 * @return				Successful or not
+	 */
 	private boolean redirectAfterLogin(final String redirectUrl) {
 		try {
 			super.browseToUrl(redirectUrl);
@@ -323,16 +352,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 
 	}
 
-	/**
-	 * Main scraping procedure from Login-> scraping post URLS -> scraping each post details
-	 * @param loginId		Login credentials
-	 * @param loginPassword	Login credentials
-	 * @param hashTag		HashTag keyword 
-	 * @param numberOfPosts Max number of posts details to scrape
-	 * @param savePath		Export JSON file path
-	 * @return 				Look at enum above for better understanding
-	 * 	 				
-	 */	
+	
 	@Override
 	public ScrapeCode scrapeByHashTags(final String loginId, final String loginPassword,
 			final String joinedHashTags, final long numberOfPosts, final String savePath) {
@@ -379,7 +399,6 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			for (int j = 0; j < hashTagPostsSubUrl.size(); ++j) {
 				String postUrl = "https://www.instagram.com" + hashTagPostsSubUrl.get(j);
 				System.out.println("*Scraping posts in:" + postUrl);
-//				FrameDashboard.appendInstagramConsole("*Scraping posts in:" + postUrl + "\n");
 				posts.put(scrapePostDetails(postUrl));
 			}			
 
@@ -398,6 +417,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		return ScrapeCode.SUCCESS;
 	}
 
+	
 	@Override
 	public ScrapeCode scrapeByProfiles(final String loginId, final String loginPassword,
 			final String joinedProfileNames, final long numberOfPosts, final String savePath) {

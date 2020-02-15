@@ -2,7 +2,9 @@ import org.json.JSONObject;
 
 public interface InstagramDryScraping {
 	
-	
+	/**
+	 *  Constant strings to be used with JSONQuery to retrieve JSON fields  
+	 */
 	final String JS_NUM_OF_LIKES 			= "/entry_data/PostPage/0/graphql/shortcode_media/edge_media_preview_like/count";
 	final String JS_IS_VIDEO 				= "/entry_data/PostPage/0/graphql/shortcode_media/is_video";	
 	final String JS_NUM_OF_VIDEO_VIEWS 		= "/entry_data/PostPage/0/graphql/shortcode_media/video_view_count/";	
@@ -10,11 +12,10 @@ public interface InstagramDryScraping {
 	final String JS_VIDEO_URL 				= "/entry_data/PostPage/0/graphql/shortcode_media/video_url";
 	final String JS_IMAGE_DISPLAY_URL		="/entry_data/PostPage/0/graphql/shortcode_media/display_url";
 	
-	
 	default Object returnQueryObject(final String postUrl, final String query) {
 		return (new JSONObject(WindowSharedDataExtractor.getWindowSharedDataJson(postUrl))).optQuery(query);
 	}
-
+	
 	default long getNumberOfComments(final String posturl) { 
 		return returnQueryObject(posturl, JS_NUM_OF_COMMENTS) != null ?
 				((Number)returnQueryObject(posturl, JS_NUM_OF_COMMENTS)).longValue() :

@@ -111,7 +111,7 @@ public class TwitterScraper extends ScrapeUtility{
 			List<Status> results = new ArrayList<Status>();
 			try {   
 			    //Get posts from user
-				Paging paging = new Paging(1, (int)Math.min((int)numberOfPosts, 100));
+				Paging paging = new Paging(1, Math.min((int)numberOfPosts, 100));
 				results.addAll(twitter.getUserTimeline(profileNames[i], paging));
 			}
 			catch (TwitterException te) {

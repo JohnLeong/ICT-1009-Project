@@ -51,7 +51,6 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 	private JPanel contentPane;
 
 	private Image img_logo = new ImageIcon(FrameDashboard.class.getResource("resource/sit.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
-	private Image img_facebook = new ImageIcon(FrameDashboard.class.getResource("resource/facebook.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_instagram = new ImageIcon(FrameDashboard.class.getResource("resource/instagram.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_instagram_hover = new ImageIcon(FrameDashboard.class.getResource("resource/instagram_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_twitter = new ImageIcon(FrameDashboard.class.getResource("resource/twitter.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -826,6 +825,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 			Class[] columnTypes = new Class[] {
 				String.class, Float.class, Integer.class
 			};
+			@Override
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -1445,6 +1445,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 						List<HashMap.Entry<String, Integer>> relatedHashtags = new ArrayList<HashMap.Entry<String, Integer>>(
 								analysedData.getRelatedHashtags().entrySet());
 						Collections.sort(relatedHashtags, new Comparator<HashMap.Entry<String, Integer>>() {
+							@Override
 							public int compare(HashMap.Entry<String, Integer> a, HashMap.Entry<String, Integer> b) {
 								return Integer.compare(b.getValue(), a.getValue());
 							}
@@ -1477,9 +1478,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				// optionally set chooser options ...
 				int returnVal = chooser.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File file = chooser.getSelectedFile();
 					lblOcrJsonFilePath.setText("File loaded: " + chooser.getSelectedFile().getAbsolutePath());
-					
 				}
 			}
 		});

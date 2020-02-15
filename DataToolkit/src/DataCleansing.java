@@ -1,9 +1,6 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 public class DataCleansing {
 
 	public static String dataCleanse(String input) {

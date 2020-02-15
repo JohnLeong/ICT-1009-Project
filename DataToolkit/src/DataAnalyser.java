@@ -1,7 +1,5 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;

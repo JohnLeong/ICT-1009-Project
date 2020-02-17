@@ -174,6 +174,11 @@ public class TwitterScraper extends ScrapeUtility{
 		return ScrapeCode.SUCCESS;
 	}
 	
+	/**
+	 * Creates an instance of Twitter to allow scraping
+	 * 
+	 * @return		Returns a reference to the instance created
+	 */
 	private Twitter createTwitterInstance() {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true)

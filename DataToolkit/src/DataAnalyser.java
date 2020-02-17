@@ -17,6 +17,13 @@ import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 
 public class DataAnalyser {
+	
+	/**
+	 * Reads a json file at the specifieed file path and analyses it
+	 * 
+	 * @param filePath		The file to analyse
+	 * @return				The propeties of the analysed data
+	 */
 	public static AnalysedDataProperties AnalyseData(String filePath) throws Exception {
 		int numberOfPosts = 0, totalLikes = 0, totalWords = 0, totalCharacters = 0, totalHashtags = 0;
 		String targetHashtag = "";
@@ -61,17 +68,6 @@ public class DataAnalyser {
 				totalCharacters += caption.length();
 				
 				//Find all hashtags in caption
-				/*
-				for(String word : words) {
-					if (word.charAt(0) == '#') {
-						++totalHashtags;
-						if (relatedHashtags.containsKey(word))
-							relatedHashtags.put(word, relatedHashtags.get(word) + 1);
-						else
-							relatedHashtags.put(word, 1);
-					}
-				}*/
-
 				Pattern hashtagPattern = Pattern.compile("#(\\S+)");
 				Matcher mat = hashtagPattern.matcher(caption);
 				while (mat.find()) {

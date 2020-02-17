@@ -43,6 +43,8 @@
 	<classpathentry kind="lib" path="lib/logback-core-1.2.3.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.9.jar"/>
 	<classpathentry kind="lib" path="lib/jul-to-slf4j-1.7.25.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.23.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>

@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -40,16 +42,18 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.jfree.ui.RefineryUtilities;
 import org.json.JSONException;
 
+import javax.swing.UIManager;
 
 
 public class FrameDashboard extends JFrame implements ReturnCodes {
 
+	/* The current serial version UID*/
 	private static final long serialVersionUID = 1L;
-
-	private JPanel contentPane;
-
+	
+	/* Cache of images that will be displated on the GUI*/
 	private Image img_logo = new ImageIcon(FrameDashboard.class.getResource("resource/sit.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
 	private Image img_instagram = new ImageIcon(FrameDashboard.class.getResource("resource/instagram.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_instagram_hover = new ImageIcon(FrameDashboard.class.getResource("resource/instagram_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -61,12 +65,10 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 	private Image img_visualise_hover = new ImageIcon(FrameDashboard.class.getResource("resource/report_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json = new ImageIcon(FrameDashboard.class.getResource("resource/json.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_json_hover = new ImageIcon(FrameDashboard.class.getResource("resource/json_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	
 	private Image img_about = new ImageIcon(FrameDashboard.class.getResource("resource/about.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_about_hover = new ImageIcon(FrameDashboard.class.getResource("resource/about_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_ocr = new ImageIcon(FrameDashboard.class.getResource("resource/ocr1.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	private Image img_ocr_hover = new ImageIcon(FrameDashboard.class.getResource("resource/ocr_hover1.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	
+	private Image img_ocr_hover = new ImageIcon(FrameDashboard.class.getResource("resource/ocr_hover1.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);	
 	private Image img_javaLogo = new ImageIcon(FrameDashboard.class.getResource("resource/java_logo.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
 	private Image img_jSoup = new ImageIcon(FrameDashboard.class.getResource("resource/jsoup.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
 	private Image img_javaSwing = new ImageIcon(FrameDashboard.class.getResource("resource/javaSwing.png")).getImage().getScaledInstance(150, 100, Image.SCALE_SMOOTH);
@@ -77,23 +79,27 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 	private Image img_tesseract = new ImageIcon(FrameDashboard.class.getResource("resource/tesseractOCR.png")).getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
 	private Image img_profilePic = new ImageIcon(FrameDashboard.class.getResource("resource/profilePic.png")).getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
 	
-	
-	
+	/* Various GUI components */
 	private JTextField txtInstagramUsername;
 	private JPasswordField txtInstagramPassword;
 	private JTextArea txtInstagramHashtags;
 	private JTextField txtHashTagNumPosts;
 	private static JTextArea txaInstagramConsole;
 	private JTextArea txaTwitterConsole;
-
-	private String exportPath = "";
 	private JTextField txtTwitterNumPosts;
 	private JTextField txtTwitterNumPostsProfile;
 	private JTextField txtProfileNumberOfPosts;
+	private JTable tableDataAnalysisRelatedHashtags;
+	
+	/* String to store current export path */
+	private String exportPath = "";
+	
+	/* The main content panel that parents the rest of the GUI */
+	private JPanel contentPane;
 
-	private JLabel lblIconSit;
-
-	private JPanel pnlSideMenu;	private JPanel pnlOptions;
+	/* Side panel GUI */
+	private JPanel pnlSideMenu;
+	private JPanel pnlOptions;
 	private JPanel pnlInstagram;
 	private JPanel pnlTwitter;
 	private JPanel pnlDisplayJson;
@@ -101,23 +107,33 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 	private JPanel pnlVisualisation;
 	private JPanel pnlAbout;
 	private JPanel pnlOcr;
-
-	private JLabel lblInstagramMode; private JLabel lblIconInstagram;
-	private JLabel lblTwitterMode; private JLabel lblIconTwitter;
-	private JLabel lblDisplayJsonMode; private JLabel lblIconJson;
-	private JLabel lblDataAnalysisMode;	private JLabel lblIconDataAnalysis;
-	private JLabel lblVisualisationMode; private JLabel lblIconVisualisation;
-
-	private JLabel lblAbout; private JLabel lblIconAbout;
-	
-	private JLabel lblOcr; private JLabel lblIconOcr;
-
 	private JPanel pnlInfo;
 	
-	private JPanel selectedSidePanel;
-	private JTable tableDataAnalysisRelatedHashtags;
+	/* Side panel icons */
+	private JLabel lblIconSit;
+	private JLabel lblIconInstagram;
+	private JLabel lblIconTwitter;
+	private JLabel lblIconJson;
+	private JLabel lblIconDataAnalysis;
+	private JLabel lblIconVisualisation;
+	private JLabel lblIconAbout;
+	private JLabel lblIconOcr;
 	
+	/* Side panel text */
+	private JLabel lblInstagramMode; 
+	private JLabel lblTwitterMode; 
+	private JLabel lblDisplayJsonMode; 
+	private JLabel lblDataAnalysisMode;	
+	private JLabel lblVisualisationMode; 
+	private JLabel lblAbout; 
+	private JLabel lblOcr;
+
+	/* The current panel that is being displayed */
+	private JPanel selectedSidePanel;
+	
+	/* Boolean to keep track if the wordmap has been generated */
 	private boolean wordmapGenerated = false;
+	
 	
 	/**
 	 * Launch the application.
@@ -136,11 +152,20 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		});
 	}
 
-
+	/**
+	 * Changes the currently displayed panel
+	 * 
+	 * @param panel 	The new panel to display
+	 */
 	private void changeSelectedPanelColor(JPanel panel) {
 		panel.setBackground(new Color(0.3f, 0.3f, 0.3f)); //Set to light grey		
 	}
 
+	/**
+	 * Resets the color of all side panel buttons
+	 * 
+	 * @param panels 	The array of panels to reset
+	 */
 	private void resetSidePanelsColor(JPanel[] panels) {
 		for (int i = 0; i < panels.length; ++i) {
 			if (panels[i] != selectedSidePanel) {
@@ -149,15 +174,27 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		}
 	}
 	
+	/**
+	 * Generates and displays a message box with the provided string
+	 * 
+	 * @param s 		The message to display
+	 */
 	private void msgbox(String s){
 		JOptionPane.showMessageDialog(null, s);
 	}
 
+	/**
+	 * Adds a new message to the instagram console GUI
+	 * 
+	 * @param message	The message to append to the console
+	 */
 	public static void appendInstagramConsole(String message) {
 		txaInstagramConsole.append(message);
 	}
 
-	
+	/**
+	 * Resets all the side panel icons to the "non-selected" state
+	 */
 	private void resetAllPanelIcons() {
 		lblIconInstagram.setIcon(new ImageIcon(img_instagram));
 		lblIconTwitter.setIcon(new ImageIcon(img_twitter));
@@ -169,6 +206,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 
 
 	}
+	
 	/**
 	 *Side panel button click events 
 	 */
@@ -374,13 +412,15 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		});
 
 	}
+	
 	/**
-	 * Create the frame.
+	 * The constructor function of FrameDashboard
+	 * Initializes and creates the main GUI
 	 */
 	public FrameDashboard() {
-//		setUndecorated(true);
+		//setUndecorated(true);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1041, 764);
 
 		contentPane = new JPanel();
@@ -389,6 +429,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		/* start of side panel----------------------------------------------------------------- */
 		pnlSideMenu = new JPanel();
 		pnlSideMenu.setBounds(0, 0, 237, 868);
 		contentPane.add(pnlSideMenu);
@@ -601,8 +642,9 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		pnlInfo.setBounds(236, 0, 799, 749);
 		pnlInfo.setLayout(new CardLayout(0, 0));
 		contentPane.add(pnlInfo);
-		//CardLayout cardInfo = (CardLayout)pnlInfo.getLayout();
-
+		/* end of side panel------------------------------------------------------------------- */
+		
+		/* start of instagram panel------------------------------------------------------------ */
 		JPanel pnlInstagramInfo = new JPanel();
 		pnlInstagramInfo.setLayout(null);
 		pnlInstagramInfo.setBackground(SystemColor.controlHighlight);
@@ -740,7 +782,9 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 
 		btnInstagramProfileScrape.setBounds(452, 466, 252, 31);
 		pnlInstagramInfo.add(btnInstagramProfileScrape);
-
+		/* end of instagram panel-------------------------------------------------------------- */
+		
+		/* start of data display panel--------------------------------------------------------- */
 		JPanel pnlDisplayJsonInfo = new JPanel();
 		pnlDisplayJsonInfo.setLayout(null);
 		pnlDisplayJsonInfo.setBackground(SystemColor.controlHighlight);
@@ -773,7 +817,9 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		JButton btnJsonSaveAs = new JButton("Save as");
 		btnJsonSaveAs.setBounds(209, 145, 131, 29);
 		pnlDisplayJsonInfo.add(btnJsonSaveAs);
+		/* end of data display panel----------------------------------------------------------- */
 		
+		/* start of data analysis panel-------------------------------------------------------- */
 		JPanel pnlDataAnalysisInfo = new JPanel();
 		pnlDataAnalysisInfo.setLayout(null);
 		pnlDataAnalysisInfo.setBackground(SystemColor.controlHighlight);
@@ -822,6 +868,8 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				"Hashtag", "Avg. frequency", "Total frequency"
 			}
 		) {
+			private static final long serialVersionUID = 1L;
+
 			Class[] columnTypes = new Class[] {
 				String.class, Float.class, Integer.class
 			};
@@ -837,20 +885,17 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(1).setPreferredWidth(140);
 		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(2).setResizable(false);
 		tableDataAnalysisRelatedHashtags.getColumnModel().getColumn(2).setPreferredWidth(145);
-		tableDataAnalysisRelatedHashtags.setBounds(18, 318, 373, 141);
-		//pnlDataAnalysisInfo.add(tableDataAnalysisRelatedHashtags)		
+		tableDataAnalysisRelatedHashtags.setBounds(18, 318, 373, 141);	
 		JLabel lblWordmap = new JLabel("");
 		lblWordmap.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWordmap.setForeground(Color.BLACK);
 		lblWordmap.setBackground(Color.GREEN);
 		lblWordmap.setBounds(526, 360, 256, 256);
 		pnlDataAnalysisInfo.add(lblWordmap);
-;
 		
 		JScrollPane scrollPaneDataAnalysisRelatedHashtags = new JScrollPane(tableDataAnalysisRelatedHashtags);
 		scrollPaneDataAnalysisRelatedHashtags.setBounds(18, 360, 486, 141);
 		pnlDataAnalysisInfo.add(scrollPaneDataAnalysisRelatedHashtags);
-
 
 		JLabel lblDataAnalysisFilePath = new JLabel("File loaded: none");
 		lblDataAnalysisFilePath.setFont(new Font("Tahoma", Font.ITALIC, 14));
@@ -870,8 +915,9 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblDataAnalysisView.setBounds(526, 623, 256, 23);
 		pnlDataAnalysisInfo.add(lblDataAnalysisView);
 		lblDataAnalysisView.setVisible(false);
-
-		/* start of twitter panel */
+		/* end of data analysis panel---------------------------------------------------------- */
+		
+		/* start of twitter panel-------------------------------------------------------------- */
 		JPanel pnlTwitterInfo = new JPanel();
 		pnlTwitterInfo.setLayout(null);
 		pnlTwitterInfo.setBackground(SystemColor.controlHighlight);
@@ -979,8 +1025,9 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		JLabel lblTwitterConsole = new JLabel("Output");
 		lblTwitterConsole.setBounds(37, 523, 82, 23);
 		pnlTwitterInfo.add(lblTwitterConsole);
-				
-		/* start of visualisation panel*/
+		/* end of twitter panel-------------------------------------------------------------- */
+		
+		/* start of visualization panel------------------------------------------------------ */
 		JPanel pnlVisualisationInfo = new JPanel();
 		pnlVisualisationInfo.setLayout(null);
 		pnlVisualisationInfo.setBackground(SystemColor.controlHighlight);
@@ -991,17 +1038,56 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblVisualisationHeader.setBounds(37, 19, 384, 40);
 		pnlVisualisationInfo.add(lblVisualisationHeader);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(65, 152, 48, 14);
+		JLabel lblVisulationFileLocation = new JLabel("File Location");
+		lblVisulationFileLocation.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblVisulationFileLocation.setBounds(8, 69, 160, 40);
+		pnlVisualisationInfo.add(lblVisulationFileLocation);
+			
+		JLabel lblVisulationFilePath = new JLabel("Upload Json File Types");
+		lblVisulationFilePath.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		pnlVisualisationInfo.add(lblVisulationFilePath);
+		
+		JButton btnVisulationisSelectFile1 = new JButton("Visulation The Number Of Post Based On Location");
+		btnVisulationisSelectFile1.setBackground(UIManager.getColor("InternalFrame.borderLight"));
+		btnVisulationisSelectFile1.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationisSelectFile1.setBounds(8,167,440,21);
+		pnlVisualisationInfo.add(btnVisulationisSelectFile1);
+		
+		JButton btnVisulationisSelectFile3 = new JButton("Visulation On One Hash Begin Used On Monthly Bases");
+		btnVisulationisSelectFile3.setBackground(UIManager.getColor("InternalFrame.borderLight"));
+		btnVisulationisSelectFile3.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationisSelectFile3.setBounds(8,223,440,21);
+		pnlVisualisationInfo.add(btnVisulationisSelectFile3);
+		
+		JButton btnVisulationisSelectFile4 = new JButton("Visulation On Positive/Negative/Neutral Based On Comments");
+		btnVisulationisSelectFile4.setBackground(UIManager.getColor("InternalFrame.borderLight"));
+		btnVisulationisSelectFile4.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationisSelectFile4.setBounds(8,279,440,21);
+		pnlVisualisationInfo.add(btnVisulationisSelectFile4);
+		
+		JButton btnVisulationisSelectFile2 = new JButton("Generate One HashTag Used On Per-Day bases");
+		btnVisulationisSelectFile2.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationisSelectFile2.setBackground(UIManager.getColor("InternalFrame.borderLight"));
+		btnVisulationisSelectFile2.setBounds(8,373,440,21);
+		pnlVisualisationInfo.add(btnVisulationisSelectFile2);
+		
+		JLabel lblVisualisationFilePath = new JLabel("File loaded: none");
+		lblVisualisationFilePath.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+		lblVisualisationFilePath.setBounds(8, 108, 707, 23);
+		pnlVisualisationInfo.add(lblVisualisationFilePath);
+		
+		JLabel lblNewLabel = new JLabel("Instagram:");
+		lblNewLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 17));
+		lblNewLabel.setBounds(8, 136, 146, 21);
 		pnlVisualisationInfo.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Ngtregtr");
-		lblNewLabel_1.setBounds(95, 212, 48, 14);
+		JLabel lblNewLabel_1 = new JLabel("Twitter:");
+		lblNewLabel_1.setFont(new Font("Comic Sans MS", Font.BOLD, 17));
+		lblNewLabel_1.setBounds(8, 338, 119, 21);
 		pnlVisualisationInfo.add(lblNewLabel_1);
-		/* end of visualisation panel*/
+		/* end of visualization panel-------------------------------------------------------- */
 		
-		
-		/* start of about panel*/
+		/* start of about panel---------------------------------------------------------------*/
 		JPanel pnlCreditsInfo = new JPanel();
 		pnlCreditsInfo.setLayout(null);
 		pnlCreditsInfo.setBackground(SystemColor.controlHighlight);
@@ -1041,8 +1127,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblStandford.setLocation(60, 300);
 		lblStandford.setSize(200, 20);
 		pnlCreditsInfo.add(lblStandford);
-		
-		
+			
 		JLabel lblIconTwitter4j = new JLabel("");
 		lblIconTwitter4j.setBounds(150, 150, 300, 200);
 		lblIconTwitter4j.setIcon(new ImageIcon(img_twitter4j));
@@ -1062,19 +1147,16 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblCreditsHeader2.setFont(new Font("Tahoma", Font.BOLD, 40));
 		lblCreditsHeader2.setBounds(320, 320, 384, 50);
 		pnlCreditsInfo.add(lblCreditsHeader2);
-		
-		
+				
 		JLabel lblCourse = new JLabel("ICT 1009");
 		lblCourse.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblCourse.setBounds(350, 370, 200, 40);
 		pnlCreditsInfo.add(lblCourse);
-		
-		
+				
 		JLabel lblModule = new JLabel("Object Oriented Programming");
 		lblModule.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblModule.setBounds(220, 400, 500, 40);
 		pnlCreditsInfo.add(lblModule);
-		
 		
 		JLabel lblGroup = new JLabel("Group 34");
 		lblGroup.setFont(new Font("Tahoma", Font.BOLD, 25));
@@ -1098,8 +1180,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblJohn.setLocation(240, 690);
 		lblJohn.setSize(200, 20);
 		pnlCreditsInfo.add(lblJohn);
-		
-		
+			
 		JLabel lblIconProfile2 = new JLabel("");
 		lblIconProfile2.setBounds(420, 480, 200, 200);
 		lblIconProfile2.setIcon(new ImageIcon(img_profilePic));
@@ -1109,7 +1190,6 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblDamon.setSize(200, 20);
 		pnlCreditsInfo.add(lblDamon);
 		
-		
 		JLabel lblIconProfile3 = new JLabel("");
 		lblIconProfile3.setBounds(600, 480, 200, 200);
 		lblIconProfile3.setIcon(new ImageIcon(img_profilePic));
@@ -1118,15 +1198,9 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblAaron.setLocation(600, 690);
 		lblAaron.setSize(200, 20);
 		pnlCreditsInfo.add(lblAaron);
+		/* end of about panel-----------------------------------------------------------------*/
 		
-		
-		/* end of about panel*/
-		
-		
-		
-		
-		
-		
+		/* start of OCR panel-----------------------------------------------------------------*/
 		JPanel pnlOcrInfo = new JPanel();
 		pnlOcrInfo.setLayout(null);
 		pnlOcrInfo.setBackground(SystemColor.controlHighlight);
@@ -1137,10 +1211,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblOcrHeader.setBounds(37, 19, 583, 40);
 		pnlOcrInfo.add(lblOcrHeader);	
 		
-		JButton btnOcrSelectJson = new JButton("Select file");
-		
-		
-		
+		JButton btnOcrSelectJson = new JButton("Select file");	
 		btnOcrSelectJson.setBounds(37, 254, 131, 29);
 		pnlOcrInfo.add(btnOcrSelectJson);
 		
@@ -1181,10 +1252,10 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		});
 		btnAppendOcr.setBounds(37, 300, 197, 47);
 		pnlOcrInfo.add(btnAppendOcr);
-		/* end of credits panel*/
+		/* end of OCR panel-------------------------------------------------------------------*/
 		
+		/* Add all button events--------------------------------------------------------------*/
 		this.addSidePanelEvents();
-
 		btnInstagramFile.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -1220,15 +1291,6 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		btnInstagramHashTagScrape.addMouseListener(new MouseAdapter() {
 			@Override		
 			public void mouseClicked(MouseEvent arg0) {
-				/**
-				 * Final Gui shld have the following:
-				 * -Label to explain scraping process
-				 * [Login] id(txtBox), pwd(txtBox) 	<Check if fields are empty before executing>
-				 * [Hashtag] keyword(txtBox) 		<Check if fields are empty before executing>
-				 * [JSON]	ExportPath(txtBox with placeholder)	<check if empty and valid path>
-				 * -Label for precautions (such as need FireFox, and valid instagram acc)   
-				 */
-
 				//Check for valid fields
 				if(txtInstagramUsername.getText().length() < 1) {
 					txaInstagramConsole.append("*Please enter a username\n");
@@ -1363,7 +1425,121 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				txaTwitterConsole.append("*" + result.getDescription());
 			}
 		});
+		
+		/* Start of visualization button events */
+		// Visulation The Number Of Post Based on Location Instagram PieChart.
+		btnVisulationisSelectFile1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				JFileChooser chooser = new JFileChooser();
+				chooser.setFileFilter(new FileNameExtensionFilter("Data files", "JSON", "json", "txt", "TXT"));
+				// optionally set chooser options ...
+				int returnVal = chooser.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = chooser.getSelectedFile();
+					try {
+						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
+						Instagram_PieChart_NoPostLocation jsonf = new Instagram_PieChart_NoPostLocation("");
+						jsonf.ReadingJson(file.getPath());
+						Instagram_PieChart_NoPostLocation jChart = new Instagram_PieChart_NoPostLocation("Instagram Post Based On Location");
+						jChart.setSize( 560 , 367 );
+						RefineryUtilities.centerFrameOnScreen( jChart );    
+					    jChart.setVisible( true );
+					    
+					} catch (Exception e) {
+						msgbox("Unable to load file\n");
+						e.printStackTrace();
+					}
 
+				}
+			}
+		});
+		//Visulation Base on One HashTag Used On Per-Day bases. Twitter Barchart
+		btnVisulationisSelectFile2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				JFileChooser chooser = new JFileChooser();
+				chooser.setFileFilter(new FileNameExtensionFilter("Data files", "JSON", "json", "txt", "TXT"));
+				// optionally set chooser options ...
+				int returnVal = chooser.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = chooser.getSelectedFile();
+					try {
+						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
+						Twitter_BarChart jsonf = new Twitter_BarChart("","");
+						jsonf.ReadingJson(file.getPath());
+					    Twitter_BarChart chart = new Twitter_BarChart("Twitter HashTag Statistics", 
+					 	         "Weekly Base HashTag Statistics"); 	      
+				 	    chart.pack();        
+				 	    RefineryUtilities.centerFrameOnScreen(chart);        
+					 	chart.setVisible( true ); 
+					} catch (Exception e) {
+						msgbox("Unable to load file\n");
+						e.printStackTrace();
+					}
+
+				}
+			}
+		});
+		//Visulation Base on how many times one hash begin used on a monthly bases. Instagram BarChart
+		btnVisulationisSelectFile3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				JFileChooser chooser = new JFileChooser();
+				chooser.setFileFilter(new FileNameExtensionFilter("Data files", "JSON", "json", "txt", "TXT"));
+				// optionally set chooser options ...
+				int returnVal = chooser.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = chooser.getSelectedFile();
+					try {
+						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
+						  Instagram_BarChart rJson = new Instagram_BarChart(" "," ");
+						  rJson.ReadingJson(file.getPath());
+					      Instagram_BarChart chart = new Instagram_BarChart("Instagram Monthly Base HashTag Statistics", 
+					         "Instagram HashTag Statistics"); 	
+					      chart.pack();        
+					      RefineryUtilities.centerFrameOnScreen( chart );        
+					      chart.setVisible( true );
+					      
+					} catch (Exception e) {
+						msgbox("Unable to load file\n");
+						e.printStackTrace();
+					}
+
+				}
+			}
+		});
+		//Visulation to check Positive/Neutural/Negative base on comment.
+		btnVisulationisSelectFile4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				JFileChooser chooser = new JFileChooser();
+				chooser.setFileFilter(new FileNameExtensionFilter("Data files", "JSON", "json", "txt", "TXT"));
+				// optionally set chooser options ...
+				int returnVal = chooser.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = chooser.getSelectedFile();
+					try {
+						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
+						Instagram_LineChart jsonf = new Instagram_LineChart("");
+						jsonf.ReadingJson(file.getPath());
+					    SwingUtilities.invokeLater(() -> {  
+					      Instagram_LineChart example = new Instagram_LineChart("Line Chart");  
+					      example.setAlwaysOnTop(true);  
+					      example.pack();  
+					      example.setSize(600, 400);    
+					      example.setVisible(true);  
+					    });  
+					} catch (Exception e) {
+						msgbox("Unable to load file\n");
+						e.printStackTrace();
+					}
+
+				}
+			}
+		});
+		/* End of visualization button events */
+		
 		btnJsonSelectFile.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

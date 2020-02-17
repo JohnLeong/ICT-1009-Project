@@ -17,12 +17,12 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
 
-public class Instagram_BarChart extends ApplicationFrame {
+public class InstagramBarChart extends ApplicationFrame {
 
 	static Dictionary<String, String> insta = new Hashtable();
 	static int jan1, feb2, march3, april4, may5, jun6, july7, aug8, sept9, oct10, nov11, dec12;
 
-	public Instagram_BarChart(String applicationTitle, String chartTitle) {
+	public InstagramBarChart(String applicationTitle, String chartTitle) {
 		super(applicationTitle);
 		// System.out.println(insta.size());
 		JFreeChart barChart = ChartFactory.createBarChart(chartTitle, "Instagram", "", createDataset(),
@@ -91,7 +91,7 @@ public class Instagram_BarChart extends ApplicationFrame {
 		return dataset;
 	}
 
-	public static char getCharFromString(String str, int index) {
+	public static char getCharFromIndex(String str, int index) {
 		return str.charAt(index);
 	}
 
@@ -102,7 +102,8 @@ public class Instagram_BarChart extends ApplicationFrame {
 			JSONObject jsonObject = new JSONObject(JSONUtility.parseJSONToString(jsonFile));
 			JSONArray records = jsonObject.getJSONArray("details");
 
-			for (int x = 0; x < records.length(); x++) {// details of json object and get json array from extractedposts
+			for (int x = 0; x < records.length(); x++) {
+				// details of json object and get json array from extractedposts
 				JSONArray extractData = records.getJSONObject(x).getJSONArray("extracted_posts");
 
 				for (int y = 0; y < extractData.length(); y++) {
@@ -111,8 +112,9 @@ public class Instagram_BarChart extends ApplicationFrame {
 					String posted = extracted.getString("posted_by");
 					insta.put(posted, dateTime);
 					// System.out.println(posted + dateTime);
-					char numeric1 = getCharFromString(dateTime, 5);
-					char numeric2 = getCharFromString(dateTime, 6);
+					
+					char numeric1 = getCharFromIndex(dateTime, 5);
+					char numeric2 = getCharFromIndex(dateTime, 6);
 					if (numeric1 == '0') {
 						if (numeric2 == '1') {
 							jan1 += 1;
@@ -148,9 +150,7 @@ public class Instagram_BarChart extends ApplicationFrame {
 
 			}
 
-		}
-
-		catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -14,16 +14,17 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Instagram_LineChart extends JFrame {
+public class InstagramLineGraph extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	static HashMap<String, Integer> insta = new HashMap();
+	static HashMap<String, Integer> data = new HashMap();
+	
 	static double positive = 100;
 	static double negative = 100;
 	static double neutral = 0;
 	static int numberOfReplies = 0;
 
-	public Instagram_LineChart(String title) {
+	public InstagramLineGraph(String title) {
 		super(title);
 		// Create dataset
 		DefaultCategoryDataset dataset = createDataset();
@@ -44,7 +45,7 @@ public class Instagram_LineChart extends JFrame {
 		String avgr = "Neutral";
 		String date;
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		for (String key : insta.keySet()) { // To iterate through the dictionary and push in the value and location to
+		for (String key : data.keySet()) { // To iterate through the dictionary and push in the value and location to
 											// the piechart.
 			date = key;
 			dataset.addValue(positive, happy2, date);
@@ -68,8 +69,9 @@ public class Instagram_LineChart extends JFrame {
 		return true;
 	}
 
-	public void ReadingJson(String jFile) {
-		String jsonFile = jFile;
+	
+	public void ReadingJson(String jsonFilePath) {
+		String jsonFile = jsonFilePath;
 		String[] mood1 = { "sad", "down", "tired", "upset", "cried", "hard", "fake" };
 		String[] mood2 = { "happy", "like", "jy", "love", "cheers", "success", "yes", "good", "wow", "funny", "fun",
 				"easy", "great", "thank", "cool" };
@@ -78,12 +80,13 @@ public class Instagram_LineChart extends JFrame {
 			JSONArray records = jsonObject.getJSONArray("details");
 			String keyToBeChecked = null;
 			boolean isKeyPresent;
-			int value = 0;
+			int value = 0, count = 0;
 			for (int x = 0; x < records.length(); x++) {// details of json object and get json array from extractedposts
 				JSONArray extractData = records.getJSONObject(x).getJSONArray("extracted_posts");
 				for (int y = 0; y < extractData.length(); y++) {
 					JSONObject extracted = extractData.getJSONObject(y);
 					String dateTime = extracted.getString("date_time");
+					
 					JSONArray comment = extractData.getJSONObject(y).getJSONArray("comments");
 					for (int i = 0; i < comment.length(); i++) {
 						JSONObject commentArray = comment.getJSONObject(i);
@@ -106,21 +109,26 @@ public class Instagram_LineChart extends JFrame {
 						}
 						this.numberOfReplies += 1;
 						System.out.println(negative + "\t" + positive + "\t" + neutral);
-						if (insta.isEmpty() == true) { // This is to check if the dictionary is empty.
-							insta.put(dateTime, value + 1);// insert key and value into the dictionary to count number
-															// of times it appears on the same location.
-						} else {// Check if there is same key present on the dictionary.
-							keyToBeChecked = dateTime; // Used this variable to checked for key in the dictionary.
-							isKeyPresent = insta.containsKey(keyToBeChecked);
-							if (isKeyPresent == false) { // Insert key and value if there is no same in the dictionary.
-								insta.put(keyToBeChecked, value + 1);
-							} else if (isKeyPresent == true) {// If there is existing key in the dictionary store
-																// pervious value in OldValue and replace new value to
-																// increment the count.
-								int oldValue = insta.get(keyToBeChecked);
-								insta.put(keyToBeChecked, 1 + oldValue);
-							}
-						}
+						
+						count = data.containsKey(dateTime) ? data.get(dateTime) : 0;
+						data.put(dateTime, count + 1);
+						
+						
+//						if (data.isEmpty() == true) { // This is to check if the dictionary is empty.
+//							data.put(dateTime, value + 1);// insert key and value into the dictionary to count number
+//															// of times it appears on the same location.
+//						} else {// Check if there is same key present on the dictionary.
+//							keyToBeChecked = dateTime; // Used this variable to checked for key in the dictionary.
+//							isKeyPresent = data.containsKey(keyToBeChecked);
+//							if (isKeyPresent == false) { // Insert key and value if there is no same in the dictionary.
+//								data.put(keyToBeChecked, value + 1);
+//							} else if (isKeyPresent == true) {// If there is existing key in the dictionary store
+//																// pervious value in OldValue and replace new value to
+//																// increment the count.
+//								int oldValue = data.get(keyToBeChecked);
+//								data.put(keyToBeChecked, 1 + oldValue);
+//							}
+//						}
 
 					}
 

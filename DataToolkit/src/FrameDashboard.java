@@ -46,6 +46,7 @@ import org.jfree.ui.RefineryUtilities;
 import org.json.JSONException;
 
 import javax.swing.UIManager;
+import javax.swing.JCheckBox;
 
 
 public class FrameDashboard extends JFrame implements ReturnCodes {
@@ -78,6 +79,9 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 	private Image img_maven = new ImageIcon(FrameDashboard.class.getResource("resource/maven.png")).getImage().getScaledInstance(150, 50, Image.SCALE_SMOOTH);
 	private Image img_tesseract = new ImageIcon(FrameDashboard.class.getResource("resource/tesseractOCR.png")).getImage().getScaledInstance(150, 90, Image.SCALE_SMOOTH);
 	private Image img_profilePic = new ImageIcon(FrameDashboard.class.getResource("resource/profilePic.png")).getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
+	private Image img_profile_john = new ImageIcon(FrameDashboard.class.getResource("resource/john.png")).getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
+	private Image img_profile_aaron = new ImageIcon(FrameDashboard.class.getResource("resource/aaron.jpg")).getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
+	private Image img_profile_damon = new ImageIcon(FrameDashboard.class.getResource("resource/damon.png")).getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
 	
 	/* Various GUI components */
 	private JTextField txtInstagramUsername;
@@ -1047,23 +1051,23 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblVisulationFilePath.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnlVisualisationInfo.add(lblVisulationFilePath);
 		
-		JButton btnVisulationisSelectFile1 = new JButton("Visulation The Number Of Post Based On Location");
-		btnVisulationisSelectFile1.setBackground(UIManager.getColor("InternalFrame.borderLight"));
-		btnVisulationisSelectFile1.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
-		btnVisulationisSelectFile1.setBounds(8,167,440,21);
-		pnlVisualisationInfo.add(btnVisulationisSelectFile1);
+		JButton btnVisulationPlotByLocation = new JButton("Visulation The Number Of Post Based On Location");
+		btnVisulationPlotByLocation.setBackground(UIManager.getColor("InternalFrame.borderLight"));
+		btnVisulationPlotByLocation.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationPlotByLocation.setBounds(8,167,440,21);
+		pnlVisualisationInfo.add(btnVisulationPlotByLocation);
 		
-		JButton btnVisulationisSelectFile3 = new JButton("Visulation On One Hash Begin Used On Monthly Bases");
-		btnVisulationisSelectFile3.setBackground(UIManager.getColor("InternalFrame.borderLight"));
-		btnVisulationisSelectFile3.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
-		btnVisulationisSelectFile3.setBounds(8,223,440,21);
-		pnlVisualisationInfo.add(btnVisulationisSelectFile3);
+		JButton btnVisulationPlotByMonth = new JButton("Visulation On One Hash Begin Used On Monthly Bases");
+		btnVisulationPlotByMonth.setBackground(UIManager.getColor("InternalFrame.borderLight"));
+		btnVisulationPlotByMonth.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationPlotByMonth.setBounds(8,223,440,21);
+		pnlVisualisationInfo.add(btnVisulationPlotByMonth);
 		
-		JButton btnVisulationisSelectFile4 = new JButton("Visulation On Positive/Negative/Neutral Based On Comments");
-		btnVisulationisSelectFile4.setBackground(UIManager.getColor("InternalFrame.borderLight"));
-		btnVisulationisSelectFile4.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
-		btnVisulationisSelectFile4.setBounds(8,279,440,21);
-		pnlVisualisationInfo.add(btnVisulationisSelectFile4);
+		JButton btnVisulationSentimentAnalysis = new JButton("Sentiment Analysis against User Interactions");
+		btnVisulationSentimentAnalysis.setBackground(UIManager.getColor("InternalFrame.borderLight"));
+		btnVisulationSentimentAnalysis.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationSentimentAnalysis.setBounds(8,279,440,21);
+		pnlVisualisationInfo.add(btnVisulationSentimentAnalysis);
 		
 		JButton btnVisulationisSelectFile2 = new JButton("Generate One HashTag Used On Per-Day bases");
 		btnVisulationisSelectFile2.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
@@ -1085,6 +1089,11 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblNewLabel_1.setFont(new Font("Comic Sans MS", Font.BOLD, 17));
 		lblNewLabel_1.setBounds(8, 338, 119, 21);
 		pnlVisualisationInfo.add(lblNewLabel_1);
+		
+		JCheckBox chkParseOcr = new JCheckBox("Use OCR Text for Analysis");
+		chkParseOcr.setBackground(Color.LIGHT_GRAY);
+		chkParseOcr.setBounds(465, 268, 267, 49);
+		pnlVisualisationInfo.add(chkParseOcr);
 		/* end of visualization panel-------------------------------------------------------- */
 		
 		/* start of about panel---------------------------------------------------------------*/
@@ -1093,34 +1102,34 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		pnlCreditsInfo.setBackground(SystemColor.controlHighlight);
 		pnlInfo.add(pnlCreditsInfo, "pnlCreditsInfo");
 		
-		JLabel lblCreditsHeader = new JLabel("Credits");
+		JLabel lblCreditsHeader = new JLabel("Technologies Used");
 		lblCreditsHeader.setFont(new Font("Tahoma", Font.BOLD, 40));
-		lblCreditsHeader.setBounds(330, 10, 384, 40);
+		lblCreditsHeader.setBounds(200, 28, 418, 40);
 		pnlCreditsInfo.add(lblCreditsHeader);
 			
 		JLabel lblIconJava = new JLabel("");
-		lblIconJava.setBounds(20, 35, 300, 200);
+		lblIconJava.setBounds(16, 40, 300, 200);
 		lblIconJava.setIcon(new ImageIcon(img_javaLogo));
 		pnlCreditsInfo.add(lblIconJava);
 		
 		JLabel lblIconjSoup = new JLabel("");
-		lblIconjSoup.setBounds(200, 35, 300, 200);
+		lblIconjSoup.setBounds(196, 40, 300, 200);
 		lblIconjSoup.setIcon(new ImageIcon(img_jSoup));
 		pnlCreditsInfo.add(lblIconjSoup);
 		
 		JLabel lblIconjSwing = new JLabel("");
-		lblIconjSwing.setBounds(400, 35, 200, 200);
+		lblIconjSwing.setBounds(426, 33, 135, 200);
 		lblIconjSwing.setIcon(new ImageIcon(img_javaSwing));
 		pnlCreditsInfo.add(lblIconjSwing);
 		
 		
 		JLabel lblIconSelenium = new JLabel("Selenium");
-		lblIconSelenium.setBounds(600, 35, 300, 200);
+		lblIconSelenium.setBounds(596, 40, 300, 200);
 		lblIconSelenium.setIcon(new ImageIcon(img_selenium));
 		pnlCreditsInfo.add(lblIconSelenium);
 		
 		JLabel lblIconStandfordCoreNlp = new JLabel("");
-		lblIconStandfordCoreNlp.setBounds(60, 150, 300, 200);
+		lblIconStandfordCoreNlp.setBounds(56, 155, 122, 200);
 		lblIconStandfordCoreNlp.setIcon(new ImageIcon(img_standford));
 		pnlCreditsInfo.add(lblIconStandfordCoreNlp);
 		JLabel lblStandford = new JLabel("Standford CoreNLP");
@@ -1129,73 +1138,63 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		pnlCreditsInfo.add(lblStandford);
 			
 		JLabel lblIconTwitter4j = new JLabel("");
-		lblIconTwitter4j.setBounds(150, 150, 300, 200);
+		lblIconTwitter4j.setBounds(146, 155, 300, 200);
 		lblIconTwitter4j.setIcon(new ImageIcon(img_twitter4j));
 		pnlCreditsInfo.add(lblIconTwitter4j);
 		
 		JLabel lblIconMaven = new JLabel("");
-		lblIconMaven.setBounds(420, 150, 200, 200);
+		lblIconMaven.setBounds(416, 155, 200, 200);
 		lblIconMaven.setIcon(new ImageIcon(img_maven));
 		pnlCreditsInfo.add(lblIconMaven);
 		
 		JLabel lblIconTesseract = new JLabel("");
-		lblIconTesseract.setBounds(600, 150, 200, 200);
+		lblIconTesseract.setBounds(596, 155, 200, 200);
 		lblIconTesseract.setIcon(new ImageIcon(img_tesseract));
 		pnlCreditsInfo.add(lblIconTesseract);
 		
-		JLabel lblCreditsHeader2 = new JLabel("Done By");
+		JLabel lblCreditsHeader2 = new JLabel("Members");
 		lblCreditsHeader2.setFont(new Font("Tahoma", Font.BOLD, 40));
-		lblCreditsHeader2.setBounds(320, 320, 384, 50);
+		lblCreditsHeader2.setBounds(315, 338, 192, 50);
 		pnlCreditsInfo.add(lblCreditsHeader2);
-				
-		JLabel lblCourse = new JLabel("ICT 1009");
-		lblCourse.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblCourse.setBounds(350, 370, 200, 40);
-		pnlCreditsInfo.add(lblCourse);
-				
-		JLabel lblModule = new JLabel("Object Oriented Programming");
-		lblModule.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblModule.setBounds(220, 400, 500, 40);
-		pnlCreditsInfo.add(lblModule);
 		
 		JLabel lblGroup = new JLabel("Group 34");
 		lblGroup.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblGroup.setBounds(350, 430, 200, 40);
+		lblGroup.setBounds(347, 401, 135, 40);
 		pnlCreditsInfo.add(lblGroup);
 		
 		JLabel lblIconProfile = new JLabel("");
-		lblIconProfile.setBounds(60, 480, 200, 200);
+		lblIconProfile.setBounds(60, 453, 200, 200);
 		lblIconProfile.setIcon(new ImageIcon(img_profilePic));
 		pnlCreditsInfo.add(lblIconProfile);
 		JLabel lblPatrick = new JLabel("PATRICK KANG (1902132)");
-		lblPatrick.setLocation(60, 690);
+		lblPatrick.setLocation(60, 670);
 		lblPatrick.setSize(200, 20);
 		pnlCreditsInfo.add(lblPatrick);
 		
 		JLabel lblIconProfile1 = new JLabel("");
-		lblIconProfile1.setBounds(240, 480, 200, 200);
-		lblIconProfile1.setIcon(new ImageIcon(img_profilePic));
+		lblIconProfile1.setBounds(240, 453, 200, 200);
+		lblIconProfile1.setIcon(new ImageIcon(img_profile_john));
 		pnlCreditsInfo.add(lblIconProfile1);
 		JLabel lblJohn = new JLabel("JOHN LEONG (1902605)");
-		lblJohn.setLocation(240, 690);
+		lblJohn.setLocation(240, 670);
 		lblJohn.setSize(200, 20);
 		pnlCreditsInfo.add(lblJohn);
 			
 		JLabel lblIconProfile2 = new JLabel("");
-		lblIconProfile2.setBounds(420, 480, 200, 200);
-		lblIconProfile2.setIcon(new ImageIcon(img_profilePic));
+		lblIconProfile2.setBounds(420, 453, 200, 200);
+		lblIconProfile2.setIcon(new ImageIcon(img_profile_damon));
 		pnlCreditsInfo.add(lblIconProfile2);
 		JLabel lblDamon = new JLabel("DAMON ANG (1902707)");
-		lblDamon.setLocation(420, 690);
+		lblDamon.setLocation(420, 670);
 		lblDamon.setSize(200, 20);
 		pnlCreditsInfo.add(lblDamon);
 		
 		JLabel lblIconProfile3 = new JLabel("");
-		lblIconProfile3.setBounds(600, 480, 200, 200);
-		lblIconProfile3.setIcon(new ImageIcon(img_profilePic));
+		lblIconProfile3.setBounds(600, 453, 200, 200);
+		lblIconProfile3.setIcon(new ImageIcon(img_profile_aaron));
 		pnlCreditsInfo.add(lblIconProfile3);
 		JLabel lblAaron = new JLabel("AARON CHUA (1902146)");
-		lblAaron.setLocation(600, 690);
+		lblAaron.setLocation(600, 670);
 		lblAaron.setSize(200, 20);
 		pnlCreditsInfo.add(lblAaron);
 		/* end of about panel-----------------------------------------------------------------*/
@@ -1428,7 +1427,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		
 		/* Start of visualization button events */
 		// Visulation The Number Of Post Based on Location Instagram PieChart.
-		btnVisulationisSelectFile1.addMouseListener(new MouseAdapter() {
+		btnVisulationPlotByLocation.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JFileChooser chooser = new JFileChooser();
@@ -1439,9 +1438,13 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 					File file = chooser.getSelectedFile();
 					try {
 						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
-						Instagram_PieChart_NoPostLocation jsonf = new Instagram_PieChart_NoPostLocation("");
+						
+						
+						InstagramPieChart jsonf = new InstagramPieChart("");
 						jsonf.ReadingJson(file.getPath());
-						Instagram_PieChart_NoPostLocation jChart = new Instagram_PieChart_NoPostLocation("Instagram Post Based On Location");
+						
+						InstagramPieChart jChart = new InstagramPieChart("Instagram Post Based On Location");
+//						jChart.ReadingJson(file.getPath());
 						jChart.setSize( 560 , 367 );
 						RefineryUtilities.centerFrameOnScreen( jChart );    
 					    jChart.setVisible( true );
@@ -1482,7 +1485,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 			}
 		});
 		//Visulation Base on how many times one hash begin used on a monthly bases. Instagram BarChart
-		btnVisulationisSelectFile3.addMouseListener(new MouseAdapter() {
+		btnVisulationPlotByMonth.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JFileChooser chooser = new JFileChooser();
@@ -1493,9 +1496,9 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 					File file = chooser.getSelectedFile();
 					try {
 						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
-						  Instagram_BarChart rJson = new Instagram_BarChart(" "," ");
+						  InstagramBarChart rJson = new InstagramBarChart(" "," ");
 						  rJson.ReadingJson(file.getPath());
-					      Instagram_BarChart chart = new Instagram_BarChart("Instagram Monthly Base HashTag Statistics", 
+					      InstagramBarChart chart = new InstagramBarChart("Instagram Monthly Base HashTag Statistics", 
 					         "Instagram HashTag Statistics"); 	
 					      chart.pack();        
 					      RefineryUtilities.centerFrameOnScreen( chart );        
@@ -1510,7 +1513,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 			}
 		});
 		//Visulation to check Positive/Neutural/Negative base on comment.
-		btnVisulationisSelectFile4.addMouseListener(new MouseAdapter() {
+		btnVisulationSentimentAnalysis.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JFileChooser chooser = new JFileChooser();
@@ -1520,11 +1523,22 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getSelectedFile();
 					try {
+						
+						
+						//Steps by patrick
+						//Uncomment from here 
+						
+//						InstagramSentimentAnalyzer obj = new InstagramSentimentAnalyzer();
+//						HashMap<String, Integer> results = obj.getInstagramSentimentResults(file.getPath(), chkParseOcr.isSelected()); 
+						
+						// to here. Pass the results into ur piechart function or whatever. 
+						
+						
 						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
-						Instagram_LineChart jsonf = new Instagram_LineChart("");
+						InstagramLineGraph jsonf = new InstagramLineGraph("");
 						jsonf.ReadingJson(file.getPath());
 					    SwingUtilities.invokeLater(() -> {  
-					      Instagram_LineChart example = new Instagram_LineChart("Line Chart");  
+					      InstagramLineGraph example = new InstagramLineGraph("Line Chart");  
 					      example.setAlwaysOnTop(true);  
 					      example.pack();  
 					      example.setSize(600, 400);    

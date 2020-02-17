@@ -27,16 +27,32 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 	@Override
 	protected ArrayList<String> parseJSONComments(JSONObject jsonObject) {
 		ArrayList<String> comments = new ArrayList<String>();
-		JSONArray posts = jsonObject.getJSONArray("extracted_posts");
-		JSONArray postComments = new JSONArray();
-		
-		for (int i = 0; i < posts.length(); ++i) {
-			postComments = posts.getJSONObject(i).getJSONArray("comments");
-			for (int j = 0; j < postComments.length(); ++j) {
-				comments.add(postComments.getJSONObject(j).getString("desc"));
+		JSONArray details = jsonObject.getJSONArray("details");
+		for (int i = 0; i < details.length(); ++i) {
+			JSONArray posts = ((JSONObject)details.get(i)).getJSONArray("extracted_posts");
+			JSONArray postComments = new JSONArray();
+			for (int j = 0; j < posts.length(); ++j) {
+				postComments = posts.getJSONObject(j).getJSONArray("comments");
+				for (int k = 0; k < postComments.length(); ++k) {
+					comments.add(postComments.getJSONObject(k).getString("desc"));
+				}
 			}
 		}
 		return comments;
+	}
+	
+	protected ArrayList<String> parseJsonOcrText(JSONObject jsonObject) {
+		ArrayList<String> ocrSentences = new ArrayList<String>();
+		JSONArray details = jsonObject.getJSONArray("details");
+		for (int i = 0; i < details.length(); ++i) {
+			JSONArray posts = ((JSONObject)details.get(i)).getJSONArray("extracted_posts");
+//			JSONArray posts = jsonObject.getJSONArray("extracted_posts");
+			JSONArray postComments = new JSONArray();
+			for (int j = 0; j < posts.length(); ++j) {
+				ocrSentences.add(posts.getJSONObject(j).getString("img_ocr_text"));
+			}
+		}
+		return ocrSentences;
 	}
 	
 	/**
@@ -48,12 +64,18 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 	 * @param jsonPath		Full file path of JSON file created by InstagramScraper
 	 * @return				Returns reactions of all comments HashMap in the format <Sentiment Category, Count>
 	 */
-	public HashMap<String, Integer> getInstagramSentimentResults(String jsonPath) {
+	public HashMap<String, Integer> getInstagramSentimentResults(String jsonPath, boolean parseOcr) {
 		try {
 			JSONObject contents = new JSONObject(readJSONFileToString(jsonPath));
-			List<String> allComments = this.parseJSONComments(contents);
-			return super.getSentimentResults(allComments);
+			List<String> toAnalyse = new ArrayList<String>();
+//			System.out.println(contents.getString("scrape_mode") + "    " + contents.getString("platform"));
+			if (!contents.getString("scrape_mode").equals("profiles") && !contents.getString("platform").equals("instagram")) {
+				toAnalyse.addAll(this.parseJSONComments(contents));
+			}
+			if (parseOcr) { toAnalyse.addAll(this.parseJsonOcrText(contents)); }
+			return super.getSentimentResults(toAnalyse);
 		} catch (JSONException | IOException e1) {
+			e1.printStackTrace();
 			System.out.println("Error parsing JSON file.");
 		}
 		return null;

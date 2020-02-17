@@ -65,14 +65,14 @@ abstract public class SentimentAnalyzer {
 
 	/**
 	 * Evaluate sentiment results based on the list of all comments.
-	 * @param comments		ArrayList containing everyone's comments.
+	 * @param sentences		ArrayList containing everyone's comments.
 	 * @return				HashMap containing user feelings with the number of counts.
 	 */
-	protected HashMap<String, Integer> getSentimentResults(List<String> comments) {
+	protected HashMap<String, Integer> getSentimentResults(List<String> sentences) {
 		HashMap<String, Integer> reactions = new HashMap<String, Integer>();
 		int mapKeyCount; String reaction;
-		for (String comment : comments) {
-			reaction = commentCategory(comment);
+		for (String sentence : sentences) {
+			reaction = commentCategory(sentence);
 			mapKeyCount = reactions.containsKey(reaction) ? reactions.get(reaction) : 0;
 			reactions.put(reaction, mapKeyCount + 1);
 		}

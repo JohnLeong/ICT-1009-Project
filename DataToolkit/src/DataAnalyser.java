@@ -80,6 +80,12 @@ public class DataAnalyser {
 					else
 						relatedHashtags.put(h, 1);
 				}
+				
+				if (post.has("img_ocr_text")){
+					String[] ocr_words = post.getString("img_ocr_text").split("\\s+");
+					for(String word : ocr_words)
+						wordMap.add(word);
+				}
 			}
 		}
 		

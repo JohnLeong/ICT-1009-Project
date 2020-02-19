@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 //import org.testng.annotations.Test;
 
-public class ScrapeUtilityWebDriver extends ScrapeUtility {
+public abstract class ScrapeUtilityWebDriver extends ScrapeUtility {
 
 	protected WebDriver driver;
 	final private static String GECKO_DRIVER_PATH = System.getProperty("user.dir") + "\\geckodriver.exe";

@@ -47,8 +47,6 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 		JSONArray details = jsonObject.getJSONArray("details");
 		for (int i = 0; i < details.length(); ++i) {
 			JSONArray posts = ((JSONObject)details.get(i)).getJSONArray("extracted_posts");
-//			JSONArray posts = jsonObject.getJSONArray("extracted_posts");
-			JSONArray postComments = new JSONArray();
 			for (int j = 0; j < posts.length(); ++j) {
 				ocrSentences.add(posts.getJSONObject(j).getString("img_ocr_text"));
 			}
@@ -69,7 +67,6 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 		try {
 			JSONObject contents = new JSONObject(readJSONFileToString(jsonPath));
 			List<String> toAnalyse = new ArrayList<String>();
-//			System.out.println(contents.getString("scrape_mode") + "    " + contents.getString("platform"));
 			if (!contents.getString("scrape_mode").equals("profiles") && !contents.getString("platform").equals("instagram")) {
 				toAnalyse.addAll(this.parseJSONComments(contents));
 			}

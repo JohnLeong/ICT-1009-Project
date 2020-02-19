@@ -12,7 +12,9 @@ public interface InstagramDryScraping {
 	final String JS_NUM_OF_VIDEO_VIEWS 		= "/entry_data/PostPage/0/graphql/shortcode_media/video_view_count/";	
 	final String JS_NUM_OF_COMMENTS 		= "/entry_data/PostPage/0/graphql/shortcode_media/edge_media_to_parent_comment/count";
 	final String JS_VIDEO_URL 				= "/entry_data/PostPage/0/graphql/shortcode_media/video_url";
-	final String JS_IMAGE_DISPLAY_URL		="/entry_data/PostPage/0/graphql/shortcode_media/display_url";
+	final String JS_IMAGE_DISPLAY_URL		= "/entry_data/PostPage/0/graphql/shortcode_media/display_url";
+	final String JS_CAPTION 				= "/entry_data/PostPage/0/graphql/shortcode_media/edge_media_to_caption/edges/0/node/text";
+	
 	
 	default Object returnQueryObject(final String postUrl, final String query) {
 		return (new JSONObject(WindowSharedDataExtractor.getWindowSharedDataJson(postUrl))).optQuery(query);
@@ -23,12 +25,15 @@ public interface InstagramDryScraping {
 				((Number)returnQueryObject(posturl, JS_NUM_OF_COMMENTS)).longValue() :
 					-1;
 	}
-
+	
+	
+	
 	default long getNumberOfLikes(final String postUrl) {
 		return returnQueryObject(postUrl, JS_NUM_OF_LIKES) != null ?
 				((Number)returnQueryObject(postUrl, JS_NUM_OF_LIKES)).longValue() : 
 					-1;
 	}
+	
 	default long getNumberOfVideoViews(final String postUrl) {
 		return returnQueryObject(postUrl, JS_NUM_OF_VIDEO_VIEWS) != null ? 
 				((Number)returnQueryObject(postUrl, JS_NUM_OF_VIDEO_VIEWS)).longValue() : 
@@ -50,4 +55,11 @@ public interface InstagramDryScraping {
 				returnQueryObject(postUrl, JS_IMAGE_DISPLAY_URL).toString() :
 					"None";
 	}
+	
+	default String getPostCaption(final String postUrl) {
+		return returnQueryObject(postUrl, JS_CAPTION) != null ?
+				returnQueryObject(postUrl, JS_CAPTION).toString() :
+					"None";
+	}
+
 }

@@ -74,8 +74,9 @@ abstract public class SentimentAnalyzer {
 	protected HashMap<String, Integer> getSentimentResults(List<String> sentences) {
 		HashMap<String, Integer> reactions = new HashMap<String, Integer>();
 		int mapKeyCount; String reaction;
-		for (String sentence : sentences) {
-			reaction = commentCategory(sentence);
+		for (int i = 0; i < sentences.size(); ++i) {
+			System.out.println("Evaluating Sentiment " +  (i+1));
+			reaction = commentCategory(sentences.get(i));
 			mapKeyCount = reactions.containsKey(reaction) ? reactions.get(reaction) : 0;
 			reactions.put(reaction, mapKeyCount + 1);
 		}

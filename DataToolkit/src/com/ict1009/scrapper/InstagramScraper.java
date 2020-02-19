@@ -482,7 +482,8 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 						StringConverter.convertUnicodeToUTF8(
 								InstagramDryScraping.super.getDisplayImageUrl(postLink))
 						);
-
+				
+				post.put("caption", InstagramDryScraping.super.getPostCaption(postLink));
 				post.put("no_of_likes", InstagramDryScraping.super.getNumberOfLikes(postLink));
 				post.put("no_of_comments", InstagramDryScraping.super.getNumberOfComments(postLink));
 				post.put("is_video", InstagramDryScraping.super.getIsVideo(postLink));

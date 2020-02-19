@@ -22,6 +22,7 @@ public class WindowSharedDataExtractor {
 	 */
 	static String getWindowSharedDataJson(String postUrl) {
 		Document doc;
+		
 		if (previousUrl.equals(postUrl) && previousJson != "") {
 			return previousJson;
 		}
@@ -37,6 +38,7 @@ public class WindowSharedDataExtractor {
 					previousJson = e.toString()
 							.replace(STRIP_JSON_OUTPUT, "")
 							.replace(STRIP_JSON_OUTPUT2, "");
+					System.out.println(previousJson);
 					return previousJson;
 				}
 			}

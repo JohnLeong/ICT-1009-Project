@@ -39,6 +39,11 @@ public class InstagramLineGraph extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
+	/**
+	 * Creates a dataset of post sentiments used to populate a chart
+	 * 
+	 * @return		The populated dataset
+	 */
 	private DefaultCategoryDataset createDataset() {
 
 		String happy2 = "Positive";
@@ -58,10 +63,6 @@ public class InstagramLineGraph extends JFrame {
 		return dataset;
 	}
 
-	public static char getCharFromString(String str, int index) {
-		return str.charAt(index);
-	}
-
 	static boolean checkedCharacters(String x, String y) {
 		int n = x.length();
 		for (int i = 0; i < n; i++)
@@ -70,7 +71,11 @@ public class InstagramLineGraph extends JFrame {
 		return true;
 	}
 
-	
+	/**
+	 * Reads a JSON string for a scraped dataset and checks the sentiment of each post
+	 * 
+	 * @param jFile		The JSON string to read
+	 */
 	public void ReadingJson(String jsonFilePath) {
 		String jsonFile = jsonFilePath;
 		String[] mood1 = { "sad", "down", "tired", "upset", "cried", "hard", "fake" };

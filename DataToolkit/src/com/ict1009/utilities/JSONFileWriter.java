@@ -8,6 +8,13 @@ import org.json.JSONObject;
 
 public interface JSONFileWriter {
 	
+	/**
+	 * Exports the specified JSONObject to the specified folder
+	 * 
+	 * @param obj			The JSONObject to export
+	 * @param folderPath	The folder to export to
+	 * @return				Returns true if the export was successful
+	 */
 	default boolean exportJsonObjToFolder(JSONObject obj, String folderPath) {
 		FileWriter file;
 		try {
@@ -25,6 +32,13 @@ public interface JSONFileWriter {
 		return true;		
 	}
 	
+	/**
+	 * Exports the specified JSONObject to the specified file path
+	 * 
+	 * @param obj			The JSONObject to export
+	 * @param folderPath	The filepath to export to
+	 * @return				Returns true if the export was successful
+	 */
 	default boolean exportJsonObjToFile(JSONObject obj, String fileSavePath) {
 		try {  
 			FileWriter file = new FileWriter(fileSavePath);

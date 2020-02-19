@@ -37,6 +37,11 @@ public class TwitterBarChart extends ApplicationFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
+	/**
+	 * Creates a dataset of post dates used to populate a chart
+	 * 
+	 * @return		The populated dataset
+	 */
 	public CategoryDataset createDataset() {
 
 		final String mon = "Monday";
@@ -74,10 +79,11 @@ public class TwitterBarChart extends ApplicationFrame {
 		return dataset;
 	}
 
-	public static char getCharFromString(String str, int index) {
-		return str.charAt(index);
-	}
-
+	/**
+	 * Reads a JSON string for a scraped dataset and checks the date of each post
+	 * 
+	 * @param jFile		The JSON string to read
+	 */
 	public void ReadingJson(String jFile) {
 
 		String jsonFile = jFile;
@@ -91,8 +97,8 @@ public class TwitterBarChart extends ApplicationFrame {
 					String captions = new String(extractData.getJSONObject(i).getString("caption"));
 					String postDateTime = new String(extractData.getJSONObject(i).getString("date_time"));
 					tweets.put(captions, postDateTime);
-					char ch = getCharFromString(postDateTime, 0);
-					char ch2 = getCharFromString(postDateTime, 1);
+					char ch = postDateTime.charAt(0);
+					char ch2 = postDateTime.charAt(1);
 					if (ch == 'M') {
 
 						mon1 = mon1 + 1;

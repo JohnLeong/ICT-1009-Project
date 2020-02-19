@@ -18,7 +18,6 @@ public class OCRUtility {
 	private final static String TEMP_JPG_DLD_AS = System.getProperty("user.dir") + "\\temp\\temp.jpg";
 	private final static String TEMP_PNG_SAVE_AS = System.getProperty("user.dir") + "\\temp\\temp.png";
 	
-	
 	/**
 	 * Conducts OCR on image passed in.
 	 * 
@@ -46,8 +45,8 @@ public class OCRUtility {
 		//Finally delete the jpg and png and return text.
 		String ocrText = "default_none";
 		try {
-//			FileHelper.deleteFile(TEMP_DL_IMG_FlDR_PATH);
-//			FileHelper.deleteFile(TEMP_IMG_SAVE_PATH);
+			//FileHelper.deleteFile(TEMP_DL_IMG_FlDR_PATH);
+			//FileHelper.deleteFile(TEMP_IMG_SAVE_PATH);
 			FileHelper.downloadFromURL(imageUrl, TEMP_JPG_DLD_AS);
 			FileHelper.convertJpgToPng(TEMP_JPG_DLD_AS, TEMP_PNG_SAVE_AS);
 			ocrText = getOCRText(TEMP_PNG_SAVE_AS);

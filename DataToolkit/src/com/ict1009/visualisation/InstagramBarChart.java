@@ -28,7 +28,10 @@ public class InstagramBarChart extends ApplicationFrame {
 
 	public InstagramBarChart(String applicationTitle, String chartTitle) {
 		super(applicationTitle);
-		// System.out.println(insta.size());
+		//Reset all static values for creation of new chart
+		jan1 = feb2 = march3 = april4 = may5 = jun6 = july7 = aug8 = sept9 = oct10 = nov11 = dec12 = 0;
+		insta = new Hashtable<String, String>();
+		
 		JFreeChart barChart = ChartFactory.createBarChart(chartTitle, "Instagram", "", createDataset(),
 				PlotOrientation.VERTICAL, true, true, false);
 
@@ -36,8 +39,14 @@ public class InstagramBarChart extends ApplicationFrame {
 		chartPanel.setPreferredSize(new java.awt.Dimension(560, 500));
 		setContentPane(chartPanel);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
 	}
 
+	/**
+	 * Creates a dataset of post dates used to populate a chart
+	 * 
+	 * @return		The populated dataset
+	 */
 	public CategoryDataset createDataset() {
 
 		final String jan = "JAN";
@@ -95,10 +104,11 @@ public class InstagramBarChart extends ApplicationFrame {
 		return dataset;
 	}
 
-	public static char getCharFromIndex(String str, int index) {
-		return str.charAt(index);
-	}
-
+	/**
+	 * Reads a JSON string for a scraped dataset and checks the date of each post
+	 * 
+	 * @param jFile		The JSON string to read
+	 */
 	public void ReadingJson(String jFile) {
 
 		String jsonFile = jFile;
@@ -117,8 +127,8 @@ public class InstagramBarChart extends ApplicationFrame {
 					insta.put(posted, dateTime);
 					// System.out.println(posted + dateTime);
 					
-					char numeric1 = getCharFromIndex(dateTime, 5);
-					char numeric2 = getCharFromIndex(dateTime, 6);
+					char numeric1 = dateTime.charAt(5);
+					char numeric2 = dateTime.charAt(6);
 					if (numeric1 == '0') {
 						if (numeric2 == '1') {
 							jan1 += 1;
@@ -162,16 +172,5 @@ public class InstagramBarChart extends ApplicationFrame {
 			e.printStackTrace();
 		}
 
-	}
-
-	public static void main(String[] args) {
-
-		/*
-		 * Instagram_BarChart rJson = new Instagram_BarChart(" "," ");
-		 * rJson.ReadingJson("jfile"); System.out.println(feb2); Instagram_BarChart
-		 * chart = new Instagram_BarChart("Instagram Monthly Base HashTag Statistics",
-		 * "Instagram HashTag Statistics"); chart.pack();
-		 * RefineryUtilities.centerFrameOnScreen( chart ); chart.setVisible( true );
-		 */
 	}
 }

@@ -1073,40 +1073,40 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		
 		JButton btnVisulationPlotByLocation = new JButton("Visulation The Number Of Post Based On Location");
 		btnVisulationPlotByLocation.setBackground(UIManager.getColor("InternalFrame.borderLight"));
-		btnVisulationPlotByLocation.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationPlotByLocation.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnVisulationPlotByLocation.setBounds(8,167,440,21);
 		pnlVisualisationInfo.add(btnVisulationPlotByLocation);
 		
 		JButton btnVisulationPlotByMonth = new JButton("Visulation On One Hash Begin Used On Monthly Bases");
 		btnVisulationPlotByMonth.setBackground(UIManager.getColor("InternalFrame.borderLight"));
-		btnVisulationPlotByMonth.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationPlotByMonth.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnVisulationPlotByMonth.setBounds(8,223,440,21);
 		pnlVisualisationInfo.add(btnVisulationPlotByMonth);
 		
 		JButton btnVisulationSentimentAnalysis = new JButton("Sentiment Analysis against User Interactions");
 		btnVisulationSentimentAnalysis.setBackground(UIManager.getColor("InternalFrame.borderLight"));
-		btnVisulationSentimentAnalysis.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationSentimentAnalysis.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnVisulationSentimentAnalysis.setBounds(8,279,440,21);
 		pnlVisualisationInfo.add(btnVisulationSentimentAnalysis);
 		
 		JButton btnVisulationisSelectFile2 = new JButton("Generate One HashTag Used On Per-Day bases");
-		btnVisulationisSelectFile2.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		btnVisulationisSelectFile2.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnVisulationisSelectFile2.setBackground(UIManager.getColor("InternalFrame.borderLight"));
 		btnVisulationisSelectFile2.setBounds(8,373,440,21);
 		pnlVisualisationInfo.add(btnVisulationisSelectFile2);
-		
+
 		JLabel lblVisualisationFilePath = new JLabel("File loaded: none");
-		lblVisualisationFilePath.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+		lblVisualisationFilePath.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblVisualisationFilePath.setBounds(8, 108, 707, 23);
 		pnlVisualisationInfo.add(lblVisualisationFilePath);
 		
 		JLabel lblNewLabel = new JLabel("Instagram:");
-		lblNewLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 17));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblNewLabel.setBounds(8, 136, 146, 21);
 		pnlVisualisationInfo.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Twitter:");
-		lblNewLabel_1.setFont(new Font("Comic Sans MS", Font.BOLD, 17));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblNewLabel_1.setBounds(8, 338, 119, 21);
 		pnlVisualisationInfo.add(lblNewLabel_1);
 		

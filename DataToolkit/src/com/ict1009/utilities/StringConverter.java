@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 public class StringConverter {
 	
 	/**
-	 * Converts Unicode to UTF-8
+	 * Converts a Unicode string to UTF-8
 	 * @param input		Unconverted UNICODE String
 	 * @return			Converted UTF-8 String
 	 */

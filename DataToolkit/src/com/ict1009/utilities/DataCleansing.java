@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public class DataCleansing {
 	
 	/**
-	 * For sanitizing string to provide accurate Sentiment Analysis results
+	 * Sanitizes a string by removing unwanted spaces and unrecognized characters
 	 * @param input		String to be sanitized
 	 * @return			Sanitized string
 	 */

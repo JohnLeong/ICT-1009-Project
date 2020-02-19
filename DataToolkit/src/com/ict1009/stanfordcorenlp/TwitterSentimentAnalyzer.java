@@ -18,6 +18,12 @@ public class TwitterSentimentAnalyzer extends SentimentAnalyzer {
 		super(modes);
 	}
 	
+	/**
+	 * Parses the JSON information scraped by TwitterScraper which contains all 
+	 * details scraped for a particular HashTag
+	 * @param jsonObject	JSONObject containing all details which is scraped by TwitterScraper
+	 * @return				ArrayList of comments
+	 */
 	@Override
 	protected ArrayList<String> parseJSONComments(JSONObject jsonObject) {
 		ArrayList<String> comments = new ArrayList<String>();
@@ -36,7 +42,15 @@ public class TwitterSentimentAnalyzer extends SentimentAnalyzer {
 		return comments;		
 	}
 	
-
+	/**
+	 * Takes in a JSON file path which was previously scrapped by Twitter Scraper,
+	 * reads the file into a String and then into a JSONObject for comments extraction.
+	 * Each comment will then be categorized accordingly using categorizeComment function 
+	 * and appended into the count of their respective category stored in a HashMap.
+	 * 
+	 * @param jsonPath		Full file path of JSON file created by TwitterScraper
+	 * @return				Returns reactions of all comments HashMap in the format <Sentiment Category, Count>
+	 */
 	public HashMap<String, Integer> getTwitterSentimentResults(String jsonPath) {
 		try {
 			JSONObject contents = new JSONObject(readJSONFileToString(jsonPath));

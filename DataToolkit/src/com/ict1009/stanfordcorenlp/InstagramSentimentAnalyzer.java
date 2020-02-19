@@ -42,6 +42,11 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 		return comments;
 	}
 	
+	/**
+	 * Parses the JSON OCR text retrived from images using OCR
+	 * @param jsonObject	JSONObject containing all OCR text retrived from images using OCR
+	 * @return				ArrayList of OCR text
+	 */
 	protected ArrayList<String> parseJsonOcrText(JSONObject jsonObject) {
 		ArrayList<String> ocrSentences = new ArrayList<String>();
 		JSONArray details = jsonObject.getJSONArray("details");

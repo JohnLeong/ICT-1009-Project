@@ -26,6 +26,11 @@ public class InstagramPieChart extends ApplicationFrame {
 		setContentPane(createDemoPanel());
 	}
 
+	/**
+	 * Creates a dataset of post locations used to populate a chart
+	 * 
+	 * @return		The populated dataset
+	 */
 	private static PieDataset createDataset() {
 		int count;
 		String name;
@@ -40,6 +45,12 @@ public class InstagramPieChart extends ApplicationFrame {
 
 	}
 
+	/**
+	 * Creates and populates a chart from the specified dataset
+	 * 
+	 * @param dataset		The dataset to populate the chart with
+	 * @return				The created chart
+	 */
 	private static JFreeChart createChart(PieDataset dataset) {
 		JFreeChart chart = ChartFactory.createPieChart("Number of Post & Location", // chart title
 				dataset, // data
@@ -49,16 +60,21 @@ public class InstagramPieChart extends ApplicationFrame {
 		return chart;
 	}
 
+	/**
+	 * Creates the chart panel
+	 * 
+	 * @return		The created chart panel
+	 */
 	public static JPanel createDemoPanel() {
 		JFreeChart chart = createChart(createDataset());
 		return new ChartPanel(chart);
 	}
 
-	public static char getCharFromString(String str, int index) {
-		return str.charAt(index);
-	}
-	
-
+	/**
+	 * Reads a JSON string for a scraped dataset and checks the location of each post
+	 * 
+	 * @param jFile		The JSON string to read
+	 */
 	public void ReadingJson(String jFile) {
 		String jsonFile = jFile;
 

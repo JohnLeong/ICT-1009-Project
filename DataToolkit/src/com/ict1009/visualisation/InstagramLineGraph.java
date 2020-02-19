@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -20,7 +18,7 @@ import com.ict1009.utilities.JSONUtility;
 public class InstagramLineGraph extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	static HashMap<String, Integer> data = new HashMap();
+	static HashMap<String, Integer> data = new HashMap<String, Integer>();
 	
 	static double positive = 100;
 	static double negative = 100;
@@ -81,9 +79,10 @@ public class InstagramLineGraph extends JFrame {
 		try {
 			JSONObject jsonObject = new JSONObject(JSONUtility.parseJSONToString(jsonFile));
 			JSONArray records = jsonObject.getJSONArray("details");
-			String keyToBeChecked = null;
-			boolean isKeyPresent;
-			int value = 0, count = 0;
+			//String keyToBeChecked = null;
+			//boolean isKeyPresent;
+			//int value = 0;
+			int count = 0;
 			for (int x = 0; x < records.length(); x++) {// details of json object and get json array from extractedposts
 				JSONArray extractData = records.getJSONObject(x).getJSONArray("extracted_posts");
 				for (int y = 0; y < extractData.length(); y++) {
@@ -96,21 +95,21 @@ public class InstagramLineGraph extends JFrame {
 						String descript = commentArray.getString("desc");
 						for (String m1 : mood1) {
 							if (checkedCharacters(m1, descript) == true) {
-								this.negative -= 0.1;
+								InstagramLineGraph.negative -= 0.1;
 
 							} else {
-								this.neutral += 0.002;
+								InstagramLineGraph.neutral += 0.002;
 							}
 							for (String m2 : mood2) {
 								if (checkedCharacters(m2, descript) == true) {
-									this.positive -= 0.1;
+									InstagramLineGraph.positive -= 0.1;
 								} else {
 
-									this.neutral += 0.002;
+									InstagramLineGraph.neutral += 0.002;
 								}
 							}
 						}
-						this.numberOfReplies += 1;
+						InstagramLineGraph.numberOfReplies += 1;
 						System.out.println(negative + "\t" + positive + "\t" + neutral);
 						
 						count = data.containsKey(dateTime) ? data.get(dateTime) : 0;
@@ -148,16 +147,5 @@ public class InstagramLineGraph extends JFrame {
 			e.printStackTrace();
 		}
 
-	}
-
-	public static void main(String[] args) {
-		/*
-		 * Instagram_LineChart rJson = new Instagram_LineChart("");
-		 * rJson.ReadingJson(""); SwingUtilities.invokeLater(() -> { Instagram_LineChart
-		 * example = new Instagram_LineChart("Line Chart");
-		 * example.setAlwaysOnTop(true); example.pack(); example.setSize(600, 400);
-		 * example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		 * example.setVisible(true); });
-		 */
 	}
 }

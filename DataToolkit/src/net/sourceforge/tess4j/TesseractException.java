@@ -17,7 +17,9 @@ package net.sourceforge.tess4j;
 
 public class TesseractException extends Exception {
 
-    public TesseractException() {
+	private static final long serialVersionUID = 1L;
+
+	public TesseractException() {
         super();
     }
 

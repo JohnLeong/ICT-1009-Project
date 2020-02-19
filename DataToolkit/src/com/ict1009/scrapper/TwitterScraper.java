@@ -5,8 +5,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.ict1009.returnvalues.ReturnCodes;
-import com.ict1009.returnvalues.ReturnCodes.ScrapeCode;
 import com.ict1009.utilities.DataCleansing;
 
 import twitter4j.*;
@@ -23,6 +21,15 @@ public class TwitterScraper extends ScrapeUtility{
 		super(url);
 	}
 	
+	/**
+	 * Launches the scraping procedure. Looks for posts with the given hashtag and retrieves their data.
+	 * @param loginId			Login credentials
+	 * @param loginPassword		Login credentials
+	 * @param joinedHashTags	A string of appended hashtags seperated by a space
+	 * @param numberOfPosts 	Max number of posts details to scrape
+	 * @param savePath			Export JSON file path
+	 * @return					Returns 0 is the procedure is successful
+	 */
 	@Override
 	public ScrapeCode scrapeByHashTags(final String loginId, final String loginPassword,
 			final String joinedHashTags, final long numberOfPosts, final String savePath) {
@@ -103,7 +110,15 @@ public class TwitterScraper extends ScrapeUtility{
 		return ScrapeCode.SUCCESS;
 	}
 	
-	
+	/**
+	 * Launches the scraping procedure. Looks for posts with the given hashtag and retrieves their data.
+	 * @param loginId			Login credentials
+	 * @param loginPassword		Login credentials
+	 * @param joinedProfileNames	A string of appended profile names seperated by a space
+	 * @param numberOfPosts 	Max number of posts details to scrape
+	 * @param savePath			Export JSON file path
+	 * @return					Returns 0 is the procedure is successful
+	 */
 	@Override
 	public ScrapeCode scrapeByProfiles(final String loginId, final String loginPassword,
 			final String joinedProfileNames, final long numberOfPosts, final String savePath) {

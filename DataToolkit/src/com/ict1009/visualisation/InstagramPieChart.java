@@ -14,11 +14,11 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 
 public class InstagramPieChart extends ApplicationFrame {
 
-	static HashMap<String, Integer> data = new HashMap();
+	private static final long serialVersionUID = 1L;
+	static HashMap<String, Integer> data = new HashMap<String, Integer>();
 
 	// Number of Post per location
 	public InstagramPieChart(String title) {
@@ -65,9 +65,10 @@ public class InstagramPieChart extends ApplicationFrame {
 		try {
 			JSONObject jsonObject = new JSONObject(JSONUtility.parseJSONToString(jsonFile));
 			JSONArray records = jsonObject.getJSONArray("details");
-			String keyToBeChecked = null;
-			boolean isKeyPresent;
-			int value = 0, count = 0;
+			//String keyToBeChecked = null;
+			//boolean isKeyPresent;
+			//int value = 0;
+			int count = 0;
 			for (int x = 0; x < records.length(); x++) {// details of json object and get json array from extractedposts
 				JSONArray extractData = records.getJSONObject(x).getJSONArray("extracted_posts");
 

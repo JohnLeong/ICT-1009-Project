@@ -70,4 +70,8 @@ public class AnalysedDataProperties {
 	public String getScrapeType() {
 		return scrapeType;
 	}
+	
+	public OutputStream getOStream() {
+		return oStream;
+	}
 }

@@ -1,6 +1,5 @@
 package com.ict1009.scrapper;
 import com.ict1009.returnvalues.ReturnCodes;
-import com.ict1009.returnvalues.ReturnCodes.ScrapeCode;
 import com.ict1009.utilities.JSONFileWriter;
 
 public class ScrapeUtility implements JSONFileWriter, ReturnCodes {

@@ -22,7 +22,8 @@ import org.jfree.ui.ApplicationFrame;
 
 public class InstagramBarChart extends ApplicationFrame {
 
-	static Dictionary<String, String> insta = new Hashtable();
+	private static final long serialVersionUID = 1L;
+	static Dictionary<String, String> insta = new Hashtable<String, String>();
 	static int jan1, feb2, march3, april4, may5, jun6, july7, aug8, sept9, oct10, nov11, dec12;
 
 	public InstagramBarChart(String applicationTitle, String chartTitle) {

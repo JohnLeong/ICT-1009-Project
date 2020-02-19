@@ -18,11 +18,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 
 public class TwitterBarChart extends ApplicationFrame {
 
-	static HashMap<String, String> tweets = new HashMap();
+	private static final long serialVersionUID = 1L;
+	static HashMap<String, String> tweets = new HashMap<String, String>();
 	static int mon1, tue2, wed3, thur4, fri5, sat6, sun7;
 	static int noOfPost = tweets.size();
 

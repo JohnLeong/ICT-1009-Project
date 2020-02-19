@@ -1,7 +1,5 @@
 package com.ict1009.userinterface;
-//import resource.*;
 
-import com.google.common.io.Resources;
 import java.awt.EventQueue;
 
 import java.awt.Image;
@@ -73,8 +71,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 	/* The current serial version UID*/
 	private static final long serialVersionUID = 1L;
 	
-	/* Cache of images that will be displated on the GUI*/
-	
+	/* Cache of images that will be displated on the GUI*/	
 	private Image img_logo = new ImageIcon(FrameDashboard.class.getResource("../../../resource/sit.png")).getImage().getScaledInstance(200, 90, Image.SCALE_SMOOTH);
 	private Image img_instagram = new ImageIcon(FrameDashboard.class.getResource("../../../resource/instagram.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	private Image img_instagram_hover = new ImageIcon(FrameDashboard.class.getResource("../../../resource/instagram_hover.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -895,9 +892,11 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		) {
 			private static final long serialVersionUID = 1L;
 
+			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 				String.class, Float.class, Integer.class
 			};
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -1337,6 +1336,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 
 				txaInstagramConsole.append("*Scraping HashTags procedure started\n");
 				ScrapeUtility scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
+				@SuppressWarnings("deprecation")
 				ScrapeCode result = scrapper.scrapeByHashTags(txtInstagramUsername.getText()
 						, txtInstagramPassword.getText()
 						, txtInstagramHashtags.getText()
@@ -1377,6 +1377,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 
 				InstagramScraper scrapper = new InstagramScraper("https://www.instagram.com/accounts/login/");
 
+				@SuppressWarnings("deprecation")
 				ScrapeCode result = scrapper.scrapeByProfiles(txtInstagramUsername.getText()
 						, txtInstagramPassword.getText()
 						, txtInstagramProfiles.getText()
@@ -1465,7 +1466,6 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 						jsonf.ReadingJson(file.getPath());
 						
 						InstagramPieChart jChart = new InstagramPieChart("Instagram Post Based On Location");
-//						jChart.ReadingJson(file.getPath());
 						jChart.setSize( 560 , 367 );
 						RefineryUtilities.centerFrameOnScreen( jChart );    
 					    jChart.setVisible( true );
@@ -1544,17 +1544,6 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getSelectedFile();
 					try {
-						
-						
-						//Steps by patrick
-						//Uncomment from here 
-						
-//						InstagramSentimentAnalyzer obj = new InstagramSentimentAnalyzer();
-//						HashMap<String, Integer> results = obj.getInstagramSentimentResults(file.getPath(), chkParseOcr.isSelected()); 
-						
-						// to here. Pass the results into ur piechart function or whatever. 
-						
-						
 						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
 						InstagramLineGraph jsonf = new InstagramLineGraph("");
 						jsonf.ReadingJson(file.getPath());
@@ -1709,5 +1698,10 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				}
 			}
 		});
+		
+		//Set initial selected panel
+		selectedSidePanel = pnlInstagram;
+		changeSelectedPanelColor(pnlInstagram);
+		lblIconInstagram.setIcon(new ImageIcon(img_instagram_hover));
 	}
 }

@@ -94,23 +94,6 @@ public class InstagramPieChart extends ApplicationFrame {
 					
 					count = data.containsKey(loc) ? data.get(loc) : 0;
 					data.put(loc, count + 1);
-					
-					
-//					if (insta.isEmpty()) { // This is to check if the dictionary is empty.
-//						insta.put(loc, value + 1);// insert key and value into the dictionary to count number of times
-//													// it appears on the same location.
-//					} else {// Check if there is same key present on the dictionary.
-//						keyToBeChecked = loc; // Used this variable to checked for key in the dictionary.
-//						isKeyPresent = insta.containsKey(keyToBeChecked);
-//						if (isKeyPresent == false) { // Insert key and value if there is no same in the dictionary.
-//							insta.put(keyToBeChecked, value + 1);
-//						} else if (isKeyPresent == true) {// If there is existing key in the dictionary store pervious
-//															// value in OldValue and replace new value to increment the
-//															// count.
-//							int oldValue = insta.get(keyToBeChecked);
-//							insta.put(keyToBeChecked, 1 + oldValue);
-//						}
-//					}
 				}
 
 			}

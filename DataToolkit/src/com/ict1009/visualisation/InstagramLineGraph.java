@@ -119,23 +119,6 @@ public class InstagramLineGraph extends JFrame {
 						
 						count = data.containsKey(dateTime) ? data.get(dateTime) : 0;
 						data.put(dateTime, count + 1);
-						
-						
-//						if (data.isEmpty() == true) { // This is to check if the dictionary is empty.
-//							data.put(dateTime, value + 1);// insert key and value into the dictionary to count number
-//															// of times it appears on the same location.
-//						} else {// Check if there is same key present on the dictionary.
-//							keyToBeChecked = dateTime; // Used this variable to checked for key in the dictionary.
-//							isKeyPresent = data.containsKey(keyToBeChecked);
-//							if (isKeyPresent == false) { // Insert key and value if there is no same in the dictionary.
-//								data.put(keyToBeChecked, value + 1);
-//							} else if (isKeyPresent == true) {// If there is existing key in the dictionary store
-//																// pervious value in OldValue and replace new value to
-//																// increment the count.
-//								int oldValue = data.get(keyToBeChecked);
-//								data.put(keyToBeChecked, 1 + oldValue);
-//							}
-//						}
 
 					}
 

@@ -55,6 +55,7 @@ import com.ict1009.returnvalues.ReturnCodes;
 import com.ict1009.scrapper.InstagramScraper;
 import com.ict1009.scrapper.ScrapeUtility;
 import com.ict1009.scrapper.TwitterScraper;
+import com.ict1009.stanfordcorenlp.InstagramSentimentAnalyzer;
 import com.ict1009.utilities.FileHelper;
 import com.ict1009.utilities.JSONUtility;
 import com.ict1009.visualisation.InstagramBarChart;
@@ -1544,6 +1545,10 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getSelectedFile();
 					try {
+						InstagramSentimentAnalyzer obj = new InstagramSentimentAnalyzer();
+						HashMap<String, Integer> results = obj.getInstagramSentimentResults(file.getPath(), chkParseOcr.isSelected());
+						// Edit from here onwards
+								
 						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
 						InstagramLineGraph jsonf = new InstagramLineGraph("");
 						jsonf.ReadingJson(file.getPath());

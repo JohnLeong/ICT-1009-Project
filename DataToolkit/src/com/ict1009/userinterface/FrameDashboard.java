@@ -62,7 +62,7 @@ import com.ict1009.utilities.JSONUtility;
 import com.ict1009.visualisation.InstagramBarChart;
 import com.ict1009.visualisation.InstagramLineGraph;
 import com.ict1009.visualisation.InstagramPieChart;
-import com.ict1009.visualisation.Twitter_BarChart;
+import com.ict1009.visualisation.TwitterBarChart;
 
 import javax.swing.UIManager;
 import javax.swing.JCheckBox;
@@ -1490,9 +1490,9 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 					File file = chooser.getSelectedFile();
 					try {
 						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
-						Twitter_BarChart jsonf = new Twitter_BarChart("","");
+						TwitterBarChart jsonf = new TwitterBarChart("","");
 						jsonf.ReadingJson(file.getPath());
-					    Twitter_BarChart chart = new Twitter_BarChart("Twitter HashTag Statistics", 
+					    TwitterBarChart chart = new TwitterBarChart("Twitter HashTag Statistics", 
 					 	         "Weekly Base HashTag Statistics"); 	      
 				 	    chart.pack();        
 				 	    RefineryUtilities.centerFrameOnScreen(chart);        

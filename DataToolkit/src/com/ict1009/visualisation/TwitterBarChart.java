@@ -20,13 +20,13 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-public class Twitter_BarChart extends ApplicationFrame {
+public class TwitterBarChart extends ApplicationFrame {
 
 	static HashMap<String, String> tweets = new HashMap();
 	static int mon1, tue2, wed3, thur4, fri5, sat6, sun7;
 	static int noOfPost = tweets.size();
 
-	public Twitter_BarChart(String applicationTitle, String chartTitle) {
+	public TwitterBarChart(String applicationTitle, String chartTitle) {
 		super(applicationTitle);
 		// post = this.tweet.size();
 		JFreeChart barChart = ChartFactory.createBarChart(chartTitle, "Twitter", "", createDataset(),
@@ -56,7 +56,7 @@ public class Twitter_BarChart extends ApplicationFrame {
 			dataset.addValue(tue2, tue, "Tuesday");
 		}
 		if (wed3 != 0) {
-			dataset.addValue(wed3, mon, "Wednesday");
+			dataset.addValue(wed3, wed, "Wednesday");
 		}
 		if (thur4 != 0) {
 			dataset.addValue(thur4, thur, "Thursday");

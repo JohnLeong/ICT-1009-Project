@@ -1,4 +1,4 @@
-package socialposts;
+package com.ict1009.socialposts;
 
 import java.util.ArrayList;
 import java.util.Date;

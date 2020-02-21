@@ -445,6 +445,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1041, 764);
+		setTitle("ICT1009 Project - Group 34");
 
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -919,7 +920,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		pnlDataAnalysisInfo.add(lblWordmap);
 		
 		JScrollPane scrollPaneDataAnalysisRelatedHashtags = new JScrollPane(tableDataAnalysisRelatedHashtags);
-		scrollPaneDataAnalysisRelatedHashtags.setBounds(18, 360, 486, 141);
+		scrollPaneDataAnalysisRelatedHashtags.setBounds(18, 360, 486, 300);
 		pnlDataAnalysisInfo.add(scrollPaneDataAnalysisRelatedHashtags);
 
 		JLabel lblDataAnalysisFilePath = new JLabel("File loaded: none");

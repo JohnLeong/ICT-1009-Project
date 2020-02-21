@@ -28,8 +28,6 @@ public class InstagramBarChart extends ApplicationFrame {
 
 	public InstagramBarChart(String applicationTitle, String chartTitle) {
 		super(applicationTitle);
-		//Reset all static values for creation of new chart
-		jan1 = feb2 = march3 = april4 = may5 = jun6 = july7 = aug8 = sept9 = oct10 = nov11 = dec12 = 0;
 		insta = new Hashtable<String, String>();
 		
 		JFreeChart barChart = ChartFactory.createBarChart(chartTitle, "Instagram", "", createDataset(),
@@ -119,7 +117,7 @@ public class InstagramBarChart extends ApplicationFrame {
 			for (int x = 0; x < records.length(); x++) {
 				// details of json object and get json array from extractedposts
 				JSONArray extractData = records.getJSONObject(x).getJSONArray("extracted_posts");
-
+				
 				for (int y = 0; y < extractData.length(); y++) {
 					JSONObject extracted = extractData.getJSONObject(y);
 					String dateTime = extracted.getString("date_time");
@@ -171,6 +169,7 @@ public class InstagramBarChart extends ApplicationFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 
 	}
 }

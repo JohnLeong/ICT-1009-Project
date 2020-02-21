@@ -3,14 +3,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.CoreDocument;
+import edu.stanford.nlp.pipeline.CoreSentence;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+
 public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 	
-
+	
 	public InstagramSentimentAnalyzer() {
 		super();
 	}

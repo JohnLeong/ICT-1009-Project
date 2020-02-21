@@ -58,10 +58,13 @@ import com.ict1009.scrapper.TwitterScraper;
 import com.ict1009.stanfordcorenlp.InstagramSentimentAnalyzer;
 import com.ict1009.utilities.FileHelper;
 import com.ict1009.utilities.JSONUtility;
+import com.ict1009.visualisation.CheckerFile;
 import com.ict1009.visualisation.InstagramBarChart;
-import com.ict1009.visualisation.InstagramLineGraph;
 import com.ict1009.visualisation.InstagramPieChart;
+import com.ict1009.visualisation.InstagramSentimentPie;
 import com.ict1009.visualisation.TwitterBarChart;
+
+
 
 import javax.swing.UIManager;
 import javax.swing.JCheckBox;
@@ -1459,10 +1462,11 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				int returnVal = chooser.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getSelectedFile();
+					CheckerFile cf = new CheckerFile();	
 					try {
-						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
-						
-						
+						boolean result = cf.CheckerFiles(file.getPath());
+						if(result==false) throw new IllegalArgumentException(); 
+						lblVisualisationFilePath.setText("File loaded: " + file.getPath());					
 						InstagramPieChart jsonf = new InstagramPieChart("");
 						jsonf.ReadingJson(file.getPath());
 						
@@ -1471,7 +1475,11 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 						RefineryUtilities.centerFrameOnScreen( jChart );    
 					    jChart.setVisible( true );
 					    
-					} catch (Exception e) {
+					} 
+					catch (IllegalArgumentException ie) {
+						msgbox("Incorrect File Format\n");
+						ie.printStackTrace();
+					}catch (Exception e) {
 						msgbox("Unable to load file\n");
 						e.printStackTrace();
 					}
@@ -1489,7 +1497,10 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				int returnVal = chooser.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getSelectedFile();
+					CheckerFile cf = new CheckerFile();	
 					try {
+						boolean result = cf.CheckerFiles(file.getPath());
+						if(result==true) throw new IllegalArgumentException(); 
 						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
 						TwitterBarChart jsonf = new TwitterBarChart("","");
 						jsonf.ReadingJson(file.getPath());
@@ -1498,7 +1509,12 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				 	    chart.pack();        
 				 	    RefineryUtilities.centerFrameOnScreen(chart);        
 					 	chart.setVisible( true ); 
-					} catch (Exception e) {
+					} catch (IllegalArgumentException ie) {
+						msgbox("Incorrect File Format\n");
+						ie.printStackTrace();
+					}
+					
+					catch (Exception e) {
 						msgbox("Unable to load file\n");
 						e.printStackTrace();
 					}
@@ -1516,20 +1532,32 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				int returnVal = chooser.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getSelectedFile();
+					//Checker function to check the json file is it in the correct format for visualisation.
+					CheckerFile cf = new CheckerFile();	
 					try {
+						boolean result = cf.CheckerFiles(file.getPath());
+						if(result==false) throw new IllegalArgumentException(); 
 						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
-						  InstagramBarChart rJson = new InstagramBarChart(" "," ");
-						  rJson.ReadingJson(file.getPath());
-					      InstagramBarChart chart = new InstagramBarChart("Instagram Monthly Base HashTag Statistics", 
-					         "Instagram HashTag Statistics"); 	
-					      chart.pack();        
-					      RefineryUtilities.centerFrameOnScreen( chart );        
-					      chart.setVisible( true );
+						InstagramBarChart rJson = new InstagramBarChart(" "," ");
+						rJson.ReadingJson(file.getPath());
+					    InstagramBarChart chart = new InstagramBarChart("Instagram Monthly Base HashTag Statistics", 
+					    "Instagram HashTag Statistics"); 	
+					    chart.pack();        
+					    RefineryUtilities.centerFrameOnScreen( chart );        
+					    chart.setVisible( true );
 					      
-					} catch (Exception e) {
+					}
+					catch (IllegalArgumentException ie) {
+						msgbox("Incorrect File Format\n");
+						ie.printStackTrace();
+					}
+					
+					catch (Exception e) {
 						msgbox("Unable to load file\n");
 						e.printStackTrace();
 					}
+					
+					
 
 				}
 			}
@@ -1544,22 +1572,31 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 				int returnVal = chooser.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getSelectedFile();
+					CheckerFile cf = new CheckerFile();
+					
 					try {
+						boolean result = cf.CheckerFiles(file.getPath());
+						if(result==false) throw new IllegalArgumentException(); 
+						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
+						InstagramSentimentPie jsonf = new InstagramSentimentPie("");
+						jsonf.ReadingJson(file.getPath());
+					
 						InstagramSentimentAnalyzer obj = new InstagramSentimentAnalyzer();
 						HashMap<String, Integer> results = obj.getInstagramSentimentResults(file.getPath(), chkParseOcr.isSelected());
-						// Edit from here onwards
-								
-						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
-						InstagramLineGraph jsonf = new InstagramLineGraph("");
-						jsonf.ReadingJson(file.getPath());
-					    SwingUtilities.invokeLater(() -> {  
-					      InstagramLineGraph example = new InstagramLineGraph("Line Chart");  
-					      example.setAlwaysOnTop(true);  
-					      example.pack();  
-					      example.setSize(600, 400);    
-					      example.setVisible(true);  
-					    });  
-					} catch (Exception e) {
+		
+						
+						InstagramSentimentPie jChart = new InstagramSentimentPie("Sentement Analysis Based On Comments");
+						jChart.setSize( 560 , 367 );
+						RefineryUtilities.centerFrameOnScreen( jChart );    
+					    jChart.setVisible( true );
+					 
+					}
+					catch (IllegalArgumentException ie) {
+						msgbox("Incorrect File Format\n");
+						ie.printStackTrace();
+					}
+					
+					catch (Exception e) {
 						msgbox("Unable to load file\n");
 						e.printStackTrace();
 					}

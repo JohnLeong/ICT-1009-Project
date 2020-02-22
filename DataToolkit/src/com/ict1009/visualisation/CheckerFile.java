@@ -1,8 +1,6 @@
 package com.ict1009.visualisation;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

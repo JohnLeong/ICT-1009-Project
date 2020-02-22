@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -1583,7 +1582,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 						jsonf.ReadingJson(file.getPath());
 					
 						InstagramSentimentAnalyzer obj = new InstagramSentimentAnalyzer();
-						HashMap<String, Integer> results = obj.getInstagramSentimentResults(file.getPath(), chkParseOcr.isSelected());
+						obj.getInstagramSentimentResults(file.getPath(), chkParseOcr.isSelected());
 		
 						
 						InstagramSentimentPie jChart = new InstagramSentimentPie("Sentement Analysis Based On Comments");

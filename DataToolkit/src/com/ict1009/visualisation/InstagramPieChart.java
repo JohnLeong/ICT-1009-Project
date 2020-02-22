@@ -1,4 +1,5 @@
 package com.ict1009.visualisation;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
@@ -13,9 +14,8 @@ import com.ict1009.utilities.JSONUtility;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.ui.ApplicationFrame;
 
-public class InstagramPieChart extends ApplicationFrame {
+public class InstagramPieChart extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	static HashMap<String, Integer> data = new HashMap<String, Integer>();
@@ -24,6 +24,7 @@ public class InstagramPieChart extends ApplicationFrame {
 	public InstagramPieChart(String title) {
 		super(title);
 		setContentPane(createDemoPanel());
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	/**

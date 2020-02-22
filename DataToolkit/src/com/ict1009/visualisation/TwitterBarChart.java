@@ -17,9 +17,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.ApplicationFrame;
 
-public class TwitterBarChart extends ApplicationFrame {
+public class TwitterBarChart extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	static HashMap<String, String> tweets = new HashMap<String, String>();

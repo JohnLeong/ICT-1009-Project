@@ -18,9 +18,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.ApplicationFrame;
 
-public class InstagramBarChart extends ApplicationFrame {
+public class InstagramBarChart extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	static Dictionary<String, String> insta = new Hashtable<String, String>();
@@ -36,8 +35,7 @@ public class InstagramBarChart extends ApplicationFrame {
 		ChartPanel chartPanel = new ChartPanel(barChart);
 		chartPanel.setPreferredSize(new java.awt.Dimension(560, 500));
 		setContentPane(chartPanel);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
 	}
 
 	/**

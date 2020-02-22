@@ -1500,7 +1500,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 					CheckerFile cf = new CheckerFile();	
 					try {
 						boolean result = cf.CheckerFiles(file.getPath());
-						if(result==true) throw new IllegalArgumentException(); 
+						if(result==false) throw new IllegalArgumentException(); 
 						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
 						TwitterBarChart jsonf = new TwitterBarChart("","");
 						jsonf.ReadingJson(file.getPath());

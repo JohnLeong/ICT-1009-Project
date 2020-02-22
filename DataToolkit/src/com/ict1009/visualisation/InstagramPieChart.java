@@ -1,4 +1,5 @@
 package com.ict1009.visualisation;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.jfree.data.general.DefaultPieDataset;
@@ -30,7 +31,7 @@ public class InstagramPieChart extends JFrame {
 	/**
 	 * Creates a dataset of post locations used to populate a chart
 	 * 
-	 * @return		The populated dataset
+	 * @return The populated dataset
 	 */
 	private static PieDataset createDataset() {
 		int count;
@@ -49,8 +50,8 @@ public class InstagramPieChart extends JFrame {
 	/**
 	 * Creates and populates a chart from the specified dataset
 	 * 
-	 * @param dataset		The dataset to populate the chart with
-	 * @return				The created chart
+	 * @param dataset The dataset to populate the chart with
+	 * @return The created chart
 	 */
 	private static JFreeChart createChart(PieDataset dataset) {
 		JFreeChart chart = ChartFactory.createPieChart("Number of Post & Location", // chart title
@@ -64,7 +65,7 @@ public class InstagramPieChart extends JFrame {
 	/**
 	 * Creates the chart panel
 	 * 
-	 * @return		The created chart panel
+	 * @return The created chart panel
 	 */
 	public static JPanel createDemoPanel() {
 		JFreeChart chart = createChart(createDataset());
@@ -72,19 +73,20 @@ public class InstagramPieChart extends JFrame {
 	}
 
 	/**
-	 * Reads a JSON string for a scraped dataset and checks the location of each post
+	 * Reads a JSON string for a scraped dataset and checks the location of each
+	 * post
 	 * 
-	 * @param jFile		The JSON string to read
+	 * @param jFile The JSON string to read
 	 */
 	public void ReadingJson(String jFile) {
+		data = new HashMap<String, Integer>();
 		String jsonFile = jFile;
-
 		try {
 			JSONObject jsonObject = new JSONObject(JSONUtility.parseJSONToString(jsonFile));
 			JSONArray records = jsonObject.getJSONArray("details");
-			//String keyToBeChecked = null;
-			//boolean isKeyPresent;
-			//int value = 0;
+			// String keyToBeChecked = null;
+			// boolean isKeyPresent;
+			// int value = 0;
 			int count = 0;
 			for (int x = 0; x < records.length(); x++) {// details of json object and get json array from extractedposts
 				JSONArray extractData = records.getJSONObject(x).getJSONArray("extracted_posts");
@@ -92,7 +94,7 @@ public class InstagramPieChart extends JFrame {
 				for (int y = 0; y < extractData.length(); y++) {
 					JSONObject extracted = extractData.getJSONObject(y);
 					String loc = extracted.getString("location");
-					
+
 					count = data.containsKey(loc) ? data.get(loc) : 0;
 					data.put(loc, count + 1);
 				}

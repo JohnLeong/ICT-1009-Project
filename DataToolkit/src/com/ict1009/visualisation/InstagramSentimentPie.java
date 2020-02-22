@@ -82,6 +82,11 @@ public class InstagramSentimentPie extends JFrame {
 	 */
 
 	public void ReadingJson(String jsonFilePath) {
+		//Reset static variables
+		data = new HashMap<String, Integer>();
+		descrip = new HashMap<String, Integer>();
+		negatives = positives = neutral = 0;
+		
 		String jsonFile = jsonFilePath;
 		String desc;
 		try {

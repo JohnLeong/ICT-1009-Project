@@ -71,7 +71,7 @@ public class TwitterBarChart extends JFrame {
 		if (sat6 != 0) {
 			dataset.addValue(sat6, sat, "Saturday");
 		}
-		if (sat6 != 0) {
+		if (sun7 != 0) {
 			dataset.addValue(sun7, sun, "Sunday");
 		}
 
@@ -84,7 +84,9 @@ public class TwitterBarChart extends JFrame {
 	 * @param jFile		The JSON string to read
 	 */
 	public void ReadingJson(String jFile) {
-
+		//Reset static variables
+		mon1 = tue2 = wed3 = thur4 = fri5 = sat6 = sun7 = 0;
+		tweets = new HashMap<String, String>();
 		String jsonFile = jFile;
 		try {
 			JSONObject jsonObject = new JSONObject(JSONUtility.parseJSONToString(jsonFile));

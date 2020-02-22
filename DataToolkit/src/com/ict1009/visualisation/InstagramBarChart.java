@@ -27,21 +27,20 @@ public class InstagramBarChart extends JFrame {
 
 	public InstagramBarChart(String applicationTitle, String chartTitle) {
 		super(applicationTitle);
-		insta = new Hashtable<String, String>();
-		
+
 		JFreeChart barChart = ChartFactory.createBarChart(chartTitle, "Instagram", "", createDataset(),
 				PlotOrientation.VERTICAL, true, true, false);
 
 		ChartPanel chartPanel = new ChartPanel(barChart);
 		chartPanel.setPreferredSize(new java.awt.Dimension(560, 500));
 		setContentPane(chartPanel);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	/**
 	 * Creates a dataset of post dates used to populate a chart
 	 * 
-	 * @return		The populated dataset
+	 * @return The populated dataset
 	 */
 	public CategoryDataset createDataset() {
 
@@ -103,10 +102,11 @@ public class InstagramBarChart extends JFrame {
 	/**
 	 * Reads a JSON string for a scraped dataset and checks the date of each post
 	 * 
-	 * @param jFile		The JSON string to read
+	 * @param jFile The JSON string to read
 	 */
 	public void ReadingJson(String jFile) {
-
+		insta = new Hashtable<String, String>();
+		jan1 = feb2 = march3 = april4 = may5 = jun6 = july7 = aug8 = sept9 = oct10 = nov11 = dec12 = 0;
 		String jsonFile = jFile;
 		try {
 			JSONObject jsonObject = new JSONObject(JSONUtility.parseJSONToString(jsonFile));
@@ -115,14 +115,14 @@ public class InstagramBarChart extends JFrame {
 			for (int x = 0; x < records.length(); x++) {
 				// details of json object and get json array from extractedposts
 				JSONArray extractData = records.getJSONObject(x).getJSONArray("extracted_posts");
-				
+
 				for (int y = 0; y < extractData.length(); y++) {
 					JSONObject extracted = extractData.getJSONObject(y);
 					String dateTime = extracted.getString("date_time");
 					String posted = extracted.getString("posted_by");
 					insta.put(posted, dateTime);
 					// System.out.println(posted + dateTime);
-					
+
 					char numeric1 = dateTime.charAt(5);
 					char numeric2 = dateTime.charAt(6);
 					if (numeric1 == '0') {
@@ -167,7 +167,6 @@ public class InstagramBarChart extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 
 	}
 }

@@ -48,9 +48,6 @@ public class JsoupUtility {
 			doc = Jsoup.connect(postUrl)
 					.userAgent(SOUP_USER_AGENT)
 					.cookies(browserCookies)
-//					.cookie("sessionid", "293620247%3A3XnRA8b279Xmqz%3A7")
-					.cookie("ds_user_id", "293620247")
-					.cookie("csrftoken" ,"7JYlcHCke9DjpJe6D8kkgUuHsDiyvJs6")
 					.timeout(12000) 
 					.followRedirects(true)
 					.get();
@@ -81,9 +78,6 @@ public class JsoupUtility {
 			doc = Jsoup.connect(postUrl)
 					.userAgent(SOUP_USER_AGENT)
 					.cookies(browserCookies)
-//					.cookie("sessionid", "293620247%3A3XnRA8b279Xmqz%3A7")
-					.cookie("ds_user_id", "293620247")
-					.cookie("csrftoken" ,"7JYlcHCke9DjpJe6D8kkgUuHsDiyvJs6")
 					.timeout(12000) 
 					.followRedirects(true)
 					.get();

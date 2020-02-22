@@ -8,6 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,6 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.ict1009.userinterface.FrameDashboard;
 import com.ict1009.utilities.DataCleansing;
 import com.ict1009.utilities.StringConverter;
+import com.ict1009.utilities.TimeStampConverter;
 
 import java.util.List; 
 import java.util.LinkedHashSet;
@@ -436,15 +438,26 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			super.driver.quit();
 			return ScrapeCode.PAGE_TIMEOUT;
 		}		
-
+		
+		
+//		System.out.println("Cookies: " + super.driver.manage().getCookies());
+//		for (Cookie s : super.driver.manage().getCookies()) {
+//			System.out.println(s.getName() + "---" + s.getValue());
+//		}
+//		super.driver.quit();
+		
+		JsoupUtility extractor = new JsoupUtility();
+		extractor.insertCookies(super.driver.manage().getCookies());
+		
+		
 		/* Iterate all the list of profiles and append into JSON. */
-
+		
 		JSONArray profiles = new JSONArray(); 
 
 		String[] profileNames = joinedProfileNames.split(DELIM_PROFILES_NAME);
 		String postLink;
 		List<String> profilePostsSubUrl;
-
+		
 		for (int i = 0; i < profileNames.length; ++i) {
 			JSONArray posts = new JSONArray();
 			JSONObject profile = new JSONObject();
@@ -488,6 +501,8 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 				post.put("no_of_comments", InstagramDryScraping.super.getNumberOfComments(postLink));
 				post.put("is_video", InstagramDryScraping.super.getIsVideo(postLink));
 				post.put("no_of_video_views", InstagramDryScraping.super.getNumberOfVideoViews(postLink));
+				post.put("date_time", TimeStampConverter.timeStampToDate(InstagramDryScraping.super.getPostTimeStamp(postLink)));
+				post.put("location", InstagramDryScraping.super.getPostLocation(postLink));
 				posts.put(post);
 			}
 			profile.put("extracted_posts", posts);

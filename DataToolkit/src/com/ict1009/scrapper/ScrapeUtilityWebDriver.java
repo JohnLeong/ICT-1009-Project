@@ -48,12 +48,18 @@ public abstract class ScrapeUtilityWebDriver extends ScrapeUtility {
 	 * @return					The loaded web element
 	 */
 	protected WebElement safeGetWebElement(final String cssSelector, final int timeOutSeconds) {
-		try {
-			this.waitUntilSelectorLoads(cssSelector, timeOutSeconds);
-			return driver.findElement(By.cssSelector(cssSelector));
-		} catch (Exception e) {
-			return null;
-		}
+//		int maxCount = 2, count = 0;
+		
+//		while (true) {
+			try {
+				this.waitUntilSelectorLoads(cssSelector, timeOutSeconds);
+				return driver.findElement(By.cssSelector(cssSelector));
+			} catch (Exception e) {
+//				this.waitUntilSelectorLoads(cssSelector, timeOutSeconds);
+//				if (++count == maxCount) return null;	
+				return null;
+			}
+		
 	}
 	
 	/**

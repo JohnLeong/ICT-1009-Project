@@ -64,7 +64,8 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 		ArrayList<String> captions = new ArrayList<String>();
 		JSONArray details = jsonObject.getJSONArray("details");
 		for (int i = 0; i < details.length(); ++i) {
-			JSONArray posts = ((JSONObject)details.get(i)).getJSONArray("extracted_posts");
+			JSONArray posts = ((JSONObject)details.get(i))
+					.getJSONArray("extracted_posts");
 			for (int j = 0; j < posts.length(); ++j) {
 				captions.add(posts.getJSONObject(j).getString("caption"));
 			}

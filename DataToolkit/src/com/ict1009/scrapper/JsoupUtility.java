@@ -12,11 +12,15 @@ import org.openqa.selenium.Cookie;
 public class JsoupUtility {
 
 
+	final static int TIMEOUT_DURATION = 12000; 
+	
 	final static String STRIP_JSON_OUTPUT 	= "<script type=\"text/javascript\">window._sharedData = ";
 	final static String STRIP_END_TAG	= ";</script>";
 	final static String SOUP_USER_AGENT		= "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6";
 
-
+	private final static String URL_HOME_INSTAGRAM = "https://www.instagram.com"; 
+	private final static String STRIP_ADD_JSON1 = "<script type=\"text/javascript\">window.__additionalDataLoaded('";
+	
 	private static String previousUrl = "";
 	private static String previousJson = "";
 
@@ -24,6 +28,9 @@ public class JsoupUtility {
 	private static String previousAddJson = "";
 	private static Map<String,String> browserCookies;
 
+	/**
+	 * Refreshes cookies
+	 */
 	public JsoupUtility() {
 		browserCookies = new HashMap<String,String>();
 	}
@@ -43,7 +50,7 @@ public class JsoupUtility {
 		Document doc;
 		int maxTries = 5, count = 0;
 		while (true) {
-			if (previousUrl.equals(postUrl) && previousJson != "") {
+			if (previousUrl.equals(postUrl) && !previousJson.contentEquals("")) {
 				return previousJson;
 			}
 			try {
@@ -51,7 +58,7 @@ public class JsoupUtility {
 				doc = Jsoup.connect(postUrl)
 						.userAgent(SOUP_USER_AGENT)
 						.cookies(browserCookies)
-						.timeout(12000) 
+						.timeout(TIMEOUT_DURATION) 
 						.followRedirects(true)
 						.get();
 				for (Element e : doc.select("script")) {
@@ -74,18 +81,17 @@ public class JsoupUtility {
 		Document doc;
 		int maxTries = 5, count = 0;
 		while (true) {
-			if (previousAddUrl.equals(postUrl) && previousAddJson != "") {
+			if (previousAddUrl.equals(postUrl) && !previousAddJson.contentEquals("")) {
 				return previousAddJson;
 			}
 			try {
-				String subUrl = postUrl.replace("https://www.instagram.com", "");
-				String toTrim = "<script type=\"text/javascript\">window.__additionalDataLoaded('" 
-						+ subUrl  + "',";
+				String subUrl = postUrl.replace(URL_HOME_INSTAGRAM, "");
+				String toTrim = STRIP_ADD_JSON1 + subUrl  + "',";
 				previousAddUrl = postUrl;
 				doc = Jsoup.connect(postUrl)
 						.userAgent(SOUP_USER_AGENT)
 						.cookies(browserCookies)
-						.timeout(12000) 
+						.timeout(TIMEOUT_DURATION) 
 						.followRedirects(true)
 						.get();
 

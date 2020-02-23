@@ -462,7 +462,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		pnlSideMenu.setLayout(null);
 
 		lblIconSit = new JLabel("");
-		lblIconSit.setBounds(12, 33, 205, 86);
+		lblIconSit.setBounds(14, 30, 205, 86);
 		lblIconSit.setIcon(new ImageIcon(img_logo));
 		pnlSideMenu.add(lblIconSit);
 

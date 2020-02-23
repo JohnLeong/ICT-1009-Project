@@ -30,8 +30,8 @@ import org.json.*;
  */
 public class InstagramScraper extends ScrapeUtilityWebDriver implements InstagramDryScraping {
 	private final int TIMEOUT_PAGE_DURA = 20;
-	private final int TIMEOUT_ELEMENT_DURA = 10;
-	private final int TIMEOUT_VIEW_MORE = 1;  
+	private final int TIMEOUT_ELEMENT_DURA = 1;
+	private final int TIMEOUT_VIEW_MORE = 5;  
 
 	private final int TIMEOUT_PAGE_LOAD = 3;
 	/**
@@ -61,12 +61,21 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 	private final String LOGIN_URL 					= "https://www.instagram.com/accounts/login/";
 
 	private final String DELIM_PROFILES_NAME		= "\\s+";
+
+	private final String URL_HOMEPAGE				= "https://www.instagram.com/";
+	private final String URL_HASHTAG				= URL_HOMEPAGE + "explore/tags/";
 	
+	private final String ERR_NO_LOCATION			= "--InstagramScraper.getLocationNameFromJson-- No location found.";
+	private final String ERR_NO_LOGIN_ELEMENT		= "--InstagramScraper.loginProcess-- Unable to find some login elements.";
+	private final String ERR_PAGE_LOAD				= "--InstagramScraper.loginProcess-- Unable to load login page normally.";
+	private final String ERR_REDIRECT				= "--InstagramScraper.redirectAfterLogin-- Redirect Error.";
+	private final String ERR_ELEMENT_LOAD 			= "--InstagramScraper.scrapePostDetails-- Unable to load any caption/comment elements.";
 	
+	private final int VIEW_MORE_SAFETY = 5;
 	public InstagramScraper(String defaultURL) {
 		super(defaultURL);
 	}
-	
+
 	/**
 	 * Checks if page has element which will be present in a valid HashTag page
 	 * @param hashTagUrl	URL of hashtag page
@@ -172,12 +181,12 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			JSONObject obj = new JSONObject(jsonLocation);
 			return obj.getString("name");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			System.out.println(ERR_NO_LOCATION);
 			return "None";
 		}
-		
+
 	}
-	
+
 	/**
 	 * Extracts all posts sub URL current page by scrolling down the page and
 	 * appendign the suburls retrieved into a hashmap to ensure that they are unique
@@ -232,12 +241,13 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		int previousCount, repeatCount = 0;
 		while (true) {
 			System.out.println("While loop.");
-			if (repeatCount == 10) { 
+			if (repeatCount == VIEW_MORE_SAFETY) { 
 				System.out.println("--showAllComments()-- Safety Break after " 
 						+ repeatCount + " repeated tries of clicking view more.");
 				return;
 			}
 			try {
+				previousCount = getCurrentCommentsCountInPostPage();
 				System.out.println("Waiting for view more");
 				super.waitUntilSelectorLoads(CSS_POST_VIEW_MORE, TIMEOUT_VIEW_MORE); 
 				viewMoreButton = super.driver.findElement(By.cssSelector(CSS_POST_VIEW_MORE));
@@ -246,14 +256,13 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			} catch (Exception e) {
 				break;
 			}
-			previousCount = getCurrentCommentsCountInPostPage();
-			repeatCount += (previousCount == getCurrentCommentsCountInPostPage()) ? 1 : 0; 
+			repeatCount = (previousCount == getCurrentCommentsCountInPostPage()) ? ++repeatCount : 0; 
 		}
 		System.out.println("--showAllComments()-- Broke from loop after " + TIMEOUT_VIEW_MORE + " seconds.");
 	}
 
 	/**
-	 * Scrapes Post Details.
+	 * Scrapes Post Details for hashtag mode.
 	 * @param url	PostUrl
 	 * @return		JSONObject containing post details
 	 */
@@ -267,14 +276,14 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		JSONArray comments = new JSONArray();
 
 		double likes = this.getNumberOfLikesInPost();	
-		
+
 		post.put("display_image_url", InstagramDryScraping.super.getDisplayImageUrl(url));
 		post.put("posted_by", super.driver.findElement(By.cssSelector(CSS_POST_POSTED_BY))
 				.getAttribute("title"));
 		post.put("no_of_comments", InstagramDryScraping.super.getNumberOfComments(url));
 		post.put("location", getLocationOfPost());
 		post.put("date_time", getDateTimeOfPost());
-		
+
 		System.out.println("Putting number of likes");
 		if (likes > -1) {
 			post.put("no_of_likes", likes);
@@ -295,7 +304,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			waitUntilSelectorLoads(CSS_POST_COMMENTS, TIMEOUT_ELEMENT_DURA);
 			System.out.println("Finished waiting for post comments to load.");
 			showAllCommentsInPost();		
-			
+
 
 			/* Will have comment elements as waited for it to load else will return */
 			List<WebElement> commentElements = super.driver
@@ -313,7 +322,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			for (int i = 1; i < commentElements.size(); ++i) {
 				JSONObject comment = new JSONObject();
 				/* Update below if Instagram changes how their elements are displayed */
-				comment.put("user", commentElements.get(i).findElement(By.tagName("a")).getAttribute("title")); 
+				comment.put("user", commentElements.get(i).findElement(By.tagName("a")).getText()); 
 				comment.put("desc", DataCleansing.dataCleanse(StringConverter
 						.convertUnicodeToUTF8(commentElements.get(i)
 								.findElement(By.tagName("span")).getText())));
@@ -323,12 +332,12 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 
 		} catch (Exception e) {
 			post.put("comments", "None");
-			System.out.println("--scrapePostDetails-- Unable to load any caption/comment elements");
+			System.out.println(ERR_ELEMENT_LOAD);
 			return null;
 		}
 		return post;
 	}
-	
+
 	/**
 	 * Pilots selenium to do the login process
 	 * @param userId		User Login ID
@@ -346,18 +355,18 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			userName.sendKeys(userId);
 			password.sendKeys(userPassword);
 			loginButton.click();
-			new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe("https://www.instagram.com/"));
+			new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe(URL_HOMEPAGE));
 			return true;
 		} catch (NoSuchElementException e) {
-			System.out.println("--loginProcess-- Unable to find some login elements.");
+			System.out.println(ERR_NO_LOGIN_ELEMENT);
 			return false;
 		} catch (Exception e) {
-			System.out.println("--loginProcess-- Unable to load login page normally.");
+			System.out.println(ERR_PAGE_LOAD);
 			return false;
 		}	
 
 	}
-	
+
 	/**
 	 * Checks if Selenium has been redirected to the specific url
 	 * @param redirectUrl	Redirected URL
@@ -369,14 +378,14 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			super.waitUntilSelectorLoads(CSS_VALID_PAGE_DIV, TIMEOUT_PAGE_DURA);
 			return true;
 		} catch (Exception e) {
-			System.out.println("--launchScrapeProcedure-- Redirect Error.");
+			System.out.println(ERR_REDIRECT);
 			super.driver.quit();
 			return false;
 		}
 
 	}
 
-	
+
 	@Override
 	public ScrapeCode scrapeByHashTags(final String loginId, final String loginPassword,
 			final String joinedHashTags, final long numberOfPosts, final String savePath) {
@@ -387,14 +396,14 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		} 	
 
 		/* Redirect to homepage first to ensure that success is definitely successful. */
-		if (!redirectAfterLogin("https://www.instagram.com/")) {
+		if (!redirectAfterLogin(URL_HOMEPAGE)) {
 			super.driver.quit();
 			return ScrapeCode.PAGE_TIMEOUT;
 		}
-		
+
 		JsoupUtility extractor = new JsoupUtility();
 		extractor.insertCookies(super.driver.manage().getCookies());
-		
+
 
 		String[] hashTags = joinedHashTags.split(DELIM_HASHTAGS);
 		JSONArray allHashTagsDetails = new JSONArray();
@@ -402,7 +411,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		for (int i = 0; i < hashTags.length; ++i) {
 			FrameDashboard.appendInstagramConsole("*Processing " + hashTags[i]+ "\n");
 			JSONObject hashTagPageDetails = new JSONObject();
-			String hashTagUrl = "https://www.instagram.com/explore/tags/"+hashTags[i]+"/";
+			String hashTagUrl = URL_HASHTAG + hashTags[i] + "/";
 			FrameDashboard.appendInstagramConsole("*Redirecting to " + hashTagUrl + "\n");
 			//Redirect to each hashtag page then scrape all Suburls there and parse accordingly
 			super.browseToUrl(hashTagUrl);
@@ -425,7 +434,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			JSONArray posts = new JSONArray();
 
 			for (int j = 0; j < hashTagPostsSubUrl.size(); ++j) {
-				String postUrl = "https://www.instagram.com" + hashTagPostsSubUrl.get(j);
+				String postUrl = URL_HOMEPAGE.substring(0, URL_HOMEPAGE.length()-1) + hashTagPostsSubUrl.get(j);
 				System.out.println("*Scraping posts in:" + postUrl);
 				posts.put(scrapePostDetails(postUrl));
 			}			
@@ -445,7 +454,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		return ScrapeCode.SUCCESS;
 	}
 
-	
+
 	@Override
 	public ScrapeCode scrapeByProfiles(final String loginId, final String loginPassword,
 			final String joinedProfileNames, final long numberOfPosts, final String savePath) {
@@ -455,26 +464,26 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		} 	
 
 		/* Redirect to homepage first to ensure that success is definitely successful. */
-		if (!redirectAfterLogin("https://www.instagram.com/")) {
+		if (!redirectAfterLogin(URL_HOMEPAGE)) {
 			super.driver.quit();
 			return ScrapeCode.PAGE_TIMEOUT;
 		}		
-		
+
 		JsoupUtility extractor = new JsoupUtility();
 		extractor.insertCookies(super.driver.manage().getCookies());
-		
-		
+
+
 		/* Iterate all the list of profiles and append into JSON. */
 		JSONArray profiles = new JSONArray(); 
 
 		String[] profileNames = joinedProfileNames.split(DELIM_PROFILES_NAME);
 		String postLink;
 		List<String> profilePostsSubUrl;
-		
+
 		for (int i = 0; i < profileNames.length; ++i) {
 			JSONArray posts = new JSONArray();
 			JSONObject profile = new JSONObject();
-			String profileUrl = "https://www.instagram.com/" + profileNames[i] + "/";
+			String profileUrl = URL_HOMEPAGE + profileNames[i] + "/";
 
 			super.browseToUrl(profileUrl);			
 			if (!profileIsAvailable(profileUrl)) {
@@ -502,20 +511,30 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 
 			for (String subUrl : profilePostsSubUrl) {
 				JSONObject post  = new JSONObject();
-				postLink = "https://www.instagram.com" + subUrl;
+				postLink = URL_HOMEPAGE.substring(0, URL_HOMEPAGE.length()-1) + subUrl;
 				post.put("post_url", postLink);
 				post.put("display_image_url", 
 						StringConverter.convertUnicodeToUTF8(
-								InstagramDryScraping.super.getDisplayImageUrl(postLink))
+								InstagramDryScraping.super
+								.getDisplayImageUrl(postLink))
 						);
+
+				post.put("caption", 
+						InstagramDryScraping.super.getPostCaption(postLink));
+				post.put("no_of_likes", 
+						InstagramDryScraping.super.getNumberOfLikes(postLink));
+				post.put("no_of_comments", 
+						InstagramDryScraping.super.getNumberOfComments(postLink));
+				post.put("is_video", 
+						InstagramDryScraping.super.getIsVideo(postLink));
+				post.put("no_of_video_views", 
+						InstagramDryScraping.super.getNumberOfVideoViews(postLink));
+				post.put("date_time", 
+						TimeStampConverter.timeStampToDate(
+								InstagramDryScraping.super.getPostTimeStamp(postLink)));
+				post.put("location", 
+						this.getLocationNameFromJson(InstagramDryScraping.super.getPostLocation(postLink)));
 				
-				post.put("caption", InstagramDryScraping.super.getPostCaption(postLink));
-				post.put("no_of_likes", InstagramDryScraping.super.getNumberOfLikes(postLink));
-				post.put("no_of_comments", InstagramDryScraping.super.getNumberOfComments(postLink));
-				post.put("is_video", InstagramDryScraping.super.getIsVideo(postLink));
-				post.put("no_of_video_views", InstagramDryScraping.super.getNumberOfVideoViews(postLink));
-				post.put("date_time", TimeStampConverter.timeStampToDate(InstagramDryScraping.super.getPostTimeStamp(postLink)));
-				post.put("location", this.getLocationNameFromJson(InstagramDryScraping.super.getPostLocation(postLink)));
 				posts.put(post);
 			}
 			profile.put("extracted_posts", posts);

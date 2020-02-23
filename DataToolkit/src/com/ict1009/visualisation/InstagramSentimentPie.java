@@ -35,6 +35,19 @@ public class InstagramSentimentPie extends JFrame {
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
+	
+	public InstagramSentimentPie(String title, HashMap<String, Integer> results) {
+		super(title);
+		
+		//Create dataset
+		DefaultPieDataset dataset = new DefaultPieDataset();
+		for(String s : results.keySet()) {
+			dataset.setValue(s, results.get(s));
+		}		
+		setContentPane(new ChartPanel(createChart(dataset)));
+
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
 
 	/**
 	 * Creates a dataset of post sentiments used to populate a chart

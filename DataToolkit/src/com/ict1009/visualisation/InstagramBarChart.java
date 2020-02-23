@@ -2,8 +2,6 @@ package com.ict1009.visualisation;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Dictionary;
-import java.util.Hashtable;
 
 import javax.swing.JFrame;
 
@@ -22,7 +20,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class InstagramBarChart extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	static Dictionary<String, String> insta = new Hashtable<String, String>();
 	static int jan1, feb2, march3, april4, may5, jun6, july7, aug8, sept9, oct10, nov11, dec12;
 
 	public InstagramBarChart(String applicationTitle, String chartTitle) {
@@ -105,7 +102,6 @@ public class InstagramBarChart extends JFrame {
 	 * @param jFile The JSON string to read
 	 */
 	public void ReadingJson(String jFile) {
-		insta = new Hashtable<String, String>();
 		jan1 = feb2 = march3 = april4 = may5 = jun6 = july7 = aug8 = sept9 = oct10 = nov11 = dec12 = 0;
 		String jsonFile = jFile;
 		try {
@@ -119,8 +115,8 @@ public class InstagramBarChart extends JFrame {
 				for (int y = 0; y < extractData.length(); y++) {
 					JSONObject extracted = extractData.getJSONObject(y);
 					String dateTime = extracted.getString("date_time");
-					String posted = extracted.getString("posted_by");
-					insta.put(posted, dateTime);
+					//String posted = extracted.getString("posted_by");
+					//insta.put(posted, dateTime);
 					// System.out.println(posted + dateTime);
 
 					char numeric1 = dateTime.charAt(5);

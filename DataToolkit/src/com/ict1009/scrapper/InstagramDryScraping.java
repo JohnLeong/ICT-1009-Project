@@ -2,8 +2,6 @@ package com.ict1009.scrapper;
 
 import org.json.JSONObject;
 
-import com.ict1009.utilities.TimeStampConverter;
-
 public interface InstagramDryScraping {
 
 	//Add datetime and location 

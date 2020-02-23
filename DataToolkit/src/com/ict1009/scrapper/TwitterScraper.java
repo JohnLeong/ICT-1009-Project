@@ -5,6 +5,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.ict1009.socialposts.SocialMediaPost;
+import com.ict1009.socialposts.TwitterPost;
 import com.ict1009.utilities.DataCleansing;
 
 import twitter4j.*;
@@ -208,5 +210,20 @@ public class TwitterScraper extends ScrapeUtility{
 		  .setOAuthAccessTokenSecret(TwitterScraper.keyOAuthAccessTokenSecret);
 
 		return (new TwitterFactory(cb.build()).getInstance());
+	}
+	
+	/**
+	 * Adds all the posts in a JSONArray into an array list
+	 * 
+	 * @param posts		The JSONArray containing the posts
+	 * @return			The array list containing Social Media Posts
+	 */
+	public ArrayList<SocialMediaPost> addTwitterPostsToList(JSONArray posts){
+		ArrayList<SocialMediaPost> postList = new ArrayList<SocialMediaPost>();
+		
+		for(int i = 0; i < posts.length(); ++i) {
+			postList.add(new TwitterPost(posts.getJSONObject(i).getString("caption")));
+		}
+		return postList;
 	}
 }

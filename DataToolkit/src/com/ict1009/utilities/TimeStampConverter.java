@@ -1,10 +1,6 @@
 package com.ict1009.utilities;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
-
 
 public class TimeStampConverter {
 	private static String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";

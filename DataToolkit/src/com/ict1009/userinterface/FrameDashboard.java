@@ -1578,14 +1578,13 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 						boolean result = cf.CheckerFiles(file.getPath());
 						if(result==false) throw new IllegalArgumentException(); 
 						lblVisualisationFilePath.setText("File loaded: " + file.getPath());
-						InstagramSentimentPie jsonf = new InstagramSentimentPie("");
-						jsonf.ReadingJson(file.getPath());
+						//InstagramSentimentPie jsonf = new InstagramSentimentPie("");
+						//jsonf.ReadingJson(file.getPath());
 					
 						InstagramSentimentAnalyzer obj = new InstagramSentimentAnalyzer();
-						obj.getInstagramSentimentResults(file.getPath(), chkParseOcr.isSelected());
-		
+						HashMap<String, Integer> results = obj.getInstagramSentimentResults(file.getPath(), chkParseOcr.isSelected());
 						
-						InstagramSentimentPie jChart = new InstagramSentimentPie("Sentement Analysis Based On Comments");
+						InstagramSentimentPie jChart = new InstagramSentimentPie("Sentement Analysis Based On Comments", results);
 						jChart.setSize( 560 , 367 );
 						RefineryUtilities.centerFrameOnScreen( jChart );    
 					    jChart.setVisible( true );

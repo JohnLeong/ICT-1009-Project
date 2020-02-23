@@ -5,10 +5,10 @@ import java.util.Date;
 
 public abstract class SocialMediaPost {
 	
-	private String caption;
-	private String postedBy;
-	private Date postDate;
-	private ArrayList<String> replies;
+	protected String caption;
+	protected String postedBy;
+	protected Date postDate;
+	protected ArrayList<String> replies;
 	
 	public SocialMediaPost(String caption, String postedBy, Date postDate, ArrayList<String> replies) {
 		this.caption = caption;

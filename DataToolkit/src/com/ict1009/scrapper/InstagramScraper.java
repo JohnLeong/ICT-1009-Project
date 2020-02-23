@@ -439,19 +439,11 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			return ScrapeCode.PAGE_TIMEOUT;
 		}		
 		
-		
-//		System.out.println("Cookies: " + super.driver.manage().getCookies());
-//		for (Cookie s : super.driver.manage().getCookies()) {
-//			System.out.println(s.getName() + "---" + s.getValue());
-//		}
-//		super.driver.quit();
-		
 		JsoupUtility extractor = new JsoupUtility();
 		extractor.insertCookies(super.driver.manage().getCookies());
 		
 		
 		/* Iterate all the list of profiles and append into JSON. */
-		
 		JSONArray profiles = new JSONArray(); 
 
 		String[] profileNames = joinedProfileNames.split(DELIM_PROFILES_NAME);

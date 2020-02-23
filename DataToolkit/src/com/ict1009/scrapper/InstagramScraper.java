@@ -32,7 +32,7 @@ import org.json.*;
 public class InstagramScraper extends ScrapeUtilityWebDriver implements InstagramDryScraping {
 	private final int TIMEOUT_PAGE_DURA = 20;
 	private final int TIMEOUT_ELEMENT_DURA = 10;
-	private final int TIMEOUT_VIEW_MORE = 2;  
+	private final int TIMEOUT_VIEW_MORE = 1;  
 
 	private final int TIMEOUT_PAGE_LOAD = 3;
 	/**
@@ -163,6 +163,23 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 	}
 
 	/**
+	 * Dry scraping location field from instagram returns info as a String JSON.
+	 * This function is to extract the location name from it.
+	 * @param jsonLocation	JSON String extracted from InstagramDryScraping 	
+	 * @return				Location name of post
+	 */
+	private String getLocationNameFromJson(String jsonLocation) {
+		try {
+			JSONObject obj = new JSONObject(jsonLocation);
+			return obj.getString("name");
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return "None";
+		}
+		
+	}
+	
+	/**
 	 * Extracts all posts sub URL current page by scrolling down the page and
 	 * appendign the suburls retrieved into a hashmap to ensure that they are unique
 	 * and converted to ArrayList before returning. 
@@ -253,7 +270,8 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 		double likes = this.getNumberOfLikesInPost();	
 		
 		post.put("display_image_url", InstagramDryScraping.super.getDisplayImageUrl(url));
-		post.put("posted_by", super.driver.findElement(By.cssSelector(CSS_POST_POSTED_BY)).getAttribute("title"));
+		post.put("posted_by", super.driver.findElement(By.cssSelector(CSS_POST_POSTED_BY))
+				.getAttribute("title"));
 		post.put("no_of_comments", InstagramDryScraping.super.getNumberOfComments(url));
 		post.put("location", getLocationOfPost());
 		post.put("date_time", getDateTimeOfPost());
@@ -498,7 +516,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 				post.put("is_video", InstagramDryScraping.super.getIsVideo(postLink));
 				post.put("no_of_video_views", InstagramDryScraping.super.getNumberOfVideoViews(postLink));
 				post.put("date_time", TimeStampConverter.timeStampToDate(InstagramDryScraping.super.getPostTimeStamp(postLink)));
-				post.put("location", InstagramDryScraping.super.getPostLocation(postLink));
+				post.put("location", this.getLocationNameFromJson(InstagramDryScraping.super.getPostLocation(postLink)));
 				posts.put(post);
 			}
 			profile.put("extracted_posts", posts);

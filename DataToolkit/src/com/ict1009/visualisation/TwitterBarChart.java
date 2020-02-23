@@ -27,7 +27,6 @@ public class TwitterBarChart extends JFrame {
 
 	public TwitterBarChart(String applicationTitle, String chartTitle) {
 		super(applicationTitle);
-		// post = this.tweet.size();
 		JFreeChart barChart = ChartFactory.createBarChart(chartTitle, "Twitter", "", createDataset(),
 				PlotOrientation.VERTICAL, true, true, false);
 		ChartPanel chartPanel = new ChartPanel(barChart);

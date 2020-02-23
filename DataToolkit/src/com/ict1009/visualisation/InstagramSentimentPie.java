@@ -71,7 +71,7 @@ public class InstagramSentimentPie extends JFrame {
 
 	private static JFreeChart createChart(PieDataset dataset) {
 
-		JFreeChart chart = ChartFactory.createPieChart("Sentement Analysis", // chart title
+		JFreeChart chart = ChartFactory.createPieChart("Sentiment Analysis", // chart title
 				dataset, // data
 				true, // include legend
 				true, false);

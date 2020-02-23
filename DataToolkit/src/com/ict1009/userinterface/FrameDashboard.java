@@ -1075,25 +1075,25 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		lblVisulationFilePath.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnlVisualisationInfo.add(lblVisulationFilePath);
 		
-		JButton btnVisulationPlotByLocation = new JButton("Visulation The Number Of Post Based On Location");
+		JButton btnVisulationPlotByLocation = new JButton("Number of posts Per Location");
 		btnVisulationPlotByLocation.setBackground(UIManager.getColor("InternalFrame.borderLight"));
 		btnVisulationPlotByLocation.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnVisulationPlotByLocation.setBounds(8,167,440,21);
 		pnlVisualisationInfo.add(btnVisulationPlotByLocation);
 		
-		JButton btnVisulationPlotByMonth = new JButton("Visulation On One Hash Begin Used On Monthly Bases");
+		JButton btnVisulationPlotByMonth = new JButton("Number of posts Per Month");
 		btnVisulationPlotByMonth.setBackground(UIManager.getColor("InternalFrame.borderLight"));
 		btnVisulationPlotByMonth.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnVisulationPlotByMonth.setBounds(8,223,440,21);
 		pnlVisualisationInfo.add(btnVisulationPlotByMonth);
 		
-		JButton btnVisulationSentimentAnalysis = new JButton("Sentiment Analysis against User Interactions");
+		JButton btnVisulationSentimentAnalysis = new JButton("Sentiment Analysis");
 		btnVisulationSentimentAnalysis.setBackground(UIManager.getColor("InternalFrame.borderLight"));
 		btnVisulationSentimentAnalysis.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnVisulationSentimentAnalysis.setBounds(8,279,440,21);
 		pnlVisualisationInfo.add(btnVisulationSentimentAnalysis);
 		
-		JButton btnVisulationisSelectFile2 = new JButton("Generate One HashTag Used On Per-Day bases");
+		JButton btnVisulationisSelectFile2 = new JButton("Post occurence per day");
 		btnVisulationisSelectFile2.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnVisulationisSelectFile2.setBackground(UIManager.getColor("InternalFrame.borderLight"));
 		btnVisulationisSelectFile2.setBounds(8,373,440,21);
@@ -1115,7 +1115,7 @@ public class FrameDashboard extends JFrame implements ReturnCodes {
 		pnlVisualisationInfo.add(lblNewLabel_1);
 		
 		JCheckBox chkParseOcr = new JCheckBox("Use OCR Text for Analysis");
-		chkParseOcr.setBackground(Color.LIGHT_GRAY);
+		chkParseOcr.setBackground(SystemColor.controlHighlight);
 		chkParseOcr.setBounds(465, 268, 267, 49);
 		pnlVisualisationInfo.add(chkParseOcr);
 		/* end of visualization panel-------------------------------------------------------- */

@@ -60,6 +60,17 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 		return ocrSentences;
 	}
 	
+	protected ArrayList<String> parseJsonCaptionText(JSONObject jsonObject) {
+		ArrayList<String> captions = new ArrayList<String>();
+		JSONArray details = jsonObject.getJSONArray("details");
+		for (int i = 0; i < details.length(); ++i) {
+			JSONArray posts = ((JSONObject)details.get(i)).getJSONArray("extracted_posts");
+			for (int j = 0; j < posts.length(); ++j) {
+				captions.add(posts.getJSONObject(j).getString("caption"));
+			}
+		}
+		return captions;
+	}
 	/**
 	 * Takes in a JSON file path which was previously scrapped by Instagram Scraper,
 	 * reads the file into a String and then into a JSONObject for comments extraction.
@@ -73,10 +84,17 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 		try {
 			JSONObject contents = new JSONObject(readJSONFileToString(jsonPath));
 			List<String> toAnalyse = new ArrayList<String>();
-			if (!contents.getString("scrape_mode").equals("profiles") && !contents.getString("platform").equals("instagram")) {
-				toAnalyse.addAll(this.parseJSONComments(contents));
+			
+			toAnalyse.addAll(this.parseJsonCaptionText(contents));
+			
+			if (contents.getString("scrape_mode").contentEquals("hashtags")) {
+				ArrayList<String> comments = this.parseJSONComments(contents);
+				if (!comments.isEmpty()) { toAnalyse.addAll(comments); }
 			}
-			if (parseOcr) { toAnalyse.addAll(this.parseJsonOcrText(contents)); }
+			if (parseOcr) { 
+				ArrayList<String> ocrText = this.parseJsonOcrText(contents);
+				if (!ocrText.isEmpty()) { toAnalyse.addAll(ocrText); }
+			}
 			return super.getSentimentResults(toAnalyse);
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();

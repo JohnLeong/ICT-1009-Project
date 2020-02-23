@@ -63,7 +63,12 @@ abstract public class SentimentAnalyzer {
 			reaction.put(sentimentCategory, count + 1);
 		}
 	
-		return Collections.max(reaction.entrySet(), Comparator.comparingInt(HashMap.Entry::getValue)).getKey();
+		try { 
+			return Collections.max(reaction.entrySet(), Comparator.comparingInt(HashMap.Entry::getValue)).getKey();
+		} catch (Exception e) {
+			return "Neutral";
+		}
+		
 	}
 
 	/**

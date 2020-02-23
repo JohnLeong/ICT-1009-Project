@@ -374,6 +374,10 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			super.driver.quit();
 			return ScrapeCode.PAGE_TIMEOUT;
 		}
+		
+		JsoupUtility extractor = new JsoupUtility();
+		extractor.insertCookies(super.driver.manage().getCookies());
+		
 
 		String[] hashTags = joinedHashTags.split(DELIM_HASHTAGS);
 		JSONArray allHashTagsDetails = new JSONArray();

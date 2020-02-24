@@ -63,11 +63,11 @@ abstract public class SentimentAnalyzer {
 			reaction.put(sentimentCategory, count + 1);
 		}
 	
-		try { 
+//		try { 
 			return Collections.max(reaction.entrySet(), Comparator.comparingInt(HashMap.Entry::getValue)).getKey();
-		} catch (Exception e) {
-			return "Neutral";
-		}
+//		} catch (Exception e) {
+//			return "Neutral";
+//		}
 		
 	}
 
@@ -79,8 +79,11 @@ abstract public class SentimentAnalyzer {
 	protected HashMap<String, Integer> getSentimentResults(List<String> sentences) {
 		HashMap<String, Integer> reactions = new HashMap<String, Integer>();
 		int mapKeyCount; String reaction;
+		
+//		sentences.removeAll((new ArrayList<String>()).add("None"));
 		for (int i = 0; i < sentences.size(); ++i) {
 			System.out.println("Evaluating Sentiment " +  (i+1));
+			System.out.println(sentences.get(i));
 			reaction = commentCategory(sentences.get(i));
 			mapKeyCount = reactions.containsKey(reaction) ? reactions.get(reaction) : 0;
 			reactions.put(reaction, mapKeyCount + 1);

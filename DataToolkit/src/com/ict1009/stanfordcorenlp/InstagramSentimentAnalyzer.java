@@ -67,7 +67,8 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 			JSONArray posts = ((JSONObject)details.get(i))
 					.getJSONArray("extracted_posts");
 			for (int j = 0; j < posts.length(); ++j) {
-				captions.add(posts.getJSONObject(j).getString("caption"));
+				if (!posts.getJSONObject(j).getString("caption").contentEquals("None"))
+					captions.add(posts.getJSONObject(j).getString("caption"));
 			}
 		}
 		return captions;
@@ -81,7 +82,7 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 	 * @param jsonPath		Full file path of JSON file created by InstagramScraper
 	 * @return				Returns reactions of all comments HashMap in the format <Sentiment Category, Count>
 	 */
-	public HashMap<String, Integer> getInstagramSentimentResults(String jsonPath, boolean parseOcr) {
+	public HashMap<String, Integer> getInstagramSentimentResults(final String jsonPath, final boolean parseOcr) {
 		try {
 			JSONObject contents = new JSONObject(readJSONFileToString(jsonPath));
 			List<String> toAnalyse = new ArrayList<String>();
@@ -90,12 +91,15 @@ public class InstagramSentimentAnalyzer extends SentimentAnalyzer{
 			
 			if (contents.getString("scrape_mode").contentEquals("hashtags")) {
 				ArrayList<String> comments = this.parseJSONComments(contents);
-				if (!comments.isEmpty()) { toAnalyse.addAll(comments); }
+				if (!comments.isEmpty()) 
+					toAnalyse.addAll(comments); 
 			}
 			if (parseOcr) { 
 				ArrayList<String> ocrText = this.parseJsonOcrText(contents);
-				if (!ocrText.isEmpty()) { toAnalyse.addAll(ocrText); }
+				if (!ocrText.isEmpty()) 
+					toAnalyse.addAll(ocrText); 
 			}
+			
 			return super.getSentimentResults(toAnalyse);
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();

@@ -84,6 +84,7 @@ public class DataAnalyser {
 				}
 				
 				if (post.has("img_ocr_text")){
+					System.out.println(post.getString("img_ocr_text"));
 					String[] ocr_words = post.getString("img_ocr_text").split("\\s+");
 					for(String word : ocr_words)
 						wordMap.add(word);

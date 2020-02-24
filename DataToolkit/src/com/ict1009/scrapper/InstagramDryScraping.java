@@ -9,7 +9,7 @@ public interface InstagramDryScraping {
 	 *  Constant strings to be used with JSONQuery to retrieve JSON fields  
 	 */
 	final String JS_ENTRY_DIR					= "/entry_data/PostPage/0";
-	
+
 	final String JS_ADD_NUM_OF_LIKES 			= "/graphql/shortcode_media/edge_media_preview_like/count";	
 	final String JS_ADD_IS_VIDEO 				= "/graphql/shortcode_media/is_video";	
 	final String JS_ADD_NUM_OF_VIDEO_VIEWS 		= "/graphql/shortcode_media/video_view_count/";	
@@ -19,8 +19,8 @@ public interface InstagramDryScraping {
 	final String JS_ADD_CAPTION 				= "/graphql/shortcode_media/edge_media_to_caption/edges/0/node/text";
 	final String JS_ADD_TIMESTAMP 				= "/graphql/shortcode_media/taken_at_timestamp"; 		
 	final String JS_ADD_LOCATION 				= "/graphql/shortcode_media/location";	
-	
-	
+
+
 	final String JS_NUM_OF_LIKES 			= JS_ENTRY_DIR + JS_ADD_NUM_OF_LIKES;
 	final String JS_IS_VIDEO 				= JS_ENTRY_DIR + JS_ADD_IS_VIDEO;
 	final String JS_NUM_OF_VIDEO_VIEWS 		= JS_ENTRY_DIR + JS_ADD_NUM_OF_VIDEO_VIEWS;	
@@ -30,11 +30,11 @@ public interface InstagramDryScraping {
 	final String JS_CAPTION 				= JS_ENTRY_DIR + JS_ADD_CAPTION;
 	final String JS_TIMESTAMP 				= JS_ENTRY_DIR + JS_ADD_TIMESTAMP;
 	final String JS_LOCATION 				= JS_ENTRY_DIR + JS_ADD_LOCATION;	
-	
+
 	final String RET_EMPTY_STRING				= "None";	
 	final long RET_INVALID_NUMBER				= -1;
-	
-	
+
+
 	default Object returnQueryWinData(final String postUrl, final String query) {
 		return (new JSONObject(JsoupUtility
 				.getWindowSharedDataJson(postUrl))
@@ -49,6 +49,7 @@ public interface InstagramDryScraping {
 		Object obj = returnQueryWinData(url, jsonSelector);
 		return obj != null ? obj : returnQueryWinAdditionalData(url, jsonSelector.substring(JS_ENTRY_DIR.length()));
 	}
+	
 	/**
 	 * Gets the number of comments from the post at the specified URL
 	 * 

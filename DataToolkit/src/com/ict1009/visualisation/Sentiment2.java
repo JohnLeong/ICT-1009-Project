@@ -13,19 +13,19 @@ public class Sentiment2 {
 	static double neutral ;
 
 
-public void StanfordAnallysis(String description) {
-		
-	    Properties props = new Properties();	
-	    props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, sentiment");
-	 	StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-	 	
+	public void StanfordAnallysis(String description) {
+
+		Properties props = new Properties();	
+		props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, sentiment");
+		StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+
 		CoreDocument coreDocument = new CoreDocument(description);
 		pipeline.annotate(coreDocument);
-				
-	 	List<CoreSentence> sentences = coreDocument.sentences();
-	 	
+
+		List<CoreSentence> sentences = coreDocument.sentences();
+
 		for(CoreSentence sentence: sentences) {
-				
+
 			String sentiment = sentence.sentiment();
 			if (sentiment.equals("Positive")) {
 				positives++;
@@ -37,24 +37,21 @@ public void StanfordAnallysis(String description) {
 				System.out.println("neutral");	
 				neutral++;
 			}
+		}
 
-			
-			
-			}
-			
-		}
-		public double getPositive(double pos){
-			pos= positives;
-			return pos;
-		}
-		public double getNegative(double neg){
-			neg= negatives;
-			return neg;
-		}
-		public double getNeutral(double neu){
-			neu= neutral;
-			return neu;
-		}
+	}
+	public double getPositive(double pos){
+		pos= positives;
+		return pos;
+	}
+	public double getNegative(double neg){
+		neg= negatives;
+		return neg;
+	}
+	public double getNeutral(double neu){
+		neu= neutral;
+		return neu;
+	}
 }
 
 

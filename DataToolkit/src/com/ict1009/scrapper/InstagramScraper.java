@@ -256,6 +256,7 @@ public class InstagramScraper extends ScrapeUtilityWebDriver implements Instagra
 			} catch (Exception e) {
 				break;
 			}
+			System.out.println("previous: " + previousCount + "---- current " + getCurrentCommentsCountInPostPage());
 			repeatCount = (previousCount == getCurrentCommentsCountInPostPage()) ? ++repeatCount : 0; 
 		}
 		System.out.println("--showAllComments()-- Broke from loop after " + TIMEOUT_VIEW_MORE + " seconds.");
